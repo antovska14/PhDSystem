@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Helpers;
+using PhDSystem.Api.Managers;
+using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Services;
 using PhDSystem.Api.Services.Interfaces;
 using System;
@@ -64,6 +66,7 @@ namespace PhDSystem.Api
                 });
 
             services.AddScoped<IUserInfoService, UserInfoService>();
+            services.AddScoped<IFileManager, FileManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,13 +76,16 @@ namespace PhDSystem.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
+            app.UseHttpsRedirection();
             app.UseRouting();
-
             app.UseCors(AllowedOrigins);
-
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
