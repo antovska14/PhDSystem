@@ -66,6 +66,7 @@ namespace PhDSystem.Api
                 });
 
             services.AddScoped<IUserInfoService, UserInfoService>();
+            services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IFileManager, FileManager>();
         }
 
