@@ -55,7 +55,7 @@ namespace PhDSystem.Api.Services
 
                 var fileModel = new FileModel
                 {
-                    FileContent = document.AsStream(),z
+                    FileContent = document.AsStream(),
                     FileName = resultFileName,
                     ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8"
 
