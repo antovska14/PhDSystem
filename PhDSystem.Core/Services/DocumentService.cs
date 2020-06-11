@@ -19,9 +19,9 @@ namespace PhDSystem.Api.Services
     public class DocumentService : IDocumentService
     {
         private readonly IFileManager _fileManager;
-        private readonly IStudentData _studentData;
+        private readonly IStudentRepository _studentData;
 
-        public DocumentService(IFileManager fileManager, IStudentData studentData)
+        public DocumentService(IFileManager fileManager, IStudentRepository studentData)
         {
             _fileManager = fileManager;
             _studentData = studentData;
@@ -75,7 +75,7 @@ namespace PhDSystem.Api.Services
                     string[] matches = matchCollection.Select(x => x.Value).ToArray();
                     foreach (var match in matches)
                     {
-                       templateParagraph.ReplaceText(match, individualPlanKeywords[match]);
+                        templateParagraph.ReplaceText(match, individualPlanKeywords[match]);
                     }
                 }
 

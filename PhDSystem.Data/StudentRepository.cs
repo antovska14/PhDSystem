@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Data
 {
-    public class StudentData : IStudentData
+    public class StudentRepository : IStudentRepository
     {
         private readonly PhdSystemContext _context;
 
-        public StudentData(PhdSystemContext context)
+        public StudentRepository(PhdSystemContext context)
         {
             _context = context;
         }

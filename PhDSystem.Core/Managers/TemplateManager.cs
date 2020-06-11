@@ -2,7 +2,7 @@
 
 namespace PhDSystem.Api.Managers
 {
-    public class TemplateManager: ITemplateManager
+    public class TemplateManager : ITemplateManager
     {
     }
 }

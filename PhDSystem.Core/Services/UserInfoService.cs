@@ -29,7 +29,7 @@ namespace PhDSystem.Api.Services
         {
             var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
 
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }

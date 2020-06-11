@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Interfaces
 {
-    public interface IStudentData
+    public interface IStudentRepository
     {
         Task<IEnumerable<Student>> GetStudents();
     }
