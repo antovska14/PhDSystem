@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +11,8 @@ using PhDSystem.Api.Managers;
 using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Services;
 using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Data;
+using PhDSystem.Data.Interfaces;
 using System;
 using System.Text;
 
@@ -40,6 +43,10 @@ namespace PhDSystem.Api
                     });
             });
             services.AddControllers();
+            services.AddDbContextPool<PhdSystemContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("PhDSystemDB"));
+            });
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -64,6 +71,8 @@ namespace PhDSystem.Api
                         ValidateAudience = false
                     };
                 });
+
+            services.AddScoped<IStudentData, StudentData>();
 
             services.AddScoped<IUserInfoService, UserInfoService>();
             services.AddScoped<IDocumentService, DocumentService>();

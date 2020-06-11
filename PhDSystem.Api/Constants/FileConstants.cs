@@ -6,7 +6,7 @@
 
         public static string UserFilesFolder = "UserFiles";
 
-        public static string IndividualPlanTemplate = "Individual_Plan.docx";
+        public static string IndividualPlanTemplate = "Individual Plan.docx";
 
         public static string UserFolder = "1";
 

@@ -1,10 +1,12 @@
-﻿using NPOI.XWPF.UserModel;
-using PhDSystem.Api.Adapters;
+﻿using Novacode;
 using PhDSystem.Api.Constants;
 using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Models;
 using PhDSystem.Api.Models.IndividualPlans.Request;
+using PhDSystem.Api.Models.Students;
+using PhDSystem.Api.Models.Teachers;
 using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,49 +19,76 @@ namespace PhDSystem.Api.Services
     public class DocumentService : IDocumentService
     {
         private readonly IFileManager _fileManager;
+        private readonly IStudentData _studentData;
 
-        public DocumentService(IFileManager fileManager)
+        public DocumentService(IFileManager fileManager, IStudentData studentData)
         {
             _fileManager = fileManager;
+            _studentData = studentData;
         }
 
-        public async Task<FileModel> GetIndividualPlan(IndividualPlanRequestModel request)
+        public async Task<FileModel> GetIndividualPlan()
         {
+            var students = await _studentData.GetStudents();
+
+            var request = new IndividualPlanRequestModel
+            {
+                Student = new Student
+                {
+                    FirstName = "StudentFirstName",
+                    MiddleName = null,
+                    LastName = "StudentLastName",
+                    Title = null
+                },
+                Supervisor = new Teacher
+                {
+                    FirstName = "SupervisorFisrtName",
+                    MiddleName = null,
+                    LastName = "SupervisorLastName",
+                    Title = "SupervisorTitle"
+                },
+                Dean = new Teacher
+                {
+                    FirstName = "DeanFisrtName",
+                    MiddleName = null,
+                    LastName = "DeanLastName",
+                    Title = "DeanTitle"
+                },
+                Theme = "Theme"
+            };
+
             var individualPlanKeywords = GetIndividualPlanKeywords(request);
             var templateFile = await _fileManager.GetFileAsync(FileConstants.TemplatesFolder, string.Empty, FileConstants.IndividualPlanTemplate);
             var templateFileStream = templateFile.FileContent;
 
-            using (templateFileStream)
-            using (WordFileAdapter document = new WordFileAdapter(new XWPFDocument(templateFileStream)))
+
+            string resultFileName = "Individual_Plan.docx";
+            string resultFilePath = Path.Combine(Environment.CurrentDirectory, "Files", FileConstants.UserFilesFolder, FileConstants.UserFolder, resultFileName);
+
+            using (var document = DocX.Load(templateFileStream))
             {
-                int paragraphsCount = document.GetParagraphs().Count;
-                for (int i = 0; i < paragraphsCount; i++)
+                for (int i = 0; i < document.Paragraphs.Count; i++)
                 {
-                    XWPFParagraph templateParagraph = document.GetParagraph(i);
+                    Paragraph templateParagraph = document.Paragraphs[i];
                     var keywordsRegex = new Regex("<\\w+>");
                     MatchCollection matchCollection = keywordsRegex.Matches(templateParagraph.Text);
                     string[] matches = matchCollection.Select(x => x.Value).ToArray();
                     foreach (var match in matches)
                     {
-                        templateParagraph.ReplaceText(match, individualPlanKeywords[match]);
+                       templateParagraph.ReplaceText(match, individualPlanKeywords[match]);
                     }
-
-                    document.CreateParagraph();
-                    document.SetParagraph(templateParagraph, i);
                 }
 
-                string resultFileName = "Individual_Plan.docx";
-                string resultFilePath = Path.Combine(Environment.CurrentDirectory, "Files", FileConstants.UserFilesFolder, FileConstants.UserFolder, resultFileName);
-                Stream resultFileStream = File.OpenWrite(resultFilePath);
-                document.Write(resultFileStream);
+                var memoryStream = new MemoryStream();
+                document.SaveAs(memoryStream);
 
                 var fileModel = new FileModel
                 {
-                    FileContent = document.AsStream(),
+                    FileContent = memoryStream,
                     FileName = resultFileName,
                     ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8"
-
                 };
+
                 return fileModel;
             }
         }
@@ -75,6 +104,7 @@ namespace PhDSystem.Api.Services
             keywords.Add("<title>", data.Student.Title ?? "");
             keywords.Add("<supervisorFullName>", data.Supervisor.FullName ?? "");
             keywords.Add("<supervisorTitle>", data.Supervisor.Title ?? "");
+            keywords.Add("<supervisorDegree>", "");
             keywords.Add("<deanFullName>", data.Dean.FullName ?? "");
             keywords.Add("<deanTitle>", data.Dean.Title ?? "");
             keywords.Add("<faculty>", "");

@@ -6,6 +6,6 @@ namespace PhDSystem.Api.Services.Interfaces
 {
     public interface IDocumentService
     {
-        Task<FileModel> GetIndividualPlan(IndividualPlanRequestModel request);
+        Task<FileModel> GetIndividualPlan();
     }
 }
