@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhDSystem.Api", "PhDSystem.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhDSystem.Data", "PhDSystem.Data\PhDSystem.Data.csproj", "{5FC96F2E-CFA8-40CE-BC53-FB940592390F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhDSystem.Core", "PhDSystem.Core\PhDSystem.Core.csproj", "{655074A1-5087-4023-9A4A-627557E9142E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5FC96F2E-CFA8-40CE-BC53-FB940592390F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC96F2E-CFA8-40CE-BC53-FB940592390F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC96F2E-CFA8-40CE-BC53-FB940592390F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{655074A1-5087-4023-9A4A-627557E9142E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{655074A1-5087-4023-9A4A-627557E9142E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{655074A1-5087-4023-9A4A-627557E9142E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{655074A1-5087-4023-9A4A-627557E9142E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using MimeKit;
+using PhDSystem.Api.Constants;
 using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Models;
 using System;
@@ -9,11 +10,9 @@ namespace PhDSystem.Api.Managers
 {
     public class FileManager : IFileManager
     {
-        private readonly string _rootFolder = "Files";
-
         public async Task<FileModel> GetFileAsync(string bucketName, string folderName, string fileName)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, _rootFolder, bucketName, folderName, fileName);
+            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, bucketName, folderName, fileName);
             using (var fileStream = File.OpenRead(filePath))
             {
                 MemoryStream fileMemoryStream = new MemoryStream();
