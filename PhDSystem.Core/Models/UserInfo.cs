@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace PhDSystem.Api.Models
+namespace PhDSystem.Core.Models
 {
     public class UserInfo
     {

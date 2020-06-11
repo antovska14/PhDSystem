@@ -1,8 +1,7 @@
-﻿using PhDSystem.Api.Models;
-using PhDSystem.Api.Models.IndividualPlans.Request;
+﻿using PhDSystem.Core.Models;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Api.Services.Interfaces
+namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IDocumentService
     {

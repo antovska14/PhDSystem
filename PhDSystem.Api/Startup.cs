@@ -11,8 +11,8 @@ using PhDSystem.Api.Managers;
 using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Services;
 using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Core.Interfaces.Data.Repositories;
 using PhDSystem.Data;
-using PhDSystem.Data.Interfaces;
 using System;
 using System.Text;
 
@@ -32,9 +32,6 @@ namespace PhDSystem.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            var appSettings = appSettingsSection.Get<AppSettings>();
 
             services.AddCors(options =>
             {
@@ -50,9 +47,12 @@ namespace PhDSystem.Api
 
             services.AddDbContextPool<PhdSystemContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString(appSettings.PhdSystemDb));
+                options.UseSqlServer(Configuration.GetConnectionString("PhdSystemDb"));
             });
 
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {

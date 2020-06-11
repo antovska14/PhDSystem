@@ -1,7 +1,7 @@
-﻿using PhDSystem.Api.Models;
+﻿using PhDSystem.Core.Models;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Api.Managers.Interfaces
+namespace PhDSystem.Core.Managers.Interfaces
 {
     public interface IFileManager
     {

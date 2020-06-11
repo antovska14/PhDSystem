@@ -1,4 +1,4 @@
-﻿using PhDSystem.Api.Managers.Interfaces;
+﻿using PhDSystem.Core.Managers.Interfaces;
 
 namespace PhDSystem.Api.Managers
 {

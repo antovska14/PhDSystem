@@ -1,4 +1,4 @@
-﻿namespace PhDSystem.Api.Managers.Interfaces
+﻿namespace PhDSystem.Core.Managers.Interfaces
 {
     public interface ITemplateManager
     {

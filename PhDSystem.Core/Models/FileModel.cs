@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace PhDSystem.Api.Models
+namespace PhDSystem.Core.Models
 {
     public class FileModel
     {

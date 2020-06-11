@@ -1,6 +1,7 @@
-﻿using PhDSystem.Api.Models;
+﻿
+using PhDSystem.Core.Models;
 
-namespace PhDSystem.Api.Services.Interfaces
+namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IUserInfoService
     {

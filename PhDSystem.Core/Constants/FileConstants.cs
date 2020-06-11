@@ -1,8 +1,8 @@
-﻿namespace PhDSystem.Api.Constants
+﻿namespace PhDSystem.Core.Constants
 {
     public static class FileConstants
     {
-        public static string RootFolder = "Files";
+        public static string RootFolder = "..\\PhdSystem.Core\\Files";
 
         public static string TemplatesFolder = "Templates";
 

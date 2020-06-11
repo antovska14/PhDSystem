@@ -1,12 +1,10 @@
 ﻿using Novacode;
-using PhDSystem.Api.Constants;
-using PhDSystem.Api.Managers.Interfaces;
-using PhDSystem.Api.Models;
 using PhDSystem.Api.Models.IndividualPlans.Request;
-using PhDSystem.Api.Models.Students;
-using PhDSystem.Api.Models.Teachers;
-using PhDSystem.Api.Services.Interfaces;
-using PhDSystem.Data.Interfaces;
+using PhDSystem.Core.DTOs;
+using PhDSystem.Core.Interfaces.Data.Repositories;
+using PhDSystem.Core.Managers.Interfaces;
+using PhDSystem.Core.Models;
+using PhDSystem.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,22 +35,19 @@ namespace PhDSystem.Api.Services
                 {
                     FirstName = "StudentFirstName",
                     MiddleName = null,
-                    LastName = "StudentLastName",
-                    Title = null
+                    LastName = "StudentLastName"
                 },
                 Supervisor = new Teacher
                 {
                     FirstName = "SupervisorFisrtName",
                     MiddleName = null,
-                    LastName = "SupervisorLastName",
-                    Title = "SupervisorTitle"
+                    LastName = "SupervisorLastName"
                 },
                 Dean = new Teacher
                 {
                     FirstName = "DeanFisrtName",
                     MiddleName = null,
-                    LastName = "DeanLastName",
-                    Title = "DeanTitle"
+                    LastName = "DeanLastName"
                 },
                 Theme = "Theme"
             };

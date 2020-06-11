@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MimeKit;
-using PhDSystem.Api.Models.IndividualPlans.Request;
-using PhDSystem.Api.Models.Students;
-using PhDSystem.Api.Models.Teachers;
 using PhDSystem.Api.Services.Interfaces;
-using PhDSystem.Data;
 using System.IO;
 using System.Threading.Tasks;
 

@@ -1,9 +1,8 @@
-﻿using PhDSystem.Data.Models;
-using System.Collections;
+﻿using PhDSystem.Core.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Data.Interfaces
+namespace PhDSystem.Core.Interfaces.Data.Repositories
 {
     public interface IStudentRepository
     {

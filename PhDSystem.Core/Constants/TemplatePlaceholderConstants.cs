@@ -1,4 +1,4 @@
-﻿namespace PhDSystem.Api.Constants
+﻿namespace PhDSystem.Core.Constants
 {
     public static class TemplatePlaceholderConstants
     {

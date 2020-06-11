@@ -1,5 +1,4 @@
-﻿using PhDSystem.Api.Models.Students;
-using PhDSystem.Api.Models.Teachers;
+﻿using PhDSystem.Core.DTOs;
 
 namespace PhDSystem.Api.Models.IndividualPlans.Request
 {

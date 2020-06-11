@@ -1,7 +1,7 @@
 ﻿using MimeKit;
-using PhDSystem.Api.Constants;
-using PhDSystem.Api.Managers.Interfaces;
-using PhDSystem.Api.Models;
+using PhDSystem.Core.Constants;
+using PhDSystem.Core.Managers.Interfaces;
+using PhDSystem.Core.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;

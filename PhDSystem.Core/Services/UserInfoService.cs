@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PhDSystem.Api.Helpers;
-using PhDSystem.Api.Models;
-using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Core.Helpers;
+using PhDSystem.Core.Models;
+using PhDSystem.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

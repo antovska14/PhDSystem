@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.Models;
+using PhDSystem.Core.DTOs;
 
 namespace PhDSystem.Data
 {
