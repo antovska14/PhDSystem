@@ -1,4 +1,4 @@
-﻿using Novacode;
+﻿using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
@@ -68,7 +68,7 @@ namespace PhDSystem.Api.Services
                     Paragraph templateParagraph = document.Paragraphs[i];
                     var keywordsRegex = new Regex("<\\w+>");
                     MatchCollection matchCollection = keywordsRegex.Matches(templateParagraph.Text);
-                    string[] matches = matchCollection.Select(x => x.Value).ToArray();
+                    string[] matches = matchCollection.Cast<Match>().Select(x => x.Value).ToArray();
                     foreach (var match in matches)
                     {
                         templateParagraph.ReplaceText(match, individualPlanKeywords[match]);
