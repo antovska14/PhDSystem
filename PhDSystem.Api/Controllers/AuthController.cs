@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PhDSystem.Api.Models;
-using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Core.Models;
+using PhDSystem.Core.Services.Interfaces;
 
 namespace PhDSystem.Api.Controllers
 {

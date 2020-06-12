@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MimeKit;
-using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Core.Services.Interfaces;
 using System.IO;
 using System.Threading.Tasks;
 

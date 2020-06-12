@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Core.Interfaces.Data.Repositories;
-using PhDSystem.Core.DTOs;
+using PhDSystem.Core.POCOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

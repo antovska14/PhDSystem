@@ -1,6 +1,6 @@
-﻿using PhDSystem.Core.DTOs;
+﻿using PhDSystem.Core.POCOs;
 
-namespace PhDSystem.Api.Models.IndividualPlans.Request
+namespace PhDSystem.Core.Models.IndividualPlans.Request
 {
     public class IndividualPlanRequestModel
     {

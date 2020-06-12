@@ -6,12 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using PhDSystem.Api.Helpers;
 using PhDSystem.Api.Managers;
-using PhDSystem.Api.Managers.Interfaces;
 using PhDSystem.Api.Services;
-using PhDSystem.Api.Services.Interfaces;
+using PhDSystem.Core.Helpers;
 using PhDSystem.Core.Interfaces.Data.Repositories;
+using PhDSystem.Core.Managers.Interfaces;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data;
 using System;
 using System.Text;
@@ -77,6 +77,7 @@ namespace PhDSystem.Api
 
             services.AddScoped<IUserInfoService, UserInfoService>();
             services.AddScoped<IDocumentService, DocumentService>();
+
             services.AddScoped<IFileManager, FileManager>();
         }
 

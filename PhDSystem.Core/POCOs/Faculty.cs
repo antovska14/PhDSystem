@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Core.DTOs
+namespace PhDSystem.Core.POCOs
 {
-    [Table("ProfessionalField", Schema = "dbo")]
-    public class ProfessionalField
+    [Table("Faculty", Schema = "dbo")]
+    public class Faculty
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+
     }
 }
