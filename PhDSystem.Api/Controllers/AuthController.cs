@@ -1,32 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
+using PhDSystem.Data.Models;
+using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("auth")]
-    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
-        private IUserInfoService _userInfoService;
+        private readonly IAuthService _authService;
 
-        public AuthController(IUserInfoService userInfoService)
+        public AuthController(IAuthService authService)
         {
-            _userInfoService = userInfoService;
+            _authService = authService;
         }
 
-        //Post: api/userinfo/authenticate
         [HttpPost("login")]
-        public IActionResult Authenticate([FromBody] AuthenticationModel model)
+        public async Task<IActionResult> Authenticate([FromBody]User user)
         {
-            var user = _userInfoService.Authenticate(model.Username, model.Password);
-            if (user == null)
+            UserAuth userAuth = await _authService.ValidateUser(user);
+            if (userAuth != null && userAuth.IsAuthenticated)
             {
-                return BadRequest(new { message = "Username and password incorrect" });
+                return Ok(userAuth);
             }
 
-            return Ok(user);
+            return NotFound("Invalid User Name/Password");
         }
     }
 }

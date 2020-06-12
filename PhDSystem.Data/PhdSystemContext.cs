@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.POCOs;
+using PhDSystem.Data.Models;
 
 namespace PhDSystem.Data
 {
@@ -7,9 +7,10 @@ namespace PhDSystem.Data
     {
         public PhdSystemContext(DbContextOptions<PhdSystemContext> options) : base(options)
         {
-
         }
 
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserClaim> UserClaims { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.POCOs;
+using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿using PhDSystem.Data.POCOs;
+﻿using PhDSystem.Data.Models;
 
 namespace PhDSystem.Core.Models.IndividualPlans.Request
 {

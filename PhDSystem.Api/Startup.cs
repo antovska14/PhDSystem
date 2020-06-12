@@ -10,6 +10,7 @@ using PhDSystem.Api.Managers;
 using PhDSystem.Api.Services;
 using PhDSystem.Core.Helpers;
 using PhDSystem.Core.Managers.Interfaces;
+using PhDSystem.Core.Services;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data;
 using PhDSystem.Data.Repositories;
@@ -75,8 +76,9 @@ namespace PhDSystem.Api
                 });
 
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddScoped<IUserInfoService, UserInfoService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IDocumentService, DocumentService>();
 
             services.AddScoped<IFileManager, FileManager>();

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.POCOs
+namespace PhDSystem.Data.Models
 {
     [Table("Title", Schema = "dbo")]
     public class Title

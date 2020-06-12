@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("file")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class DocumentController : ControllerBase
+    public class DocumentsController : ControllerBase
     {
         private readonly IDocumentService _documentService;
 
-        public DocumentController(IDocumentService documentService)
+        public DocumentsController(IDocumentService documentService)
         {
             _documentService = documentService;
         }
 
-        [Route("export")]
+        [HttpGet("export")]
         public async Task<IActionResult> ExportFile()
         {
             var result = await _documentService.GetIndividualPlan();
