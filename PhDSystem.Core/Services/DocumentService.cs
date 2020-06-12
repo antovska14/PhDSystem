@@ -1,11 +1,11 @@
 ﻿using Novacode;
 using PhDSystem.Core.Constants;
-using PhDSystem.Core.Interfaces.Data.Repositories;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Models.IndividualPlans.Request;
-using PhDSystem.Core.POCOs;
 using PhDSystem.Core.Services.Interfaces;
+using PhDSystem.Data.POCOs;
+using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

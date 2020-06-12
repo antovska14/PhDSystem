@@ -9,10 +9,11 @@ using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Managers;
 using PhDSystem.Api.Services;
 using PhDSystem.Core.Helpers;
-using PhDSystem.Core.Interfaces.Data.Repositories;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data;
+using PhDSystem.Data.Repositories;
+using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Text;
 

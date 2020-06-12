@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Core.Interfaces.Data.Repositories;
-using PhDSystem.Core.POCOs;
+using PhDSystem.Data.POCOs;
+using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Data
+namespace PhDSystem.Data.Repositories
 {
     public class StudentRepository : IStudentRepository
     {

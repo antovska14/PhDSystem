@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhDSystem.Core\PhDSystem.Core.csproj" />
-    <ProjectReference Include="..\PhDSystem.Data\PhDSystem.Data.csproj" />
   </ItemGroup>
 
 

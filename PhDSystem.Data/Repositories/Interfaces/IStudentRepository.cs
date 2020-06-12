@@ -1,8 +1,8 @@
-﻿using PhDSystem.Core.POCOs;
+﻿using PhDSystem.Data.POCOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Core.Interfaces.Data.Repositories
+namespace PhDSystem.Data.Repositories.Interfaces
 {
     public interface IStudentRepository
     {

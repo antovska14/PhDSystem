@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Core.POCOs
+namespace PhDSystem.Data.POCOs
 {
-    [Table("Attestation", Schema = "dbo")]
-    public class Attestation
+    [Table("IndividualPlan", Schema = "dbo")]
+    public class IndividualPlan
     {
         [Key]
         public int Id { get; set; }
