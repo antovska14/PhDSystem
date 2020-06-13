@@ -60,6 +60,13 @@ namespace PhDSystem.Api
                 };
             });
 
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy("RequireAdminRole", p => p.RequireRole("Admin"));
+                config.AddPolicy("RequireStudentRole", p => p.RequireRole("Student"));
+                config.AddPolicy("RequireRequireSupervisorRole", p => p.RequireRole("Supervisor"));
+            });
+
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();

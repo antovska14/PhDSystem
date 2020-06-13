@@ -19,5 +19,7 @@ namespace PhDSystem.Data.Models
         [StringLength(255)]
         public string Password { get; set; }
 
+        [Required]
+        public int RoleId { get; set; }
     }
 }

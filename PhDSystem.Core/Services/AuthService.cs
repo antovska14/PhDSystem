@@ -34,9 +34,9 @@ namespace PhDSystem.Core.Services
             return null;
         }
 
-        private async Task<IEnumerable<UserClaim>> GetUserClaims(User user)
+        private async Task<UserRole> GetUserRole(User user)
         {
-            return await _userRepository.GetUserClaims(user.Id);
+            return await _userRepository.GetUserRole(user.Id);
         }
 
         private async Task<UserAuth> BuildUserAuthObject(User user)
@@ -45,15 +45,9 @@ namespace PhDSystem.Core.Services
 
             userAuth.UserName = user.UserName;
             userAuth.IsAuthenticated = true;
+            var userRole = await GetUserRole(user);
+            userAuth.Role = userRole.Name;
             userAuth.BearerToken = BuildJwtToken(userAuth);
-
-            var claims = await GetUserClaims(user);
-
-            foreach (UserClaim claim in claims)
-            {
-                typeof(UserAuth).GetProperty(claim.ClaimType)
-                                .SetValue(userAuth, claim.ClaimValue, null);
-            }
 
             return userAuth;
         }
@@ -69,12 +63,7 @@ namespace PhDSystem.Core.Services
 
             // Add custom claims
             jwtClaims.Add(new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canAccessStudents", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canAccessSupervisors", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canAddStudents", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canAddSupervisors", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canDeleteStudents", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("canDeleteSupervisors", userAuth.IsAuthenticated.ToString().ToLower()));
+            jwtClaims.Add(new Claim("role", userAuth.Role));
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

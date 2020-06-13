@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class DocumentsController : ControllerBase
     {
         private readonly IDocumentService _documentService;
@@ -19,7 +20,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet("export")]
-        [Authorize]
+        [Authorize(Roles = "Student")]
         public async Task<IActionResult> ExportFile()
         {
             var result = await _documentService.GetIndividualPlan();

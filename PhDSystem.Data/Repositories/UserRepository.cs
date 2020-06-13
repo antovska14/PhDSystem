@@ -16,16 +16,20 @@ namespace PhDSystem.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserClaim>> GetUserClaims(int userId)
-        {
-            return await _context.UserClaims.Where(uc => uc.UserId == userId).ToListAsync();
-        }
-
         public async Task<User> GetUser(string userName, string password)
         {
             return await _context.Users
                                  .Where(u => u.UserName.ToLower().Equals(userName) && u.Password.Equals(password))
                                  .FirstOrDefaultAsync();
+        }
+
+        public async Task<UserRole> GetUserRole(int userId)
+        {
+            return await (from u in _context.Users 
+                         join ur in _context.UserRoles on u.RoleId equals ur.Id
+                         where u.Id == userId
+                         select ur     
+                         ).FirstOrDefaultAsync();
         }
     }
 }
