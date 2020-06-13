@@ -10,10 +10,12 @@ namespace PhDSystem.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly JwtSettings _jwtSettings;
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(JwtSettings jwtSettings, IAuthService authService)
         {
+            _jwtSettings = jwtSettings;
             _authService = authService;
         }
 

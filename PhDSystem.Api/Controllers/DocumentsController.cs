@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using PhDSystem.Core.Services.Interfaces;
 using System.IO;
@@ -18,6 +19,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet("export")]
+        [Authorize]
         public async Task<IActionResult> ExportFile()
         {
             var result = await _documentService.GetIndividualPlan();
