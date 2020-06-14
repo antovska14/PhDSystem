@@ -25,7 +25,7 @@ namespace PhDSystem.Core.Services
 
         public async Task<UserAuth> ValidateUser(User user)
         {
-            User existingUser = await _userRepository.GetUser(user.UserName, user.Password);
+            User existingUser = await _userRepository.GetUser(user.Username, user.Password);
             if (existingUser != null)
             {
                 return await BuildUserAuthObject(existingUser);
@@ -43,7 +43,7 @@ namespace PhDSystem.Core.Services
         {
             UserAuth userAuth = new UserAuth();
 
-            userAuth.UserName = user.UserName;
+            userAuth.Username = user.Username;
             userAuth.IsAuthenticated = true;
             var userRole = await GetUserRole(user);
             userAuth.Role = userRole.Name;
@@ -58,7 +58,7 @@ namespace PhDSystem.Core.Services
 
             // Create the standard JWT claims
             List<Claim> jwtClaims = new List<Claim>();
-            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, userAuth.UserName));
+            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, userAuth.Username));
             jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
             // Add custom claims

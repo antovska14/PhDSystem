@@ -6,7 +6,7 @@ namespace PhDSystem.Data.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUser(string userName, string password);
+        Task<User> GetUser(string username, string password);
         Task<UserRole> GetUserRole(int userId);
     }
 }

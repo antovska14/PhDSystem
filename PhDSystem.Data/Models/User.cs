@@ -13,7 +13,7 @@ namespace PhDSystem.Data.Models
 
         [Required]
         [StringLength(255)]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(255)]
