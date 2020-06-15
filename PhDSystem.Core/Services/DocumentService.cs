@@ -28,7 +28,7 @@ namespace PhDSystem.Api.Services
 
         public async Task<FileModel> GetIndividualPlan()
         {
-            var students = await _studentData.GetStudents();
+            var students = await _studentData.GetStudentsAsync();
 
             var request = new IndividualPlanRequestModel
             {

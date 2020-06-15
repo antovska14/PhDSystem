@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
 {
-    [Table("ProfessionalField", Schema = "dbo")]
+    [Table("ProfessionalField")]
     public class ProfessionalField
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public string Name { get; set; }
     }
 }

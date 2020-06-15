@@ -6,10 +6,11 @@ namespace PhDSystem.Data.Repositories.Interfaces
 {
     public interface IStudentRepository
     {
-        Task<Student> GetStudent(int studentId);
-        Task<IEnumerable<Student>> GetSupervisorStudents(int supervisorId);
-        Task<IEnumerable<Student>> GetStudents();
-        Task AddStudent(Student student);
-        Task UpdateStudent(Student student);
+        Task AddStudentAsync(Student student);
+        Task DeleteStudentAsync(int studentId);
+        Task<Student> GetStudentAsync(int studentId);
+        Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId);
+        Task<IEnumerable<Student>> GetStudentsAsync();
+        Task UpdateStudentAsync(int studentId, Student student);
     }
 }

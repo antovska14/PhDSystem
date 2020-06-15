@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
 {
+    [Table("StudentTeacher")]
     public class StudentTeacher
     {
-        [Key, Column(Order = 1)]
         public int StudentId { get; set; }
-        [Key, Column(Order =2)]
-        public int SupervisorId { get; set; }
+
+        public Student Student { get; set; }
+
+        public int TeacherId { get; set; }
+
+        public Teacher Teacher { get; set; }
     }
 }

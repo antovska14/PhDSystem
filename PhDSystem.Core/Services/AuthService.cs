@@ -23,36 +23,36 @@ namespace PhDSystem.Core.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserAuth> ValidateUser(User user)
+        public async Task<UserAuth> ValidateUserAsync(User user)
         {
             User existingUser = await _userRepository.GetUser(user.Username, user.Password);
             if (existingUser != null)
             {
-                return await BuildUserAuthObject(existingUser);
+                return await BuildUserAuthObjectAsync(existingUser);
             }
 
             return null;
         }
 
-        private async Task<UserRole> GetUserRole(User user)
+        private async Task<UserRole> GetUserRoleAsync(User user)
         {
             return await _userRepository.GetUserRole(user.Id);
         }
 
-        private async Task<UserAuth> BuildUserAuthObject(User user)
+        private async Task<UserAuth> BuildUserAuthObjectAsync(User user)
         {
             UserAuth userAuth = new UserAuth();
 
             userAuth.Username = user.Username;
             userAuth.IsAuthenticated = true;
-            var userRole = await GetUserRole(user);
+            var userRole = await GetUserRoleAsync(user);
             userAuth.Role = userRole.Name;
-            userAuth.BearerToken = BuildJwtToken(userAuth);
+            userAuth.BearerToken = BuildJwtTokenAsync(userAuth);
 
             return userAuth;
         }
 
-        private string BuildJwtToken(UserAuth userAuth)
+        private string BuildJwtTokenAsync(UserAuth userAuth)
         {
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 

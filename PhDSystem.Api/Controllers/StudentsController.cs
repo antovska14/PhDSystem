@@ -1,47 +1,62 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models;
-using System.Collections.Generic;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class StudentsController : ControllerBase
     {
-        // GET: api/<StudentsController>
-        [HttpGet]
-        public IEnumerable<string> GetStudents()
+        private readonly IStudentService _studentService;
+
+        public StudentsController(IStudentService studentService)
         {
-            return new string[] { "value1", "value2" };
+            _studentService = studentService;
         }
 
-        // GET api/<StudentsController>/5
-        [HttpGet("{id}")]
-        public string GetStudent(int studentId)
-        {
-            return "value";
-        }
-
-        // POST api/<StudentsController>
         [HttpPost]
-        public void Post([FromBody] Student student)
+        public async Task<IActionResult> AddStudent([FromBody] Student student)
         {
+            await _studentService.AddStudentAsync(student);
+            return Ok();
         }
 
-        // PUT api/<StudentsController>/5
-        [HttpPut("{id}")]
-        public void Put(int studentId, [FromBody] Student student)
+        [HttpDelete("{studentId}")]
+        public async Task<IActionResult> DeleteStudent(int studentId)
         {
+            await _studentService.DeleteStudentAsync(studentId);
+            return Ok();
         }
 
-        // DELETE api/<StudentsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int studentId)
+        [HttpGet("{studentId}")]
+        public async Task<IActionResult> GetStudent(int studentId)
         {
+            var student = await _studentService.GetStudentAsync(studentId);
+            return Ok(student);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetStudents()
+        {
+            var students = await _studentService.GetStudentsAsync();
+            return Ok(students);
+        }
+
+        [HttpGet("supervisor/{supervisorId}")]
+        public async Task<IActionResult> GetStudentsBySupervisor(int supervisorId)
+        {
+            var students = await _studentService.GetStudentsBySupervisorAsync(supervisorId);
+            return Ok(students);
+        }
+
+        [HttpPut("{studentId}")]
+        public async Task<IActionResult> Put(int studentId, [FromBody] Student student)
+        {
+            await _studentService.UpdateStudentAsync(studentId, student);
+            return Ok();
         }
     }
 }

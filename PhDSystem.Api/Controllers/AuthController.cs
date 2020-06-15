@@ -20,9 +20,9 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody]User request)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] User request)
         {
-            UserAuth userAuth = await _authService.ValidateUser(request);
+            UserAuth userAuth = await _authService.ValidateUserAsync(request);
             if (userAuth != null && userAuth.IsAuthenticated)
             {
                 return Ok(userAuth);

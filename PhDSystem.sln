@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6B994FAA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhDSystem.UnitTests", "PhDSystem.UnitTests\PhDSystem.UnitTests.csproj", "{C9A30FF0-4A5C-4617-8ED1-58940DBF09C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhDSystem.Core", "PhDSystem.Core\PhDSystem.Core.csproj", "{EA7C9236-A29E-4C84-BAED-6A04004A4BEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhDSystem.Core", "PhDSystem.Core\PhDSystem.Core.csproj", "{EA7C9236-A29E-4C84-BAED-6A04004A4BEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhDSystem.Data", "PhDSystem.Data\PhDSystem.Data.csproj", "{87A7864E-9207-4852-B073-E986C526DC74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhDSystem.Data", "PhDSystem.Data\PhDSystem.Data.csproj", "{87A7864E-9207-4852-B073-E986C526DC74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

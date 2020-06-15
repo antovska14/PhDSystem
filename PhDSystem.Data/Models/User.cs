@@ -1,23 +1,27 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
 {
-    [Table("User", Schema = "dbo")]
+    [Table("User")]
     public class User
     {
-        [Required]
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [MaxLength(255)]
         public string Username { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [MaxLength(255)]
         public string Password { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        [ForeignKey("RoleId")]
+        public UserRole UserRole { get; set; }
 
         [Required]
         public int RoleId { get; set; }

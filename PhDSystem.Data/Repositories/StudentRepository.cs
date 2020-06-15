@@ -17,30 +17,53 @@ namespace PhDSystem.Data.Repositories
             _context = context;
         }
 
-        public async Task<Student> GetStudent(int studentId)
-        {
-            return await _context.Students.Where(s => s.Id == studentId).SingleOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<Student>> GetStudents()
-        {
-            return await _context.Students.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Student>> GetSupervisorStudents(int supervisorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task AddStudent(Student student)
+        public async Task AddStudentAsync(Student student)
         {
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateStudent(Student student)
+        public async Task DeleteStudentAsync(int studentId)
         {
-            throw new NotImplementedException();
+            var student = await _context.Students.SingleOrDefaultAsync(s => s.Id == studentId);
+            student.IsDeleted = true;
+
+            var user = await (from s in _context.Students
+                              join u in _context.Users on s.UserId equals u.Id
+                              where s.Id == studentId
+                              select u).SingleOrDefaultAsync();
+
+            user.IsDeleted = true;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Student> GetStudentAsync(int studentId)
+        {
+            var student = await _context.Students.Where(s => s.Id == studentId).SingleOrDefaultAsync();
+            return student;
+        }
+
+        public async Task<IEnumerable<Student>> GetStudentsAsync()
+        {
+            return await _context.Students.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId)
+        {
+            return await (from s in _context.Students
+                          join st in _context.StudentTeachers on s.Id equals st.StudentId
+                          join t in _context.Teachers on st.TeacherId equals t.Id
+                          where t.Id == supervisorId
+                          select s).ToListAsync();
+        }
+
+        public async Task UpdateStudentAsync(int studentId, Student student)
+        {
+            var studentToUpdate = _context.Students.SingleOrDefault(s => s.Id == student.Id);
+            studentToUpdate.FirstName = student.FirstName;
+            studentToUpdate.MiddleName = student.MiddleName;
+            studentToUpdate.LastName = student.LastName;
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -7,6 +7,6 @@ namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<UserAuth> ValidateUser(User user);
+        Task<UserAuth> ValidateUserAsync(User user);
     }
 }

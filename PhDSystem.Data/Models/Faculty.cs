@@ -3,11 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
 {
-    [Table("Faculty", Schema = "dbo")]
+    [Table("Faculty")]
     public class Faculty
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
+        public string Name { get; set; }
     }
 }

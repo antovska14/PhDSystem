@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
 {
-    [Table("Attestation", Schema = "dbo")]
+    [Table("Attestation")]
     public class Attestation
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
     }
 }
