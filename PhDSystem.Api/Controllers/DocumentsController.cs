@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DocumentsController : ControllerBase
     {
         private readonly IDocumentService _documentService;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly JwtSettings _jwtSettings;
@@ -20,9 +20,9 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody]User user)
+        public async Task<IActionResult> Authenticate([FromBody]User request)
         {
-            UserAuth userAuth = await _authService.ValidateUser(user);
+            UserAuth userAuth = await _authService.ValidateUser(request);
             if (userAuth != null && userAuth.IsAuthenticated)
             {
                 return Ok(userAuth);
