@@ -8,6 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
@@ -17,7 +18,8 @@ namespace PhDSystem.Api.Controllers
             _studentService = studentService;
         }
 
-        [HttpPost]
+        [HttpPost("")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddStudent([FromBody] Student student)
         {
             await _studentService.AddStudentAsync(student);
@@ -25,6 +27,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpDelete("{studentId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteStudent(int studentId)
         {
             await _studentService.DeleteStudentAsync(studentId);
@@ -38,7 +41,8 @@ namespace PhDSystem.Api.Controllers
             return Ok(student);
         }
 
-        [HttpGet]
+        [HttpGet("")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStudents()
         {
             var students = await _studentService.GetStudentsAsync();
@@ -46,6 +50,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet("supervisor/{supervisorId}")]
+        [Authorize(Roles = "Supervisor")]
         public async Task<IActionResult> GetStudentsBySupervisor(int supervisorId)
         {
             var students = await _studentService.GetStudentsBySupervisorAsync(supervisorId);
@@ -53,6 +58,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpPut("{studentId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put(int studentId, [FromBody] Student student)
         {
             await _studentService.UpdateStudentAsync(studentId, student);

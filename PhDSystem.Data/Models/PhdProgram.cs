@@ -9,5 +9,13 @@ namespace PhDSystem.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength]
+        public string Name { get; set; }
+
+        public ProfessionalField ProfessionalField { get; set; }
+
+        public int ProfessionalFieldId { get; set; }
     }
 }

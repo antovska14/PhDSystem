@@ -39,13 +39,16 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<Student> GetStudentAsync(int studentId)
         {
-            var student = await _context.Students.Where(s => s.Id == studentId).SingleOrDefaultAsync();
+            var student = await _context.Students
+                .Where(s => s.Id == studentId && s.IsDeleted == false)
+                .SingleOrDefaultAsync();
+
             return student;
         }
 
         public async Task<IEnumerable<Student>> GetStudentsAsync()
         {
-            return await _context.Students.ToListAsync();
+            return await _context.Students.Where(s => s.IsDeleted == false).ToListAsync();
         }
 
         public async Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId)
@@ -53,13 +56,13 @@ namespace PhDSystem.Data.Repositories
             return await (from s in _context.Students
                           join st in _context.StudentTeachers on s.Id equals st.StudentId
                           join t in _context.Teachers on st.TeacherId equals t.Id
-                          where t.Id == supervisorId
+                          where t.Id == supervisorId && !s.IsDeleted
                           select s).ToListAsync();
         }
 
         public async Task UpdateStudentAsync(int studentId, Student student)
         {
-            var studentToUpdate = _context.Students.SingleOrDefault(s => s.Id == student.Id);
+            var studentToUpdate = _context.Students.SingleOrDefault(s => s.Id == studentId);
             studentToUpdate.FirstName = student.FirstName;
             studentToUpdate.MiddleName = student.MiddleName;
             studentToUpdate.LastName = student.LastName;

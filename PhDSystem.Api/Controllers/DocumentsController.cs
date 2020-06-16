@@ -20,7 +20,6 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet("export")]
-        [Authorize(Roles = "Student")]
         public async Task<IActionResult> ExportFile()
         {
             var result = await _documentService.GetIndividualPlan();
