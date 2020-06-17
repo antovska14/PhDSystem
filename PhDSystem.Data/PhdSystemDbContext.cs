@@ -4,9 +4,9 @@ using System;
 
 namespace PhDSystem.Data
 {
-    public class PhdSystemContext : DbContext
+    public class PhdSystemDbContext : DbContext
     {
-        public PhdSystemContext(DbContextOptions<PhdSystemContext> options) : base(options)
+        public PhdSystemDbContext(DbContextOptions<PhdSystemDbContext> options) : base(options)
         {
         }
 

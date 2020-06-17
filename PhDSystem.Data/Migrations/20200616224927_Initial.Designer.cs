@@ -9,7 +9,7 @@ using PhDSystem.Data;
 
 namespace PhDSystem.Data.Migrations
 {
-    [DbContext(typeof(PhdSystemContext))]
+    [DbContext(typeof(PhdSystemDbContext))]
     [Migration("20200616224927_Initial")]
     partial class Initial
     {

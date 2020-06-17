@@ -1,4 +1,5 @@
 ﻿using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,7 +32,6 @@ namespace PhDSystem.Core.Services.Models
 
         public int DegreeId { get; set; }
 
-
-        public IEnumerable<Teacher> Supervisors { get; set; }
+        public IEnumerable<TeacherDetails> Teachers { get; set; }
     }
 }

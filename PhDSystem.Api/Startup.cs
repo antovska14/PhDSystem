@@ -33,7 +33,7 @@ namespace PhDSystem.Api
         {
             services.AddCors();
             services.AddControllers();
-            services.AddDbContextPool<PhdSystemContext>(options =>
+            services.AddDbContextPool<PhdSystemDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("PhdSystemDb"));
             });
@@ -69,10 +69,12 @@ namespace PhDSystem.Api
 
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IFileManager, FileManager>();
         }
 

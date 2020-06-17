@@ -8,7 +8,7 @@ using PhDSystem.Data;
 
 namespace PhDSystem.Data.Migrations
 {
-    [DbContext(typeof(PhdSystemContext))]
+    [DbContext(typeof(PhdSystemDbContext))]
     partial class PhdSystemContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace PhDSystem.Data.Migrations
                             Id = 1,
                             CurrentYear = 0,
                             DegreeId = 0,
-                            FacultyCouncilChosenDate = new DateTime(2020, 6, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            FacultyCouncilChosenDate = new DateTime(2020, 6, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             FirstName = "Dijana",
                             FormOfEducationId = 1,
                             IsDeleted = false,

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Core.Services.Models;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,20 +11,17 @@ namespace PhDSystem.Data.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
-        private readonly PhdSystemContext _context;
+        private readonly PhdSystemDbContext _context;
 
-        public StudentRepository(PhdSystemContext context)
+        public StudentRepository(PhdSystemDbContext context)
         {
             _context = context;
         }
 
         public async Task CreateStudentAsync(StudentDetails studentDetails)
         {
-            var formOfEducation = await _context
-                                        .FormsOfEducation
-                                        .Where(foe => foe.Name.Equals(studentDetails.FormOfEducation))
-                                        .SingleOrDefaultAsync();
-
+            //Add student
+            var formOfEducation = await GetFormOfEducationAsync(studentDetails.FormOfEducation);
             var student = new Student()
             {
                 UserId = studentDetails.UserId,
@@ -38,6 +35,17 @@ namespace PhDSystem.Data.Repositories
             };
 
             _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+
+            //Assign supervisors
+            var teacherIds = studentDetails.Teachers.Select(t => t.Id).ToArray();
+
+            foreach (var teacherId in teacherIds)
+            {
+                var studentTeacherRecord = new StudentTeacher() { StudentId = student.Id, TeacherId = teacherId };
+                _context.StudentTeachers.Add(studentTeacherRecord);
+            }
+
             await _context.SaveChangesAsync();
         }
 
@@ -55,13 +63,39 @@ namespace PhDSystem.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Student> GetStudentAsync(int studentId)
+        public async Task<StudentDetails> GetStudentAsync(int studentId)
         {
             var student = await _context.Students
                 .Where(s => s.Id == studentId && s.IsDeleted == false)
                 .SingleOrDefaultAsync();
 
-            return student;
+            var formOfEducation = await _context.FormsOfEducation
+                                 .Where(foe => foe.Id.Equals(student.FormOfEducationId))
+                                 .SingleOrDefaultAsync();
+
+            var teachers = await (from t in _context.Teachers
+                                  join st in _context.StudentTeachers on t.Id equals st.TeacherId
+                                  where st.StudentId == studentId
+                                  select new TeacherDetails()
+                                  {
+                                      Id = t.Id,
+                                      FirstName = t.FirstName,
+                                      MiddleName = t.MiddleName,
+                                      LastName = t.LastName,
+                                  }).ToListAsync();
+
+            return new StudentDetails()
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                MiddleName = student.MiddleName,
+                LastName = student.LastName,
+                SpecialtyName = student.SpecialtyName,
+                FormOfEducation = formOfEducation.Name,
+                CurrentYear = student.CurrentYear,
+                FacultyCouncilChosenDate = student.FacultyCouncilChosenDate,
+                Teachers = teachers
+            };
         }
 
         public async Task<IEnumerable<Student>> GetStudentsAsync()
@@ -78,13 +112,28 @@ namespace PhDSystem.Data.Repositories
                           select s).ToListAsync();
         }
 
-        public async Task UpdateStudentAsync(int studentId, Student student)
+        public async Task UpdateStudentAsync(int studentId, StudentDetails studentDetails)
         {
-            var studentToUpdate = _context.Students.SingleOrDefault(s => s.Id == studentId);
-            studentToUpdate.FirstName = student.FirstName;
-            studentToUpdate.MiddleName = student.MiddleName;
-            studentToUpdate.LastName = student.LastName;
+            var existingStudent = _context.Students.SingleOrDefault(s => s.Id == studentId);
+
+            existingStudent.FirstName = studentDetails.FirstName;
+            existingStudent.MiddleName = studentDetails.MiddleName;
+            existingStudent.LastName = studentDetails.LastName;
+            existingStudent.SpecialtyName = studentDetails.SpecialtyName;
+            existingStudent.FacultyCouncilChosenDate = studentDetails.FacultyCouncilChosenDate;
+
+            var formOfEducation = await GetFormOfEducationAsync(studentDetails.FormOfEducation);
+            existingStudent.FormOfEducationId = formOfEducation.Id;
+            existingStudent.CurrentYear = studentDetails.CurrentYear;
+
             await _context.SaveChangesAsync();
+        }
+
+        private async Task<FormOfEducation> GetFormOfEducationAsync(string formOfEducationName)
+        {
+            return await _context.FormsOfEducation
+                                 .Where(foe => foe.Name.Equals(formOfEducationName))
+                                 .SingleOrDefaultAsync();
         }
     }
 }

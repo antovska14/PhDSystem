@@ -10,12 +10,10 @@ namespace PhDSystem.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly JwtSettings _jwtSettings;
         private readonly IAuthService _authService;
 
-        public AuthController(JwtSettings jwtSettings, IAuthService authService)
+        public AuthController(IAuthService authService)
         {
-            _jwtSettings = jwtSettings;
             _authService = authService;
         }
 

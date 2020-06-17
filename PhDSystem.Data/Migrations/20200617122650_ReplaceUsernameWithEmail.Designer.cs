@@ -9,7 +9,7 @@ using PhDSystem.Data;
 
 namespace PhDSystem.Data.Migrations
 {
-    [DbContext(typeof(PhdSystemContext))]
+    [DbContext(typeof(PhdSystemDbContext))]
     [Migration("20200617122650_ReplaceUsernameWithEmail")]
     partial class ReplaceUsernameWithEmail
     {

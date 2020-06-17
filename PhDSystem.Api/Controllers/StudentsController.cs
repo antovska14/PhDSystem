@@ -60,9 +60,9 @@ namespace PhDSystem.Api.Controllers
 
         [HttpPut("{studentId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put(int studentId, [FromBody] Student student)
+        public async Task<IActionResult> Put(int studentId, [FromBody] StudentDetails studentDetails)
         {
-            await _studentService.UpdateStudentAsync(studentId, student);
+            await _studentService.UpdateStudentAsync(studentId, studentDetails);
             return Ok();
         }
     }

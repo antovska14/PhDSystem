@@ -10,8 +10,8 @@ using PhDSystem.Data;
 namespace PhDSystem.Data.Migrations
 {
     [DbContext(typeof(PhdSystemDbContext))]
-    [Migration("20200617103023_StudentUpdate")]
-    partial class StudentUpdate
+    [Migration("20200617214719_RenameContext")]
+    partial class RenameContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace PhDSystem.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PhDSystem.Data.Models.FormOfEducation", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.FormOfEducation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace PhDSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.PhdProgram", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.PhdProgram", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,7 +81,7 @@ namespace PhDSystem.Data.Migrations
                     b.ToTable("PhdProgram");
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.ProfessionalField", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.ProfessionalField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,7 +98,7 @@ namespace PhDSystem.Data.Migrations
                     b.ToTable("ProfessionalField");
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.Student", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -152,7 +152,7 @@ namespace PhDSystem.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Student","dbo");
+                    b.ToTable("Student");
 
                     b.HasData(
                         new
@@ -160,7 +160,7 @@ namespace PhDSystem.Data.Migrations
                             Id = 1,
                             CurrentYear = 0,
                             DegreeId = 0,
-                            FacultyCouncilChosenDate = new DateTime(2020, 6, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            FacultyCouncilChosenDate = new DateTime(2020, 6, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             FirstName = "Dijana",
                             FormOfEducationId = 1,
                             IsDeleted = false,
@@ -171,7 +171,7 @@ namespace PhDSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.StudentTeacher", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.StudentTeacher", b =>
                 {
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -186,7 +186,7 @@ namespace PhDSystem.Data.Migrations
                     b.ToTable("StudentTeacher");
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.Teacher", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.Teacher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,12 +228,17 @@ namespace PhDSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.User", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -246,11 +251,6 @@ namespace PhDSystem.Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
@@ -261,30 +261,30 @@ namespace PhDSystem.Data.Migrations
                         new
                         {
                             Id = 1,
+                            Email = "admin@gmail.com",
                             IsDeleted = false,
                             Password = "admin",
-                            RoleId = 1,
-                            Username = "admin"
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 2,
+                            Email = "student@gmail.com",
                             IsDeleted = false,
                             Password = "student",
-                            RoleId = 2,
-                            Username = "student"
+                            RoleId = 2
                         },
                         new
                         {
                             Id = 3,
+                            Email = "supervisor@gmail.com",
                             IsDeleted = false,
                             Password = "supervisor",
-                            RoleId = 3,
-                            Username = "supervisor"
+                            RoleId = 3
                         });
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.UserRole", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,42 +318,42 @@ namespace PhDSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.PhdProgram", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.PhdProgram", b =>
                 {
-                    b.HasOne("PhDSystem.Data.Models.ProfessionalField", "ProfessionalField")
+                    b.HasOne("PhDSystem.Data.Entities.ProfessionalField", "ProfessionalField")
                         .WithMany("PhdPrograms")
                         .HasForeignKey("ProfessionalFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.Student", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.Student", b =>
                 {
-                    b.HasOne("PhDSystem.Data.Models.FormOfEducation", "FormOfEducation")
+                    b.HasOne("PhDSystem.Data.Entities.FormOfEducation", "FormOfEducation")
                         .WithMany("Students")
                         .HasForeignKey("FormOfEducationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.StudentTeacher", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.StudentTeacher", b =>
                 {
-                    b.HasOne("PhDSystem.Data.Models.Student", "Student")
+                    b.HasOne("PhDSystem.Data.Entities.Student", "Student")
                         .WithMany("StudentTeachers")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhDSystem.Data.Models.Teacher", "Teacher")
+                    b.HasOne("PhDSystem.Data.Entities.Teacher", "Teacher")
                         .WithMany("StudentTeachers")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhDSystem.Data.Models.User", b =>
+            modelBuilder.Entity("PhDSystem.Data.Entities.User", b =>
                 {
-                    b.HasOne("PhDSystem.Data.Models.UserRole", "UserRole")
+                    b.HasOne("PhDSystem.Data.Entities.UserRole", "UserRole")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

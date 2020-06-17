@@ -9,9 +9,9 @@ namespace PhDSystem.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly PhdSystemContext _context;
+        private readonly PhdSystemDbContext _context;
 
-        public UserRepository(PhdSystemContext context)
+        public UserRepository(PhdSystemDbContext context)
         {
             _context = context;
         }
@@ -21,6 +21,13 @@ namespace PhDSystem.Data.Repositories
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user.Id;
+        }
+
+        public async Task DeleteUser(int userId)
+        {
+            User userToDelete = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            userToDelete.IsDeleted = true;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<User> GetUser(string email, string password)
@@ -37,6 +44,12 @@ namespace PhDSystem.Data.Repositories
                          where u.Id == userId
                          select ur     
                          ).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            var existingUser = await _context.Users.Where(u => u.Id == user.Id).SingleOrDefaultAsync();
+            existingUser.Email = user.Email;
         }
     }
 }

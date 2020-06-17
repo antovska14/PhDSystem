@@ -1,4 +1,5 @@
-﻿using PhDSystem.Core.Services.Interfaces;
+﻿using PhDSystem.Core.Constants;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Core.Services.Models;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
@@ -24,6 +25,9 @@ namespace PhDSystem.Core.Services
             var user = new User() { Email = studentDetails.Email, Password = password, RoleId = 2 };
             var userId = await _userRepository.CreateUser(user);
 
+            FormOfEducationConstants.FormOfEducationBgToEn.TryGetValue(studentDetails.FormOfEducation, out var formOfEducation);
+            studentDetails.FormOfEducation = formOfEducation;
+
             studentDetails.UserId = userId;
             await _studentRepository.CreateStudentAsync(studentDetails);
         }
@@ -33,7 +37,7 @@ namespace PhDSystem.Core.Services
             await _studentRepository.DeleteStudentAsync(studentId);
         }
 
-        public async Task<Student> GetStudentAsync(int studentId)
+        public async Task<StudentDetails> GetStudentAsync(int studentId)
         {
             return await _studentRepository.GetStudentAsync(studentId);
         }
@@ -48,9 +52,11 @@ namespace PhDSystem.Core.Services
             return await _studentRepository.GetStudentsBySupervisorAsync(supervisorId);
         }
 
-        public async Task UpdateStudentAsync(int studentId, Student student)
+        public async Task UpdateStudentAsync(int studentId, StudentDetails studentDetails)
         {
-            await _studentRepository.UpdateStudentAsync(studentId, student);
+            var user = new User() { Email = studentDetails.Email };
+            await _userRepository.UpdateUser(user);
+            await _studentRepository.UpdateStudentAsync(studentId, studentDetails);
         }
     }
 }
