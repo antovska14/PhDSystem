@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Models;
+using System;
 
 namespace PhDSystem.Data
 {
@@ -35,23 +36,23 @@ namespace PhDSystem.Data
                     new User() { Id = 3, Username = "supervisor", Password = "supervisor", RoleId = 3 }
                 );
 
+            modelBuilder.Entity<FormOfEducation>()
+                .HasData(
+                    new FormOfEducation() { Id = 1, Name = "Regular", YearsCount = 3 },
+                    new FormOfEducation() { Id = 2, Name = "Distance", YearsCount = 4 },
+                    new FormOfEducation() { Id = 3, Name = "Free", YearsCount = 3 }
+                );
+
             modelBuilder.Entity<Student>().HasIndex(s => s.UserId).IsUnique();
             modelBuilder.Entity<Student>()
                 .HasData(
-                    new Student() { Id = 1, FirstName = "Dijana", LastName = "Antovska", UserId = 2 }
+                    new Student() { Id = 1, FirstName = "Dijana", LastName = "Antovska", UserId = 2, FormOfEducationId = 1, SpecialtyName = "Computer and Software Engineering", FacultyCouncilChosenDate = DateTime.Now.Date }
                 );
 
             modelBuilder.Entity<Student>().HasIndex(t => t.UserId).IsUnique();
             modelBuilder.Entity<Teacher>()
                 .HasData(
                     new Teacher() { Id = 1, FirstName = "Bill", LastName = "Gates", UserId = 3 }
-                );
-
-            modelBuilder.Entity<FormOfEducation>()
-                .HasData(
-                    new FormOfEducation() { Id = 1, Name = "Regular", YearsCount = 3 },
-                    new FormOfEducation() { Id = 2, Name = "Distance", YearsCount = 4 },
-                    new FormOfEducation() { Id = 3, Name = "Free", YearsCount = 3 }
                 );
 
             base.OnModelCreating(modelBuilder);
@@ -68,5 +69,9 @@ namespace PhDSystem.Data
         public virtual DbSet<UserRole> UserRoles { get; set; }
 
         public virtual DbSet<FormOfEducation> FormsOfEducation { get; set; }
+
+        public virtual DbSet<PhdProgram> PhdPrograms { get; set; }
+
+        public virtual DbSet<ProfessionalField> ProfessionalFields { get; set; }
     }
 }

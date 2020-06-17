@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Models
@@ -14,5 +15,7 @@ namespace PhDSystem.Data.Models
         public string Name { get; set; }
 
         public int YearsCount { get; set; }
+
+        public ICollection<Student> Students { get; set; } = new List<Student>();
     }
 }

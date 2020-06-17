@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +27,15 @@ namespace PhDSystem.Data.Models
 
         [Required]
         public int FormOfEducationId { get; set; }
+
+        public FormOfEducation FormOfEducation { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string SpecialtyName { get; set; }
+
+        [Required]
+        public DateTime FacultyCouncilChosenDate { get; set; }
 
         public int TitleId { get; set; }
         

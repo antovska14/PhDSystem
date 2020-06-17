@@ -10,8 +10,8 @@ using PhDSystem.Data;
 namespace PhDSystem.Data.Migrations
 {
     [DbContext(typeof(PhdSystemContext))]
-    [Migration("20200615224458_PopulateDefaultUsersAndRoles")]
-    partial class PopulateDefaultUsersAndRoles
+    [Migration("20200616224927_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,83 @@ namespace PhDSystem.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("PhDSystem.Data.Models.FormOfEducation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearsCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormOfEducation");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Regular",
+                            YearsCount = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Distance",
+                            YearsCount = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Free",
+                            YearsCount = 3
+                        });
+                });
+
+            modelBuilder.Entity("PhDSystem.Data.Models.PhdProgram", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfessionalFieldId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfessionalFieldId");
+
+                    b.ToTable("PhdProgram");
+                });
+
+            modelBuilder.Entity("PhDSystem.Data.Models.ProfessionalField", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfessionalField");
+                });
 
             modelBuilder.Entity("PhDSystem.Data.Models.Student", b =>
                 {
@@ -30,6 +107,9 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<int>("DegreeId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("FacultyCouncilChosenDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -51,6 +131,11 @@ namespace PhDSystem.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
+                    b.Property<string>("SpecialtyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
                     b.Property<int>("TitleId")
                         .HasColumnType("int");
 
@@ -59,7 +144,27 @@ namespace PhDSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FormOfEducationId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("Student","dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DegreeId = 0,
+                            FacultyCouncilChosenDate = new DateTime(2020, 6, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstName = "Dijana",
+                            FormOfEducationId = 1,
+                            IsDeleted = false,
+                            LastName = "Antovska",
+                            SpecialtyName = "Computer and Software Engineering",
+                            TitleId = 0,
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Models.StudentTeacher", b =>
@@ -107,6 +212,16 @@ namespace PhDSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teacher");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Bill",
+                            IsDeleted = false,
+                            LastName = "Gates",
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Models.User", b =>
@@ -127,9 +242,6 @@ namespace PhDSystem.Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserRoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)")
@@ -137,7 +249,7 @@ namespace PhDSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserRoleId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
 
@@ -202,6 +314,24 @@ namespace PhDSystem.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PhDSystem.Data.Models.PhdProgram", b =>
+                {
+                    b.HasOne("PhDSystem.Data.Models.ProfessionalField", "ProfessionalField")
+                        .WithMany("PhdPrograms")
+                        .HasForeignKey("ProfessionalFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PhDSystem.Data.Models.Student", b =>
+                {
+                    b.HasOne("PhDSystem.Data.Models.FormOfEducation", "FormOfEducation")
+                        .WithMany("Students")
+                        .HasForeignKey("FormOfEducationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PhDSystem.Data.Models.StudentTeacher", b =>
                 {
                     b.HasOne("PhDSystem.Data.Models.Student", "Student")
@@ -221,7 +351,9 @@ namespace PhDSystem.Data.Migrations
                 {
                     b.HasOne("PhDSystem.Data.Models.UserRole", "UserRole")
                         .WithMany("Users")
-                        .HasForeignKey("UserRoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
