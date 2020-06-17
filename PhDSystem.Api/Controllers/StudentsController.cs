@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
-using PhDSystem.Data.Models;
+using PhDSystem.Core.Services.Models;
+using PhDSystem.Data.Entities;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -20,9 +21,9 @@ namespace PhDSystem.Api.Controllers
 
         [HttpPost("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddStudent([FromBody] Student student)
+        public async Task<IActionResult> CreateStudent([FromBody] StudentDetails studentDetails)
         {
-            await _studentService.AddStudentAsync(student);
+            await _studentService.CreateStudentAsync(studentDetails);
             return Ok();
         }
 

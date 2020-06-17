@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Models
+namespace PhDSystem.Data.Entities
 {
     [Table("User")]
     public class User
@@ -12,7 +12,7 @@ namespace PhDSystem.Data.Models
 
         [Required]
         [MaxLength(255)]
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [MaxLength(255)]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.Models;
+using PhDSystem.Core.Services.Models;
+using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,25 @@ namespace PhDSystem.Data.Repositories
             _context = context;
         }
 
-        public async Task AddStudentAsync(Student student)
+        public async Task CreateStudentAsync(StudentDetails studentDetails)
         {
+            var formOfEducation = await _context
+                                        .FormsOfEducation
+                                        .Where(foe => foe.Name.Equals(studentDetails.FormOfEducation))
+                                        .SingleOrDefaultAsync();
+
+            var student = new Student()
+            {
+                UserId = studentDetails.UserId,
+                FirstName = studentDetails.FirstName,
+                MiddleName = studentDetails.MiddleName,
+                LastName = studentDetails.LastName,
+                SpecialtyName = studentDetails.SpecialtyName,
+                FormOfEducationId = formOfEducation.Id,
+                CurrentYear = studentDetails.CurrentYear,
+                FacultyCouncilChosenDate = studentDetails.FacultyCouncilChosenDate,
+            };
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
-using PhDSystem.Data.Models;
+using PhDSystem.Data.Entities;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers

@@ -1,4 +1,4 @@
-﻿using PhDSystem.Data.Models;
+﻿using PhDSystem.Data.Entities;
 
 namespace PhDSystem.Core.Models.IndividualPlans.Request
 {

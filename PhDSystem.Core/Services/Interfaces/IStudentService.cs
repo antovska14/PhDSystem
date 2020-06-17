@@ -1,4 +1,5 @@
-﻿using PhDSystem.Data.Models;
+﻿using PhDSystem.Core.Services.Models;
+using PhDSystem.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IStudentService
     {
-        Task AddStudentAsync(Student student);
+        Task CreateStudentAsync(StudentDetails studentDetails);
         Task DeleteStudentAsync(int studentId);
         Task<Student> GetStudentAsync(int studentId);
         Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId);

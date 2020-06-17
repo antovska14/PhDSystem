@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.Models;
+using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,17 @@ namespace PhDSystem.Data.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUser(string username, string password)
+        public async Task<int> CreateUser(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return user.Id;
+        }
+
+        public async Task<User> GetUser(string email, string password)
         {
             return await _context.Users
-                                 .Where(u => u.Username.ToLower().Equals(username) && u.Password.Equals(password))
+                                 .Where(u => u.Email.ToLower().Equals(email) && u.Password.Equals(password))
                                  .FirstOrDefaultAsync();
         }
 

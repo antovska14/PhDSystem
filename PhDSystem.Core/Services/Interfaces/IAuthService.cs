@@ -1,5 +1,5 @@
 ﻿using PhDSystem.Core.Models;
-using PhDSystem.Data.Models;
+using PhDSystem.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

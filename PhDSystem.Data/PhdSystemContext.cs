@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhDSystem.Data.Models;
+using PhDSystem.Data.Entities;
 using System;
 
 namespace PhDSystem.Data
@@ -31,14 +31,14 @@ namespace PhDSystem.Data
 
             modelBuilder.Entity<User>()
                 .HasData(
-                    new User() { Id = 1, Username = "admin", Password = "admin", RoleId = 1 },
-                    new User() { Id = 2, Username = "student", Password = "student", RoleId = 2 },
-                    new User() { Id = 3, Username = "supervisor", Password = "supervisor", RoleId = 3 }
+                    new User() { Id = 1, Email = "admin@gmail.com", Password = "admin", RoleId = 1 },
+                    new User() { Id = 2, Email = "student@gmail.com", Password = "student", RoleId = 2 },
+                    new User() { Id = 3, Email = "supervisor@gmail.com", Password = "supervisor", RoleId = 3 }
                 );
 
             modelBuilder.Entity<FormOfEducation>()
                 .HasData(
-                    new FormOfEducation() { Id = 1, Name = "Regular", YearsCount = 3 },
+                    new FormOfEducation() { Id = 1, Name = "FullTime", YearsCount = 3 },
                     new FormOfEducation() { Id = 2, Name = "Distance", YearsCount = 4 },
                     new FormOfEducation() { Id = 3, Name = "Free", YearsCount = 3 }
                 );

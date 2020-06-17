@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Models
+namespace PhDSystem.Data.Entities
 {
     [Table("StudentTeacher")]
     public class StudentTeacher

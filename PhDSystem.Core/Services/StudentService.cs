@@ -1,5 +1,6 @@
 ﻿using PhDSystem.Core.Services.Interfaces;
-using PhDSystem.Data.Models;
+using PhDSystem.Core.Services.Models;
+using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,15 +10,22 @@ namespace PhDSystem.Core.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IUserRepository _userRepository;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository)
         {
             _studentRepository = studentRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task AddStudentAsync(Student student)
+        public async Task CreateStudentAsync(StudentDetails studentDetails)
         {
-            await _studentRepository.AddStudentAsync(student);
+            var password = studentDetails.Email.Split('@')[0];
+            var user = new User() { Email = studentDetails.Email, Password = password, RoleId = 2 };
+            var userId = await _userRepository.CreateUser(user);
+
+            studentDetails.UserId = userId;
+            await _studentRepository.CreateStudentAsync(studentDetails);
         }
 
         public async Task DeleteStudentAsync(int studentId)

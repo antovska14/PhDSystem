@@ -2,19 +2,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Models
+namespace PhDSystem.Data.Entities
 {
-    [Table("ProfessionalField")]
-    public class ProfessionalField
+    [Table("UserRole")]
+    public class UserRole
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
-        public ICollection<PhdProgram> PhdPrograms { get; set; } = new List<PhdProgram>();
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
 }

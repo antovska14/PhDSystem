@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Models
+namespace PhDSystem.Data.Entities
 {
-    [Table("Department")]
-    public class Department
+    [Table("Faculty")]
+    public class Faculty
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

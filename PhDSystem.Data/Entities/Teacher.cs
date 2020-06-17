@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Models
+namespace PhDSystem.Data.Entities
 {
-    [Table("Student", Schema = "dbo")]
-    public class Student
+    [Table("Teacher")]
+    public class Teacher
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int UserId { get; set; }
 
         [Required]
@@ -24,22 +24,6 @@ namespace PhDSystem.Data.Models
         [Required]
         [MaxLength(255)]
         public string LastName { get; set; }
-
-        [Required]
-        public int FormOfEducationId { get; set; }
-
-        public FormOfEducation FormOfEducation { get; set; }
-
-        [Required]
-        [MaxLength(255)]
-        public string SpecialtyName { get; set; }
-
-        [Required]
-        public DateTime FacultyCouncilChosenDate { get; set; }
-
-        public int TitleId { get; set; }
-        
-        public int DegreeId { get; set; }
 
         public bool IsDeleted { get; set; }
 
