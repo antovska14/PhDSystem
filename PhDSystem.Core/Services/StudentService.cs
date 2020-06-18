@@ -25,9 +25,6 @@ namespace PhDSystem.Core.Services
             var user = new User() { Email = studentDetails.Email, Password = password, RoleId = 2 };
             var userId = await _userRepository.CreateUser(user);
 
-            FormOfEducationConstants.FormOfEducationBgToEn.TryGetValue(studentDetails.FormOfEducation, out var formOfEducation);
-            studentDetails.FormOfEducation = formOfEducation;
-
             studentDetails.UserId = userId;
             await _studentRepository.CreateStudentAsync(studentDetails);
         }
@@ -54,8 +51,9 @@ namespace PhDSystem.Core.Services
 
         public async Task UpdateStudentAsync(int studentId, StudentDetails studentDetails)
         {
-            var user = new User() { Email = studentDetails.Email };
+            var user = new User() { Id = studentDetails.UserId, Email = studentDetails.Email };
             await _userRepository.UpdateUser(user);
+
             await _studentRepository.UpdateStudentAsync(studentId, studentDetails);
         }
     }

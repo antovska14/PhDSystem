@@ -69,13 +69,15 @@ namespace PhDSystem.Data.Repositories
                 .Where(s => s.Id == studentId && s.IsDeleted == false)
                 .SingleOrDefaultAsync();
 
+            var user = await _context.Users.Where(u => u.Id == student.UserId).SingleOrDefaultAsync();
+
             var formOfEducation = await _context.FormsOfEducation
                                  .Where(foe => foe.Id.Equals(student.FormOfEducationId))
                                  .SingleOrDefaultAsync();
 
             var teachers = await (from t in _context.Teachers
                                   join st in _context.StudentTeachers on t.Id equals st.TeacherId
-                                  where st.StudentId == studentId
+                                  where st.StudentId == studentId && t.IsDeleted == false
                                   select new TeacherDetails()
                                   {
                                       Id = t.Id,
@@ -87,9 +89,11 @@ namespace PhDSystem.Data.Repositories
             return new StudentDetails()
             {
                 Id = student.Id,
+                UserId = user.Id,
                 FirstName = student.FirstName,
                 MiddleName = student.MiddleName,
                 LastName = student.LastName,
+                Email = user.Email,
                 SpecialtyName = student.SpecialtyName,
                 FormOfEducation = formOfEducation.Name,
                 CurrentYear = student.CurrentYear,

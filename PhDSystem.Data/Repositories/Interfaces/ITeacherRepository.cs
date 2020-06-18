@@ -9,8 +9,8 @@ namespace PhDSystem.Data.Repositories.Interfaces
     {
         Task CreateTeacherAsync(TeacherDetails teacherDetails);
         Task DeleteTeacherAsync(int teacherId);
-        Task<Teacher> GetTeacherAsync(int teacherId);
-        Task<IEnumerable<Teacher>> GetTeachersAsync();
+        Task<TeacherDetails> GetTeacherAsync(int teacherId);
+        Task<IEnumerable<TeacherDetails>> GetTeachersAsync();
         Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails);
     }
 }

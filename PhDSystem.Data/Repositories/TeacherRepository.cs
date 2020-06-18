@@ -25,7 +25,7 @@ namespace PhDSystem.Data.Repositories
                 MiddleName = teacherDetails.MiddleName,
                 LastName = teacherDetails.LastName,
                 UserId = teacherDetails.UserId
-            }; 
+            };
 
             _context.Teachers.Add(teacher);
             await _context.SaveChangesAsync();
@@ -45,14 +45,37 @@ namespace PhDSystem.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Teacher> GetTeacherAsync(int teacherId)
+        public async Task<TeacherDetails> GetTeacherAsync(int teacherId)
         {
-            return await _context.Teachers.Where(t => t.Id == teacherId && t.IsDeleted == false).SingleOrDefaultAsync();
+            var teacher = await (from t in _context.Teachers
+                                  where t.Id == teacherId && t.IsDeleted == false
+                                  select new TeacherDetails()
+                                  {
+                                      Id = t.Id,
+                                      FirstName = t.FirstName,
+                                      MiddleName = t.MiddleName,
+                                      LastName = t.LastName,
+                                  }).SingleOrDefaultAsync();
+
+            return teacher;
         }
 
-        public async Task<IEnumerable<Teacher>> GetTeachersAsync()
+        public async Task<IEnumerable<TeacherDetails>> GetTeachersAsync()
         {
-            return await _context.Teachers.Where(t => t.IsDeleted == false).ToListAsync();
+            var teachers = await (from t in _context.Teachers
+                                  join u in _context.Users on t.UserId equals u.Id
+                                  where t.IsDeleted == false
+                                  select new TeacherDetails()
+                                  {
+                                      Id = t.Id,
+                                      UserId = u.Id,
+                                      FirstName = t.FirstName,
+                                      MiddleName = t.MiddleName,
+                                      LastName = t.LastName,
+                                      Email = u.Email
+                                  }).ToListAsync();
+
+            return teachers;
         }
 
         public async Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails)

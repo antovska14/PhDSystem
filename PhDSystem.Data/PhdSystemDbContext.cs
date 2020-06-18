@@ -38,9 +38,9 @@ namespace PhDSystem.Data
 
             modelBuilder.Entity<FormOfEducation>()
                 .HasData(
-                    new FormOfEducation() { Id = 1, Name = "FullTime", YearsCount = 3 },
-                    new FormOfEducation() { Id = 2, Name = "Distance", YearsCount = 4 },
-                    new FormOfEducation() { Id = 3, Name = "Free", YearsCount = 3 }
+                    new FormOfEducation() { Id = 1, Name = "редовна", YearsCount = 3 },
+                    new FormOfEducation() { Id = 2, Name = "задочна", YearsCount = 4 },
+                    new FormOfEducation() { Id = 3, Name = "свободна", YearsCount = 3 }
                 );
 
             modelBuilder.Entity<Student>().HasIndex(s => s.UserId).IsUnique();

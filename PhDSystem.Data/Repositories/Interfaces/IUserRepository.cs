@@ -9,6 +9,7 @@ namespace PhDSystem.Data.Repositories.Interfaces
         Task<int> CreateUser(User user);
         Task DeleteUser(int userId);
         Task<User> GetUser(string email, string password);
+        Task<User> GetUser(int userId);
         Task<UserRole> GetUserRole(int userId);
         Task UpdateUser(User user);
     }

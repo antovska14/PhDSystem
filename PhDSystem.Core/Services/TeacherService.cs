@@ -33,12 +33,12 @@ namespace PhDSystem.Core.Services
             await _teacherRepository.DeleteTeacherAsync(teacherId);
         }
 
-        public async Task<Teacher> GetTeacherAsync(int teacherId)
+        public async Task<TeacherDetails> GetTeacherAsync(int teacherId)
         {
             return await _teacherRepository.GetTeacherAsync(teacherId);
         }
 
-        public async Task<IEnumerable<Teacher>> GetTeachersAsync()
+        public async Task<IEnumerable<TeacherDetails>> GetTeachersAsync()
         {
             return await _teacherRepository.GetTeachersAsync();
         }

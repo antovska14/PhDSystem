@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Core.Services.Models;
-using PhDSystem.Data.Entities;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -58,11 +57,11 @@ namespace PhDSystem.Api.Controllers
             return Ok(students);
         }
 
-        [HttpPut("{studentId}")]
+        [HttpPut("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put(int studentId, [FromBody] StudentDetails studentDetails)
+        public async Task<IActionResult> Put([FromBody] StudentDetails studentDetails)
         {
-            await _studentService.UpdateStudentAsync(studentId, studentDetails);
+            await _studentService.UpdateStudentAsync(studentDetails.Id, studentDetails);
             return Ok();
         }
     }

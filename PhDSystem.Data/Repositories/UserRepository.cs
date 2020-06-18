@@ -37,6 +37,13 @@ namespace PhDSystem.Data.Repositories
                                  .FirstOrDefaultAsync();
         }
 
+        public async Task<User> GetUser(int userId)
+        {
+            return await _context.Users
+                                 .Where(u => u.Id == userId)
+                                 .FirstOrDefaultAsync();
+        }
+
         public async Task<UserRole> GetUserRole(int userId)
         {
             return await (from u in _context.Users 
