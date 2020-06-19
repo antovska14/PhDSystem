@@ -1,4 +1,5 @@
-﻿using MimeKit;
+﻿using Microsoft.AspNetCore.Http;
+using MimeKit;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
@@ -10,9 +11,10 @@ namespace PhDSystem.Api.Managers
 {
     public class FileManager : IFileManager
     {
-        public async Task<FileModel> GetFileAsync(string bucketName, string folderName, string fileName)
+        public async Task<FileModel> GetFileAsync(string[] folders, string fileName)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, bucketName, folderName, fileName);
+            string foldersPath = Path.Combine(folders);
+            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath, fileName);
             using (var fileStream = File.OpenRead(filePath))
             {
                 MemoryStream fileMemoryStream = new MemoryStream();
@@ -25,6 +27,16 @@ namespace PhDSystem.Api.Managers
                     FileContent = fileMemoryStream,
                     ContentType = MimeTypes.GetMimeType(fileName)
                 };
+            }
+        }
+
+        public async Task StoreFileAsync(string[] folders, IFormFile file)
+        {
+            string foldersPath = Path.Combine(folders);
+            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath, file.FileName);
+            using (var fileStream = File.Create(filePath))
+            {
+                await file.CopyToAsync(fileStream);
             }
         }
     }

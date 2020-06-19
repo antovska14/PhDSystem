@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Managers;
 using PhDSystem.Api.Services;
+using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services;
@@ -15,6 +18,8 @@ using PhDSystem.Data;
 using PhDSystem.Data.Repositories;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PhDSystem.Api
@@ -70,6 +75,7 @@ namespace PhDSystem.Api
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IStudentFileRepository, StudentFileRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IDocumentService, DocumentService>();
@@ -96,6 +102,12 @@ namespace PhDSystem.Api
             app.UseCors(options => options.WithOrigins("http://localhost:4200")
                                           .AllowAnyMethod()
                                           .AllowAnyHeader());
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder)),
+                RequestPath = new PathString($"/{FileConstants.RootFolder}")
+            }); ;
 
             app.UseAuthentication();
             app.UseAuthorization();

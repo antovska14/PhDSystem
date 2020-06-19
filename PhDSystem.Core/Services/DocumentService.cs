@@ -1,4 +1,5 @@
-﻿using NetModular.DocX.Core;
+﻿using Microsoft.AspNetCore.Http;
+using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
@@ -24,6 +25,11 @@ namespace PhDSystem.Api.Services
         {
             _fileManager = fileManager;
             _studentData = studentData;
+        }
+
+        public async Task FileUpload(IFormFile file)
+        {
+            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder }, file);
         }
 
         public async Task<FileModel> GetIndividualPlan()
@@ -54,7 +60,7 @@ namespace PhDSystem.Api.Services
             };
 
             var individualPlanKeywords = GetIndividualPlanKeywords(request);
-            var templateFile = await _fileManager.GetFileAsync(FileConstants.TemplatesFolder, string.Empty, FileConstants.IndividualPlanTemplate);
+            var templateFile = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.IndividualPlanTemplate);
             var templateFileStream = templateFile.FileContent;
 
 

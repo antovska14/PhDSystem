@@ -73,5 +73,7 @@ namespace PhDSystem.Data
         public virtual DbSet<PhdProgram> PhdPrograms { get; set; }
 
         public virtual DbSet<ProfessionalField> ProfessionalFields { get; set; }
+
+        public virtual DbSet<StudentFile> StudentFiles { get; set; }
     }
 }

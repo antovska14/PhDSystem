@@ -78,7 +78,7 @@ namespace PhDSystem.Data.Repositories
                                             FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
                                             Teachers = (from st in _context.StudentTeachers
                                                         join t in _context.Teachers on st.TeacherId equals t.Id
-                                                        where st.StudentId == s.Id
+                                                        where st.StudentId == s.Id && t.IsDeleted == false
                                                         select new TeacherDetails 
                                                         {
                                                             Id = t.Id,
