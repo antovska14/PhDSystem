@@ -12,6 +12,12 @@
 
         public string LastName { get; set; }
 
+        public string Degree { get; set; }
+
+        public string Title { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public string Email { get; set; }
     }
 }

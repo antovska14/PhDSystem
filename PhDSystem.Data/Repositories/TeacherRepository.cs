@@ -24,7 +24,9 @@ namespace PhDSystem.Data.Repositories
                 FirstName = teacherDetails.FirstName,
                 MiddleName = teacherDetails.MiddleName,
                 LastName = teacherDetails.LastName,
-                UserId = teacherDetails.UserId
+                UserId = teacherDetails.UserId,
+                Title = teacherDetails.Title,
+                Degree = teacherDetails.Degree,
             };
 
             _context.Teachers.Add(teacher);
@@ -48,13 +50,18 @@ namespace PhDSystem.Data.Repositories
         public async Task<TeacherDetails> GetTeacherAsync(int teacherId)
         {
             var teacher = await (from t in _context.Teachers
+                                 join u in _context.Users on t.UserId equals u.Id
                                   where t.Id == teacherId && t.IsDeleted == false
                                   select new TeacherDetails()
                                   {
                                       Id = t.Id,
+                                      UserId = u.Id,
                                       FirstName = t.FirstName,
                                       MiddleName = t.MiddleName,
                                       LastName = t.LastName,
+                                      Email = u.Email,
+                                      Title = t.Title,
+                                      Degree = t.Degree,
                                   }).SingleOrDefaultAsync();
 
             return teacher;
@@ -72,7 +79,9 @@ namespace PhDSystem.Data.Repositories
                                       FirstName = t.FirstName,
                                       MiddleName = t.MiddleName,
                                       LastName = t.LastName,
-                                      Email = u.Email
+                                      Email = u.Email,
+                                      Title = t.Title,
+                                      Degree = t.Degree,
                                   }).ToListAsync();
 
             return teachers;
@@ -84,6 +93,8 @@ namespace PhDSystem.Data.Repositories
             existingTeacher.FirstName = teacherDetails.FirstName;
             existingTeacher.MiddleName = teacherDetails.MiddleName;
             existingTeacher.LastName = teacherDetails.LastName;
+            existingTeacher.Degree = teacherDetails.Degree;
+            existingTeacher.Title = teacherDetails.Title;
             await _context.SaveChangesAsync();
         }
     }

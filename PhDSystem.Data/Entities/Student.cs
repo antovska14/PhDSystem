@@ -40,10 +40,6 @@ namespace PhDSystem.Data.Entities
         [Required]
         public DateTime FacultyCouncilChosenDate { get; set; }
 
-        public int TitleId { get; set; }
-        
-        public int DegreeId { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public ICollection<StudentTeacher> StudentTeachers { get; set; } = new List<StudentTeacher>();

@@ -20,7 +20,6 @@ namespace PhDSystem.Data.Repositories
 
         public async Task CreateStudentAsync(StudentDetails studentDetails)
         {
-            //Add student
             var formOfEducation = await GetFormOfEducationAsync(studentDetails.FormOfEducation);
             var student = new Student()
             {
@@ -34,17 +33,13 @@ namespace PhDSystem.Data.Repositories
                 FacultyCouncilChosenDate = studentDetails.FacultyCouncilChosenDate,
             };
 
+            // Add student and save, so the student id is created
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            //Assign supervisors
+            // Assign supervisors
             var teacherIds = studentDetails.Teachers.Select(t => t.Id).ToArray();
-
-            foreach (var teacherId in teacherIds)
-            {
-                var studentTeacherRecord = new StudentTeacher() { StudentId = student.Id, TeacherId = teacherId };
-                _context.StudentTeachers.Add(studentTeacherRecord);
-            }
+            AddStudentTeacherRecordsForStudent(teacherIds, student.Id);
 
             await _context.SaveChangesAsync();
         }
@@ -65,41 +60,37 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<StudentDetails> GetStudentAsync(int studentId)
         {
-            var student = await _context.Students
-                .Where(s => s.Id == studentId && s.IsDeleted == false)
-                .SingleOrDefaultAsync();
+            var studentDetails = await (from s in _context.Students
+                                        join foe in _context.FormsOfEducation on s.FormOfEducationId equals foe.Id
+                                        join u in _context.Users on s.UserId equals u.Id
+                                        where s.Id == studentId
+                                        select new StudentDetails 
+                                        {
+                                            Id = s.Id,
+                                            UserId = u.Id,
+                                            FirstName = s.FirstName,
+                                            MiddleName = s.MiddleName,
+                                            LastName = s.LastName,
+                                            Email = u.Email,
+                                            SpecialtyName = s.SpecialtyName,
+                                            FormOfEducation = foe.Name,
+                                            CurrentYear = s.CurrentYear,
+                                            FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
+                                            Teachers = (from st in _context.StudentTeachers
+                                                        join t in _context.Teachers on st.TeacherId equals t.Id
+                                                        where st.StudentId == s.Id
+                                                        select new TeacherDetails 
+                                                        {
+                                                            Id = t.Id,
+                                                            FirstName = t.FirstName,
+                                                            MiddleName = t.MiddleName,
+                                                            LastName = t.LastName,
+                                                            Degree = t.Degree,
+                                                            Title = t.Title
+                                                        }).ToList()
+                                        }).SingleOrDefaultAsync();
 
-            var user = await _context.Users.Where(u => u.Id == student.UserId).SingleOrDefaultAsync();
-
-            var formOfEducation = await _context.FormsOfEducation
-                                 .Where(foe => foe.Id.Equals(student.FormOfEducationId))
-                                 .SingleOrDefaultAsync();
-
-            var teachers = await (from t in _context.Teachers
-                                  join st in _context.StudentTeachers on t.Id equals st.TeacherId
-                                  where st.StudentId == studentId && t.IsDeleted == false
-                                  select new TeacherDetails()
-                                  {
-                                      Id = t.Id,
-                                      FirstName = t.FirstName,
-                                      MiddleName = t.MiddleName,
-                                      LastName = t.LastName,
-                                  }).ToListAsync();
-
-            return new StudentDetails()
-            {
-                Id = student.Id,
-                UserId = user.Id,
-                FirstName = student.FirstName,
-                MiddleName = student.MiddleName,
-                LastName = student.LastName,
-                Email = user.Email,
-                SpecialtyName = student.SpecialtyName,
-                FormOfEducation = formOfEducation.Name,
-                CurrentYear = student.CurrentYear,
-                FacultyCouncilChosenDate = student.FacultyCouncilChosenDate,
-                Teachers = teachers
-            };
+            return studentDetails;
         }
 
         public async Task<IEnumerable<Student>> GetStudentsAsync()
@@ -130,6 +121,11 @@ namespace PhDSystem.Data.Repositories
             existingStudent.FormOfEducationId = formOfEducation.Id;
             existingStudent.CurrentYear = studentDetails.CurrentYear;
 
+            await RemoveStudentTeacherRecords(studentId);
+
+            var teacherIds = studentDetails.Teachers.Select(t => t.Id).ToArray();
+            AddStudentTeacherRecordsForStudent(teacherIds, studentId);
+
             await _context.SaveChangesAsync();
         }
 
@@ -138,6 +134,25 @@ namespace PhDSystem.Data.Repositories
             return await _context.FormsOfEducation
                                  .Where(foe => foe.Name.Equals(formOfEducationName))
                                  .SingleOrDefaultAsync();
+        }
+
+        private async Task RemoveStudentTeacherRecords(int studentId)
+        {
+            var teacherStudentRecords = await _context.StudentTeachers.Where(st => st.StudentId == studentId).ToListAsync();
+            foreach (var ts in teacherStudentRecords)
+            {
+                _context.StudentTeachers.Remove(ts);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        private void AddStudentTeacherRecordsForStudent(int[] teacherIds, int studentId)
+        {
+            foreach(var teacherId in teacherIds)
+            {
+                _context.StudentTeachers.Add(new StudentTeacher() { StudentId = studentId, TeacherId = teacherId });
+            }
         }
     }
 }

@@ -53,7 +53,6 @@ namespace PhDSystem.Core.Services
         {
             var user = new User() { Id = studentDetails.UserId, Email = studentDetails.Email };
             await _userRepository.UpdateUser(user);
-
             await _studentRepository.UpdateStudentAsync(studentId, studentDetails);
         }
     }

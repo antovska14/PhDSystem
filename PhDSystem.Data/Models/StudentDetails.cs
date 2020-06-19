@@ -32,6 +32,6 @@ namespace PhDSystem.Core.Services.Models
 
         public int DegreeId { get; set; }
 
-        public IEnumerable<TeacherDetails> Teachers { get; set; }
+        public IEnumerable<TeacherDetails> Teachers { get; set; } = new List<TeacherDetails>();
     }
 }

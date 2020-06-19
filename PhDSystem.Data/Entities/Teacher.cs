@@ -25,6 +25,10 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string LastName { get; set; }
 
+        public string Title { get; set; }
+
+        public string Degree { get; set; }
+
         public bool IsDeleted { get; set; }
 
         public ICollection<StudentTeacher> StudentTeachers { get; set; } = new List<StudentTeacher>();
