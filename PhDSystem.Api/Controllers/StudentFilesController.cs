@@ -12,19 +12,26 @@ namespace PhDSystem.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class DocumentsController : ControllerBase
+    public class StudentFilesController : ControllerBase
     {
-        private readonly IDocumentService _documentService;
+        private readonly IStudentFileService _documentService;
 
-        public DocumentsController(IDocumentService documentService)
+        public StudentFilesController(IStudentFileService documentService)
         {
             _documentService = documentService;
         }
 
-        [HttpGet("export/{studentId}/{year}/{documentType}"), DisableRequestSizeLimit]
-        public async Task<IActionResult> ExportStudentDocument(int studentId, int year, int documentType)
+        [HttpGet("export/{studentId}/{documentType}/"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ExportStudentFile(int studentId, int year, int documentType)
         {
-            var resultFile = await _documentService.ExportStudentDocument((DocumentType)documentType, studentId, year);
+            var resultFile = await _documentService.ExportStudentFile((StudentFileType)documentType, studentId, year);
+            return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
+        }
+
+        [HttpGet("export/{studentId}/{documentType}/{year}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ExportStudentFileForYear(int studentId, int documentType, int year)
+        {
+            var resultFile = await _documentService.ExportStudentFile((StudentFileType)documentType, studentId, year);
             return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
         }
 

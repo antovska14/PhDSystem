@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Services
 {
-    public class DocumentService : IDocumentService
+    public class StudentFileService : IStudentFileService
     {
         private readonly IFileManager _fileManager;
         private readonly IStudentRepository _studentData;
         private readonly IStudentFileRepository _studentFileRepository;
 
-        public DocumentService(IFileManager fileManager, IStudentRepository studentData, IStudentFileRepository studentFileRepository)
+        public StudentFileService(IFileManager fileManager, IStudentRepository studentData, IStudentFileRepository studentFileRepository)
         {
             _fileManager = fileManager;
             _studentData = studentData;
@@ -39,11 +39,11 @@ namespace PhDSystem.Api.Services
             await _studentFileRepository.DeleteStudentFileRecord(studentId, fileGroup, fileName);
         }
 
-        public async Task<FileModel> ExportStudentDocument(DocumentType documentType, int studentId, int year)
+        public async Task<FileModel> ExportStudentFile(StudentFileType documentType, int studentId, int year)
         {
             FileModel fileResult = null;
 
-            if(documentType == DocumentType.IndividualPlan)
+            if(documentType == StudentFileType.IndividualPlan)
             {
                 fileResult = await GetIndividualPlan(studentId);
             }
@@ -106,7 +106,7 @@ namespace PhDSystem.Api.Services
             var templateFileStream = templateFile.FileContent;
 
 
-            string resultFileName = "Individual_Plan.docx";
+            string resultFileName = "IndividualPlan.docx";
             string resultFilePath = Path.Combine(Environment.CurrentDirectory, "Files", FileConstants.UserFilesFolder, studentId.ToString(), resultFileName);
 
             using (var document = DocX.Load(templateFileStream))

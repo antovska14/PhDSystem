@@ -78,7 +78,7 @@ namespace PhDSystem.Api
             services.AddScoped<IStudentFileRepository, StudentFileRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<IStudentFileService, StudentFileService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IFileManager, FileManager>();

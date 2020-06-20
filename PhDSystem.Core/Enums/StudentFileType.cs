@@ -1,6 +1,6 @@
 ﻿namespace PhDSystem.Core.Enums
 {
-    public enum DocumentType
+    public enum StudentFileType
     {
         IndividualPlan = 1,
         Attestation = 2,

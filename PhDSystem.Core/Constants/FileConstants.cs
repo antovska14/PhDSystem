@@ -8,7 +8,7 @@
 
         public static string UserFilesFolder = "UserFiles";
 
-        public static string IndividualPlanTemplate = "Individual Plan.docx";
+        public static string IndividualPlanTemplate = "IndividualPlan.docx";
 
         public static string AttestationTemplate = "Attestation.docx";
 
