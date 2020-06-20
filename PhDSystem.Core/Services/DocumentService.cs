@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
+using PhDSystem.Core.Enums;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Models.IndividualPlans.Request;
@@ -20,24 +21,60 @@ namespace PhDSystem.Api.Services
     {
         private readonly IFileManager _fileManager;
         private readonly IStudentRepository _studentData;
+        private readonly IStudentFileRepository _studentFileRepository;
 
-        public DocumentService(IFileManager fileManager, IStudentRepository studentData)
+        public DocumentService(IFileManager fileManager, IStudentRepository studentData, IStudentFileRepository studentFileRepository)
         {
             _fileManager = fileManager;
             _studentData = studentData;
+            _studentFileRepository = studentFileRepository;
         }
 
-        public void DeleteStudentFile(int studentId, string fileName)
+        public async Task DeleteStudentFile(string fileName, int studentId, int year)
         {
-            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, studentId.ToString() }, fileName);
+            string fileGroup = GetFileGroup(year);
+
+            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, fileGroup }, fileName);
+
+            await _studentFileRepository.DeleteStudentFileRecord(studentId, fileGroup, fileName);
         }
 
-        public async Task FileUpload(IFormFile file)
+        public async Task<FileModel> ExportStudentDocument(DocumentType documentType, int studentId, int year)
         {
-            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder }, file);
+            FileModel fileResult = null;
+
+            if(documentType == DocumentType.IndividualPlan)
+            {
+                fileResult = await GetIndividualPlan(studentId);
+            }
+
+            return fileResult;
         }
 
-        public async Task<FileModel> GetIndividualPlan()
+        public async Task UploadStudentFile(IFormFile file, int studentId, int year)
+        {
+            string fileGroup = GetFileGroup(year);
+
+            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, fileGroup }, file);
+
+            await _studentFileRepository.CreateStudentFileRecord(studentId, fileGroup, file.FileName);
+        }
+
+        public async Task<FileModel> DownloadStudentFile(string fileName, int studentId, int year)
+        {
+            string fileGroup = GetFileGroup(year);
+
+            var resultFile = await _fileManager.GetFileAsync(new string[] { FileConstants.UserFilesFolder, fileGroup }, fileName);
+
+            return resultFile;
+        }
+
+        private string GetFileGroup(int year)
+        {
+            return year == 0 ? year.ToString() : FileConstants.GeneralFolder;
+        }
+
+        private async Task<FileModel> GetIndividualPlan(int studentId)
         {
             var students = await _studentData.GetStudentsAsync();
 
@@ -70,7 +107,7 @@ namespace PhDSystem.Api.Services
 
 
             string resultFileName = "Individual_Plan.docx";
-            string resultFilePath = Path.Combine(Environment.CurrentDirectory, "Files", FileConstants.UserFilesFolder, FileConstants.UserFolder, resultFileName);
+            string resultFilePath = Path.Combine(Environment.CurrentDirectory, "Files", FileConstants.UserFilesFolder, studentId.ToString(), resultFileName);
 
             using (var document = DocX.Load(templateFileStream))
             {
@@ -98,11 +135,6 @@ namespace PhDSystem.Api.Services
 
                 return fileModel;
             }
-        }
-
-        public async Task StudentFileUpload(int studentId, IFormFile file)
-        {
-            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString() }, file);
         }
 
         private IDictionary<string, string> GetIndividualPlanKeywords(IndividualPlanRequestModel data)

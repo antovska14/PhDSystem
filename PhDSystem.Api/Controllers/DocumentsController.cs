@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
+using PhDSystem.Core.Enums;
+using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -20,50 +21,57 @@ namespace PhDSystem.Api.Controllers
             _documentService = documentService;
         }
 
-        [HttpGet("export")]
-        public async Task<IActionResult> ExportFile()
+        [HttpGet("export/{studentId}/{year}/{documentType}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> ExportStudentDocument(int studentId, int year, int documentType)
         {
-            var result = await _documentService.GetIndividualPlan();
-            var response = File(((MemoryStream)result.FileContent).ToArray(), MimeTypes.GetMimeType(result.FileName), result.FileName);
-            return response;
+            var resultFile = await _documentService.ExportStudentDocument((DocumentType)documentType, studentId, year);
+            return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
         }
 
-        [HttpPost("upload"), DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile()
+        [HttpPost("download/{studentId}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> DownloadStudentFile([FromBody] FileInfoModel file, int studentId)
         {
-            try
-            {
-                var file = Request.Form.Files[0];
-                await _documentService.FileUpload(file);
-            }
-            catch(Exception e)
-            {
-                return StatusCode(500, $"Internal Server error: {e}");
-            }
+            var resultFile = await _documentService.DownloadStudentFile(file.FileName, studentId);
+            return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
+        }
+
+        [HttpPost("download/{studentId}/{year}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> DownloadStudentFileForYear([FromBody] FileInfoModel file, int studentId, int year)
+        {
+            var resultFile = await _documentService.DownloadStudentFile(file.FileName, studentId, year);
+            return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
+        }
+
+        [HttpPost("upload/{studentId}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadStudentFile(int studentId)
+        {
+            var file = Request.Form.Files[0];
+            await _documentService.UploadStudentFile(file, studentId);
 
             return Ok();
         }
 
-        [HttpPost("upload/{studentId}"), DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFileForStudent(int studentId)
+        [HttpPost("upload/{studentId}/{year}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadStudentFileForYear(int studentId, int year)
         {
-            try
-            {
-                var file = Request.Form.Files[0];
-                await _documentService.StudentFileUpload(studentId, file);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, $"Internal Server error: {e}");
-            }
+            var file = Request.Form.Files[0];
+            await _documentService.UploadStudentFile(file, studentId, year);
 
             return Ok();
         }
 
         [HttpDelete("delete/{studentId}"), DisableRequestSizeLimit]
-        public IActionResult DeleteFileForStudent([FromBody] TemporaryFileModel fileModel, int studentId)
+        public async Task<IActionResult> DeleteStudentFile([FromBody] FileInfoModel fileModel, int studentId)
         {
-            _documentService.DeleteStudentFile(studentId, fileModel.FileName);
+            await _documentService.DeleteStudentFile(fileModel.FileName, studentId);
+
+            return Ok();
+        }
+
+        [HttpDelete("delete/{studentId}/{year}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> DeleteStudentFileForYear([FromBody] FileInfoModel fileModel, int studentId, int year)
+        {
+            await _documentService.DeleteStudentFile(fileModel.FileName, studentId, year);
 
             return Ok();
         }

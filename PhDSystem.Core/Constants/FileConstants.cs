@@ -14,8 +14,6 @@
 
         public static string AnnotationTemplate = "Annotation.docx";
 
-        public static string UserFolder = "1";
-
-        public static string MyProperty { get; set; }
+        public static string GeneralFolder = "General";
     }
 }
