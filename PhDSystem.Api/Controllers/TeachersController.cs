@@ -48,11 +48,11 @@ namespace PhDSystem.Api.Controllers
             return Ok(teachers);
         }
 
-        [HttpPut("{teacherId}")]
+        [HttpPut("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put(int teacherId, [FromBody] TeacherDetails teacherDetails)
+        public async Task<IActionResult> Put([FromBody] TeacherDetails teacherDetails)
         {
-            await _teacherService.UpdateTeacherAsync(teacherId, teacherDetails);
+            await _teacherService.UpdateTeacherAsync(teacherDetails.Id, teacherDetails);
             return Ok();
         }
     }

@@ -45,7 +45,7 @@ namespace PhDSystem.Core.Services
 
         public async Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails)
         {
-            var user = new User() { Email = teacherDetails.Email };
+            var user = new User() { Id = teacherDetails.UserId, Email = teacherDetails.Email };
             await _userRepository.UpdateUser(user);
             await _teacherRepository.UpdateTeacherAsync(teacherId, teacherDetails);
         }
