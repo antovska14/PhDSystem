@@ -43,5 +43,29 @@ namespace PhDSystem.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost("upload/{studentId}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadFileForStudent(int studentId)
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                await _documentService.StudentFileUpload(studentId, file);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, $"Internal Server error: {e}");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("delete/{studentId}"), DisableRequestSizeLimit]
+        public IActionResult DeleteFileForStudent([FromBody] TemporaryFileModel fileModel, int studentId)
+        {
+            _documentService.DeleteStudentFile(studentId, fileModel.FileName);
+
+            return Ok();
+        }
     }
 }

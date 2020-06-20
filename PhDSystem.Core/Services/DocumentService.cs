@@ -27,6 +27,11 @@ namespace PhDSystem.Api.Services
             _studentData = studentData;
         }
 
+        public void DeleteStudentFile(int studentId, string fileName)
+        {
+            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, studentId.ToString() }, fileName);
+        }
+
         public async Task FileUpload(IFormFile file)
         {
             await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder }, file);
@@ -93,6 +98,11 @@ namespace PhDSystem.Api.Services
 
                 return fileModel;
             }
+        }
+
+        public async Task StudentFileUpload(int studentId, IFormFile file)
+        {
+            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString() }, file);
         }
 
         private IDictionary<string, string> GetIndividualPlanKeywords(IndividualPlanRequestModel data)

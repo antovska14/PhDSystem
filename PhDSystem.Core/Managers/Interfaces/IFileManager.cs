@@ -9,5 +9,7 @@ namespace PhDSystem.Core.Managers.Interfaces
         Task<FileModel> GetFileAsync(string[] folders, string fileName);
 
         Task StoreFileAsync(string[] folders, IFormFile fileName);
+
+        void DeleteFile(string[] folders, string fileName);
     }
 }

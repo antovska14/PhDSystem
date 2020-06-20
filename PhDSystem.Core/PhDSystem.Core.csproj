@@ -16,8 +16,4 @@
     <ProjectReference Include="..\PhDSystem.Data\PhDSystem.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Files\UserFiles\" />
-  </ItemGroup>
-
 </Project>

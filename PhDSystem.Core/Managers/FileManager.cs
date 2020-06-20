@@ -13,8 +13,8 @@ namespace PhDSystem.Api.Managers
     {
         public async Task<FileModel> GetFileAsync(string[] folders, string fileName)
         {
-            string foldersPath = Path.Combine(folders);
-            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath, fileName);
+            string foldersPath = GetFullFoldersPath(folders);
+            string filePath = Path.Combine(foldersPath, fileName);
             using (var fileStream = File.OpenRead(filePath))
             {
                 MemoryStream fileMemoryStream = new MemoryStream();
@@ -32,12 +32,27 @@ namespace PhDSystem.Api.Managers
 
         public async Task StoreFileAsync(string[] folders, IFormFile file)
         {
-            string foldersPath = Path.Combine(folders);
-            string filePath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath, file.FileName);
+            string foldersPath = GetFullFoldersPath(folders);
+            Directory.CreateDirectory(foldersPath);
+            string filePath = Path.Combine(foldersPath, file.FileName);
             using (var fileStream = File.Create(filePath))
             {
                 await file.CopyToAsync(fileStream);
             }
+        }
+
+        public void DeleteFile(string[] folders, string fileName)
+        {
+            string foldersPath = Path.Combine(folders);
+            string fullFoldersPath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath);
+            string filePath = Path.Combine(fullFoldersPath, fileName);
+            File.Delete(filePath);
+        }
+
+        private string GetFullFoldersPath(string[] folders)
+        {
+            string foldersPath = Path.Combine(folders);
+            return Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath);
         }
     }
 }

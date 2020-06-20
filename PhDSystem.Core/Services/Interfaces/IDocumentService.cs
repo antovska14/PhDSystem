@@ -9,5 +9,9 @@ namespace PhDSystem.Core.Services.Interfaces
         Task<FileModel> GetIndividualPlan();
 
         Task FileUpload(IFormFile file);
+
+        Task StudentFileUpload(int studentId, IFormFile file);
+
+        void DeleteStudentFile(int studentId, string fileName);
     }
 }
