@@ -46,7 +46,7 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> DownloadStudentFile([FromBody] FileInfoModel file, int studentId)
         {
             var resultFile = await _documentService.DownloadStudentFile(file.FileName, studentId);
-            return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
+            return File(((MemoryStream)resultFile.FileContent).ToArray(), resultFile.ContentType, resultFile.FileName);
         }
 
         [HttpPost("download/{studentId}/{year}"), DisableRequestSizeLimit]
