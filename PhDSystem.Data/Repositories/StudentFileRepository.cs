@@ -21,8 +21,21 @@ namespace PhDSystem.Data.Repositories
         {
             var studentFileRecord = new StudentFile { StudentId = studentId, FileGroup = fileGroup, FileName = fileName };
 
-            _context.StudentFiles.Add(studentFileRecord);
-            await _context.SaveChangesAsync();
+            var fileRecordExists = await _context.StudentFiles.Where(sf => sf.StudentId == studentId
+                                                                    && sf.FileGroup.Equals(fileGroup)
+                                                                    && sf.FileName.Equals(fileName)
+                                                                    ).SingleOrDefaultAsync();
+
+            if (fileRecordExists != null)
+            {
+                //exists
+            }
+            else
+            {
+                _context.StudentFiles.Add(studentFileRecord);
+                await _context.SaveChangesAsync();
+            }
+
         }
 
         public async Task DeleteStudentFileRecord(int studentId, string fileGroup, string fileName)
@@ -45,9 +58,9 @@ namespace PhDSystem.Data.Repositories
 
             var studentFiles = await _context.StudentFiles.Where(sf => sf.StudentId == studentId).ToListAsync();
 
-            foreach(var studentFile in studentFiles)
+            foreach (var studentFile in studentFiles)
             {
-                if(fileGroupFilesDictionary.TryGetValue(studentFile.FileGroup, out var fileNames))
+                if (fileGroupFilesDictionary.TryGetValue(studentFile.FileGroup, out var fileNames))
                 {
                     fileNames.Add(studentFile.FileName);
                 }
@@ -59,7 +72,7 @@ namespace PhDSystem.Data.Repositories
 
             var studentFileDetailsList = new List<StudentFileDetails>();
 
-            foreach(var keyValuePair in fileGroupFilesDictionary)
+            foreach (var keyValuePair in fileGroupFilesDictionary)
             {
                 studentFileDetailsList.Add(new StudentFileDetails
                 {

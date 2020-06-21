@@ -74,7 +74,7 @@ namespace PhDSystem.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete/{studentId}"), DisableRequestSizeLimit]
+        [HttpPost("delete/{studentId}"), DisableRequestSizeLimit]
         public async Task<IActionResult> DeleteStudentFile([FromBody] FileInfoModel fileModel, int studentId)
         {
             await _documentService.DeleteStudentFile(fileModel.FileName, studentId);
@@ -82,7 +82,7 @@ namespace PhDSystem.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("delete/{studentId}/{year}"), DisableRequestSizeLimit]
+        [HttpPost("delete/{studentId}/{year}"), DisableRequestSizeLimit]
         public async Task<IActionResult> DeleteStudentFileForYear([FromBody] FileInfoModel fileModel, int studentId, int year)
         {
             await _documentService.DeleteStudentFile(fileModel.FileName, studentId, year);

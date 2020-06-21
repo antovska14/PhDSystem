@@ -35,7 +35,7 @@ namespace PhDSystem.Api.Services
         {
             string fileGroup = GetFileGroup(year);
 
-            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, fileGroup }, fileName);
+            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, fileName);
 
             await _studentFileRepository.DeleteStudentFileRecord(studentId, fileGroup, fileName);
         }
