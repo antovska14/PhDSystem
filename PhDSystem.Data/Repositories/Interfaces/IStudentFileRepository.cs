@@ -1,4 +1,5 @@
 ﻿using PhDSystem.Data.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories.Interfaces
@@ -9,6 +10,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
 
         Task DeleteStudentFileRecord(int studentId, string fileGroup, string fileName);
 
-        Task<StudentFileDetails> GetStudentFileNames(int studentId, string fileGroup);
+        Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId);
     }
 }

@@ -7,6 +7,7 @@ using PhDSystem.Core.Models;
 using PhDSystem.Core.Models.IndividualPlans.Request;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,15 @@ namespace PhDSystem.Api.Services
             await _studentFileRepository.DeleteStudentFileRecord(studentId, fileGroup, fileName);
         }
 
+        public async Task<FileModel> DownloadStudentFile(string fileName, int studentId, int year)
+        {
+            string fileGroup = GetFileGroup(year);
+
+            var resultFile = await _fileManager.GetFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, fileName);
+
+            return resultFile;
+        }
+
         public async Task<FileModel> ExportStudentFile(StudentFileType documentType, int studentId, int year)
         {
             FileModel fileResult = null;
@@ -51,27 +61,23 @@ namespace PhDSystem.Api.Services
             return fileResult;
         }
 
+        public async Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId)
+        {
+            return await _studentFileRepository.GetStudentFileDetailsList(studentId);
+        }
+
         public async Task UploadStudentFile(IFormFile file, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
 
-            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, fileGroup }, file);
+            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, file);
 
             await _studentFileRepository.CreateStudentFileRecord(studentId, fileGroup, file.FileName);
         }
 
-        public async Task<FileModel> DownloadStudentFile(string fileName, int studentId, int year)
-        {
-            string fileGroup = GetFileGroup(year);
-
-            var resultFile = await _fileManager.GetFileAsync(new string[] { FileConstants.UserFilesFolder, fileGroup }, fileName);
-
-            return resultFile;
-        }
-
         private string GetFileGroup(int year)
         {
-            return year == 0 ? year.ToString() : FileConstants.GeneralFolder;
+            return year != 0 ? year.ToString() : FileConstants.GeneralFolder;
         }
 
         private async Task<FileModel> GetIndividualPlan(int studentId)

@@ -35,6 +35,13 @@ namespace PhDSystem.Api.Controllers
             return File(((MemoryStream)resultFile.FileContent).ToArray(), MimeTypes.GetMimeType(resultFile.FileName), resultFile.FileName);
         }
 
+        [HttpGet("{studentId}"), DisableRequestSizeLimit]
+        public async Task<IActionResult> GetStudentFileDetailsList(int studentId)
+        {
+            var studentFileDetailsList = await _documentService.GetStudentFileDetailsList(studentId);
+            return Ok(studentFileDetailsList);
+        }
+
         [HttpPost("download/{studentId}"), DisableRequestSizeLimit]
         public async Task<IActionResult> DownloadStudentFile([FromBody] FileInfoModel file, int studentId)
         {

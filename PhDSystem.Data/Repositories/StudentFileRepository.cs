@@ -2,6 +2,7 @@
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,19 +38,38 @@ namespace PhDSystem.Data.Repositories
             }
         }
 
-        public async Task<StudentFileDetails> GetStudentFileNames(int studentId, string fileGroup)
+        public async Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId)
         {
-            var fileNames = await (from sf in _context.StudentFiles
-                                   where sf.StudentId == studentId
-                                   && sf.FileGroup.Equals(fileGroup)
-                                   select sf.FileName).ToListAsync();
+            // TODO [DA]: Cannot translate Select appeared when grouping was tried, try implementing another approach and replace the following
+            var fileGroupFilesDictionary = new Dictionary<string, IList<string>>();
 
-            return new StudentFileDetails
+            var studentFiles = await _context.StudentFiles.Where(sf => sf.StudentId == studentId).ToListAsync();
+
+            foreach(var studentFile in studentFiles)
             {
-                StudentId = studentId,
-                FileGroup = fileGroup,
-                FileNames = fileNames
-            };
+                if(fileGroupFilesDictionary.TryGetValue(studentFile.FileGroup, out var fileNames))
+                {
+                    fileNames.Add(studentFile.FileName);
+                }
+                else
+                {
+                    fileGroupFilesDictionary.Add(studentFile.FileGroup, new List<string> { studentFile.FileName });
+                }
+            }
+
+            var studentFileDetailsList = new List<StudentFileDetails>();
+
+            foreach(var keyValuePair in fileGroupFilesDictionary)
+            {
+                studentFileDetailsList.Add(new StudentFileDetails
+                {
+                    StudentId = studentId,
+                    FileGroup = keyValuePair.Key,
+                    FileNames = keyValuePair.Value
+                });
+            }
+
+            return studentFileDetailsList;
         }
     }
 }
