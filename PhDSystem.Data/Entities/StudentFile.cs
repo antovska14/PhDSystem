@@ -16,6 +16,8 @@ namespace PhDSystem.Data.Entities
         [Required]
         public int StudentId { get; set; }
 
+        public virtual Student Student { get; set; }
+
         [Required]
         public string FileGroup { get; set; }
 

@@ -1,24 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhDSystem.Data.Entities
 {
-    [Table("PhdProgram")]
-    public class PhdProgram
+    [Table("Exam")]
+    public class Exam
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public int StudentId { get; set; }
+
+        public virtual Student Student { get; set; }
+
+        public int Year { get; set; }
+
         [Required]
-        [MaxLength]
         public string Name { get; set; }
 
-        public ProfessionalField ProfessionalField { get; set; }
+        public double Grade { get; set; }
 
-        public int ProfessionalFieldId { get; set; }
-
-        public virtual ICollection<Student> Students { get; set; }
+        public DateTime Date { get; set; }
     }
 }

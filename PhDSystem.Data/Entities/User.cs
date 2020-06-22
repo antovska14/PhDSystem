@@ -21,7 +21,7 @@ namespace PhDSystem.Data.Entities
         public bool IsDeleted { get; set; }
 
         [ForeignKey("RoleId")]
-        public UserRole UserRole { get; set; }
+        public virtual UserRole UserRole { get; set; }
 
         [Required]
         public int RoleId { get; set; }

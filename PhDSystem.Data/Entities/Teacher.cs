@@ -14,6 +14,8 @@ namespace PhDSystem.Data.Entities
         [Required]
         public int UserId { get; set; }
 
+        public virtual User User { get; set; }
+
         [Required]
         [MaxLength(255)]
         public string FirstName { get; set; }
@@ -31,6 +33,6 @@ namespace PhDSystem.Data.Entities
 
         public bool IsDeleted { get; set; }
 
-        public ICollection<StudentTeacher> StudentTeachers { get; set; } = new List<StudentTeacher>();
+        public virtual ICollection<StudentTeacher> StudentTeachers { get; set; }
     }
 }

@@ -15,6 +15,6 @@ namespace PhDSystem.Data.Entities
         [MaxLength(100)]
         public string Name { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<User> Users { get; set; }
     }
 }

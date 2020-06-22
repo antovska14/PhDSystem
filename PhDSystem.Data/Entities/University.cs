@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using PhDSystem.Data.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PhDSystem.Data.Entities
+namespace PhDSystem.Data
 {
-    [Table("ProfessionalField")]
-    public class ProfessionalField
+    [Table("University")]
+    public class University
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,6 +16,8 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string Name { get; set; }
 
-        public virtual ICollection<PhdProgram> PhdPrograms { get; set; }
+        public string RectorFullName { get; set; }
+
+        public virtual ICollection<Faculty> Faculties { get; set; }
     }
 }

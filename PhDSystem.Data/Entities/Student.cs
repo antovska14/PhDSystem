@@ -12,7 +12,10 @@ namespace PhDSystem.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int UserId { get; set; }
+
+        public virtual User User { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -28,7 +31,17 @@ namespace PhDSystem.Data.Entities
         [Required]
         public int FormOfEducationId { get; set; }
 
-        public FormOfEducation FormOfEducation { get; set; }
+        public virtual FormOfEducation FormOfEducation { get; set; }
+
+        [Required]
+        public int PhdProgramId { get; set; }
+
+        public virtual PhdProgram PhdProgram { get; set; }
+
+        [Required]
+        public int DepartmentId { get; set; }
+
+        public virtual Department Department { get; set; }
 
         [Required]
         public int CurrentYear { get; set; }
@@ -37,11 +50,21 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string SpecialtyName { get; set; }
 
+        public string DisertationTheme { get; set; }
+
         [Required]
         public DateTime FacultyCouncilChosenDate { get; set; }
 
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
         public bool IsDeleted { get; set; }
 
-        public ICollection<StudentTeacher> StudentTeachers { get; set; } = new List<StudentTeacher>();
+        public virtual ICollection<StudentTeacher> StudentTeachers { get; set; }
+
+        public virtual ICollection<Exam> Exams { get; set; }
+
+        public virtual ICollection<StudentFile> StudentFiles { get; set; }
     }
 }
