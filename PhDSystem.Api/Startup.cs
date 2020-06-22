@@ -19,7 +19,6 @@ using PhDSystem.Data.Repositories;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PhDSystem.Api
@@ -76,6 +75,9 @@ namespace PhDSystem.Api
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IStudentFileRepository, StudentFileRepository>();
+            services.AddScoped<IExamRepository, ExamRepository>();
+            services.AddScoped<IProfessionalFieldRepository, ProfessionalFieldRepository>();
+            services.AddScoped<IPhdProgramRepository, PhdProgramRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStudentFileService, StudentFileService>();
