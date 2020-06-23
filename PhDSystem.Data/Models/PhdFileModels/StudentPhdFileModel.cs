@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PhDSystem.Data.Models.PhdFileModels.Attestation
+namespace PhDSystem.Data.Models.PhdFileModels
 {
-    public class StudentAttestationModel
+    public class StudentPhdFileModel
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

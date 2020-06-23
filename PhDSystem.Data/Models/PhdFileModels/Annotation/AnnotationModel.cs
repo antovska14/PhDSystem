@@ -1,5 +1,4 @@
-﻿using PhDSystem.Data.Models.PhdFileModels.Annotation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PhDSystem.Data.Models.PhdFileModels.Annotation
 {
@@ -13,8 +12,8 @@ namespace PhDSystem.Data.Models.PhdFileModels.Annotation
 
         public string DissertationTheme { get; set; }
 
-        public StudentAnnotationModel Student { get; set; }
+        public StudentPhdFileModel Student { get; set; }
 
-        public IList<TeacherAnnotationModel> Teachers { get; set; } = new List<TeacherAnnotationModel>();
+        public IList<TeacherPhdFileModel> Teachers { get; set; } = new List<TeacherPhdFileModel>();
     }
 }

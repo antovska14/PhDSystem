@@ -21,6 +21,8 @@ namespace PhDSystem.Data.Repositories
         public async Task CreateStudentAsync(StudentDetails studentDetails)
         {
             var formOfEducation = await GetFormOfEducationAsync(studentDetails.FormOfEducation);
+            var department = await GetFormOfEducationAsync(studentDetails.Department);
+            var phdProgram = await GetFormOfEducationAsync(studentDetails.PhdProgram);
             var student = new Student()
             {
                 UserId = studentDetails.UserId,
@@ -28,9 +30,14 @@ namespace PhDSystem.Data.Repositories
                 MiddleName = studentDetails.MiddleName,
                 LastName = studentDetails.LastName,
                 SpecialtyName = studentDetails.SpecialtyName,
+                DissertationTheme = studentDetails.DissertationTheme,
                 FormOfEducationId = formOfEducation.Id,
+                DepartmentId = department.Id,
+                PhdProgramId = phdProgram.Id,
                 CurrentYear = studentDetails.CurrentYear,
                 FacultyCouncilChosenDate = studentDetails.FacultyCouncilChosenDate,
+                StartDate = studentDetails.PhdStartDate,
+                EndDate = studentDetails.PhdEndDate,
             };
 
             // Add student and save, so the student id is created
@@ -78,6 +85,7 @@ namespace PhDSystem.Data.Repositories
                                             FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
                                             Teachers = (from st in _context.StudentTeachers
                                                         join t in _context.Teachers on st.TeacherId equals t.Id
+                                                        where st.StudentId == studentId
                                                         select new TeacherDetails 
                                                         {
                                                             Id = t.Id,

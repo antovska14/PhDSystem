@@ -1,6 +1,6 @@
-﻿namespace PhDSystem.Data.Models.PhdFileModels.Annotation
+﻿namespace PhDSystem.Data.Models.PhdFileModels
 {
-    public class TeacherAnnotationModel
+    public class TeacherPhdFileModel
     {
         public string Degree { get; set; }
 

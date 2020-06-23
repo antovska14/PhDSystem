@@ -8,8 +8,8 @@ namespace PhDSystem.Data.Models.PhdFileModels.Attestation
         public string FacultyName { get; set; }
         public string DepartmentName { get; set; }
         public string DissertationTheme { get; set; }
-        public StudentAttestationModel Student { get; set; }
+        public StudentPhdFileModel Student { get; set; }
         public IList<ExamAttestationModel> Exams { get; set; } = new List<ExamAttestationModel>();
-        public IList<TeacherAttestationModel> Teachers { get; set; } = new List<TeacherAttestationModel>();
+        public IList<TeacherPhdFileModel> Teachers { get; set; } = new List<TeacherPhdFileModel>();
     }
 }
