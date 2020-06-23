@@ -8,12 +8,14 @@
 
         public static string UserFilesFolder = "UserFiles";
 
-        public static string IndividualPlanTemplate = "IndividualPlan.docx";
+        public static string IndividualPlanWordFileName = "IndividualPlan.docx";
 
-        public static string AttestationTemplate = "Attestation.docx";
+        public static string AttestationWordFileName = "Attestation.docx";
 
-        public static string AnnotationTemplate = "Annotation.docx";
+        public static string AnnotationWordFileName = "Annotation.docx";
 
         public static string GeneralFolder = "General";
+
+        public static string WordFileContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8";
     }
 }

@@ -61,9 +61,9 @@ namespace PhDSystem.Data.Repositories
         public async Task<StudentDetails> GetStudentAsync(int studentId)
         {
             var studentDetails = await (from s in _context.Students
-                                        join foe in _context.FormsOfEducation on s.FormOfEducationId equals foe.Id
                                         join u in _context.Users on s.UserId equals u.Id
-                                        where s.Id == studentId
+                                        join foe in _context.FormsOfEducation on s.FormOfEducationId equals foe.Id
+                                        where s.Id == studentId && s.IsDeleted == false
                                         select new StudentDetails 
                                         {
                                             Id = s.Id,
@@ -78,7 +78,6 @@ namespace PhDSystem.Data.Repositories
                                             FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
                                             Teachers = (from st in _context.StudentTeachers
                                                         join t in _context.Teachers on st.TeacherId equals t.Id
-                                                        where st.StudentId == s.Id && t.IsDeleted == false
                                                         select new TeacherDetails 
                                                         {
                                                             Id = t.Id,
@@ -133,6 +132,20 @@ namespace PhDSystem.Data.Repositories
         {
             return await _context.FormsOfEducation
                                  .Where(foe => foe.Name.Equals(formOfEducationName))
+                                 .SingleOrDefaultAsync();
+        }
+
+        private async Task<PhdProgram> GetPhdProgramAsync(string phdProgramName)
+        {
+            return await _context.PhdPrograms
+                                 .Where(foe => foe.Name.Equals(phdProgramName))
+                                 .SingleOrDefaultAsync();
+        }
+
+        private async Task<Department> GetDepartmentsAsync(string departmentName)
+        {
+            return await _context.Departments
+                                 .Where(foe => foe.Name.Equals(departmentName))
                                  .SingleOrDefaultAsync();
         }
 

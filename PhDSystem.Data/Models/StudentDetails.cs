@@ -1,8 +1,6 @@
-﻿using PhDSystem.Data.Entities;
-using PhDSystem.Data.Models;
+﻿using PhDSystem.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PhDSystem.Core.Services.Models
 {
@@ -22,15 +20,21 @@ namespace PhDSystem.Core.Services.Models
 
         public string FormOfEducation { get; set; }
 
+        public string PhdProgram { get; set; }
+
+        public string Department { get; set; }
+
         public int CurrentYear { get; set; }
 
         public string SpecialtyName { get; set; }
 
+        public string DissertationTheme { get; set; }
+
         public DateTime FacultyCouncilChosenDate { get; set; }
 
-        public int TitleId { get; set; }
+        public DateTime PhdStartDate { get; set; }
 
-        public int DegreeId { get; set; }
+        public DateTime PhdEndDate { get; set; }
 
         public IEnumerable<TeacherDetails> Teachers { get; set; } = new List<TeacherDetails>();
     }

@@ -78,12 +78,14 @@ namespace PhDSystem.Api
             services.AddScoped<IExamRepository, ExamRepository>();
             services.AddScoped<IProfessionalFieldRepository, ProfessionalFieldRepository>();
             services.AddScoped<IPhdProgramRepository, PhdProgramRepository>();
+            services.AddScoped<IPhdFileDataRepository, PhdFileDataRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStudentFileService, StudentFileService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IPhdFileService, PhdFileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -50,7 +50,7 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string SpecialtyName { get; set; }
 
-        public string DisertationTheme { get; set; }
+        public string DissertationTheme { get; set; }
 
         [Required]
         public DateTime FacultyCouncilChosenDate { get; set; }
