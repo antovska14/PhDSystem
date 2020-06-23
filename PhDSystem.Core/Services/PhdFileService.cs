@@ -23,7 +23,7 @@ namespace PhDSystem.Core.Services
 
         public async Task<FileModel> ExportStudentFile(PhdFileType documentType, int studentId, int year = 0)
         {
-            AnnotationGenerator generator = null;
+            AttestationGenerator generator = null;
 
             if (documentType == PhdFileType.IndividualPlan)
             {
@@ -34,12 +34,13 @@ namespace PhDSystem.Core.Services
             {
                 var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.AnnotationWordFileName);
                 var data = await _phdFileDataRepository.GetAnnotationData(studentId);
-                generator = new AnnotationGenerator(template, data);
+                //generator = new AnnotationGenerator(template, data);
             }
             else if (documentType == PhdFileType.Attestation)
             {
-                //var data = await _phdFileDataRepository.GetAttestationData(studentId, year);
-                //generator = new AttestationGenerator(data);
+                var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.AttestationWordFileName);
+                var data = await _phdFileDataRepository.GetAttestationData(studentId, year);
+                generator = new AttestationGenerator(template, data);
             }
 
             if (generator == null)

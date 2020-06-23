@@ -14,5 +14,12 @@
         public static string SupervisorFirstName = "<SupervisorFirstName>";
         public static string SupervisorLastName = "<SupervisorLastName>";
         public static string DeanFullName = "<DeanFullName>";
+        public static string StartDate = "<StartDate>";
+        public static string EndDate = "<EndDate>";
+        public static string ExamName = "<ExamName>";
+        public static string ExamDate = "<ExamDate>";
+        public static string GradeType = "<GradeType>";
+        public static string Grade = "<Grade>";
+        public static string FormOfEducation = "<FormOfEducation>";
     }
 }
