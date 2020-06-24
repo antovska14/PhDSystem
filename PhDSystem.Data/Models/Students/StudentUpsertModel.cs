@@ -1,10 +1,10 @@
-﻿using PhDSystem.Data.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace PhDSystem.Core.Services.Models
+namespace PhDSystem.Data.Models.Students
 {
-    public class StudentDetails
+    public class StudentUpsertModel
     {
         public int Id { get; set; }
 
@@ -18,11 +18,11 @@ namespace PhDSystem.Core.Services.Models
 
         public string Email { get; set; }
 
-        public string FormOfEducation { get; set; }
+        public int FormOfEducationId { get; set; }
 
-        public string PhdProgram { get; set; }
+        public int PhdProgramId { get; set; }
 
-        public string Department { get; set; }
+        public int DepartmentId { get; set; }
 
         public int CurrentYear { get; set; }
 
@@ -32,9 +32,9 @@ namespace PhDSystem.Core.Services.Models
 
         public DateTime FacultyCouncilChosenDate { get; set; }
 
-        public DateTime PhdStartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime PhdEndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public IEnumerable<TeacherDetails> Teachers { get; set; } = new List<TeacherDetails>();
     }

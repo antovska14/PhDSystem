@@ -12,7 +12,7 @@ namespace PhDSystem.Data.Configuration
             builder.HasData(
                 new UserRole() { Id = 1, Name = "Admin" },
                 new UserRole() { Id = 2, Name = "Student" },
-                new UserRole() { Id = 3, Name = "Supervisor" }
+                new UserRole() { Id = 3, Name = "Teacher" }
             );
         }
     }

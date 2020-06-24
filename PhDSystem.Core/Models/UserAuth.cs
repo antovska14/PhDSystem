@@ -4,6 +4,7 @@ namespace PhDSystem.Core.Models
 {
     public class UserAuth
     {
+        public int Id { get; set; }
         public string Email { get; set; }
         public string BearerToken { get; set; }
         public bool IsAuthenticated { get; set; }

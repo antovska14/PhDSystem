@@ -12,5 +12,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
         Task<TeacherDetails> GetTeacherAsync(int teacherId);
         Task<IEnumerable<TeacherDetails>> GetTeachersAsync();
         Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails);
+        Task<int> GetTeacherIdByUserId(int userId);
     }
 }

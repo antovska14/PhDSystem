@@ -1,6 +1,7 @@
 ﻿using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Generators.Helpers;
+using PhDSystem.Core.Generators.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Data.Models.PhdFileModels.IndividualPlan;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace PhDSystem.Core.Generators
 {
-    public class IndividualPlanGenerator
+    public class IndividualPlanGenerator : IPhdFileGenerator
     {
         private readonly FileModel _template;
         private readonly IndividualPlanModel _data;

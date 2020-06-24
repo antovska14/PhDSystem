@@ -68,7 +68,7 @@ namespace PhDSystem.Api
             {
                 config.AddPolicy("RequireAdminRole", p => p.RequireRole("Admin"));
                 config.AddPolicy("RequireStudentRole", p => p.RequireRole("Student"));
-                config.AddPolicy("RequireRequireSupervisorRole", p => p.RequireRole("Supervisor"));
+                config.AddPolicy("RequireRequireTeacherRole", p => p.RequireRole("Teacher"));
             });
 
             services.AddScoped<IStudentRepository, StudentRepository>();

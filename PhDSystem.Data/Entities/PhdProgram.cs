@@ -17,6 +17,7 @@ namespace PhDSystem.Data.Entities
 
         public ProfessionalField ProfessionalField { get; set; }
 
+        [Required]
         public int ProfessionalFieldId { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }

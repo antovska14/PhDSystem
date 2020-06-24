@@ -43,6 +43,7 @@ namespace PhDSystem.Core.Services
         {
             UserAuth userAuth = new UserAuth();
 
+            userAuth.Id = user.Id;
             userAuth.Email = user.Email;
             userAuth.IsAuthenticated = true;
             var userRole = await GetUserRoleAsync(user);

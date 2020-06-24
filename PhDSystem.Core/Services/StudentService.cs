@@ -1,7 +1,6 @@
-﻿using PhDSystem.Core.Constants;
-using PhDSystem.Core.Services.Interfaces;
-using PhDSystem.Core.Services.Models;
+﻿using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,21 +11,23 @@ namespace PhDSystem.Core.Services
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository, ITeacherRepository teacherRepository)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
+            _teacherRepository = teacherRepository;
         }
 
-        public async Task CreateStudentAsync(StudentDetails studentDetails)
+        public async Task CreateStudentAsync(StudentUpsertModel studentCreateModel)
         {
-            var password = studentDetails.Email.Split('@')[0];
-            var user = new User() { Email = studentDetails.Email, Password = password, RoleId = 2 };
+            var password = studentCreateModel.Email.Split('@')[0];
+            var user = new User() { Email = studentCreateModel.Email, Password = password, RoleId = 2 };
             var userId = await _userRepository.CreateUser(user);
 
-            studentDetails.UserId = userId;
-            await _studentRepository.CreateStudentAsync(studentDetails);
+            studentCreateModel.UserId = userId;
+            await _studentRepository.CreateStudentAsync(studentCreateModel);
         }
 
         public async Task DeleteStudentAsync(int studentId)
@@ -39,21 +40,22 @@ namespace PhDSystem.Core.Services
             return await _studentRepository.GetStudentAsync(studentId);
         }
 
-        public async Task<IEnumerable<Student>> GetStudentsAsync()
+        public async Task<IEnumerable<StudentListModel>> GetStudentsAsync()
         {
             return await _studentRepository.GetStudentsAsync();
         }
 
-        public async Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId)
+        public async Task<IEnumerable<StudentListModel>> GetStudentsByTeacherUserIdAsync(int teacherUserId)
         {
-            return await _studentRepository.GetStudentsBySupervisorAsync(supervisorId);
+            var teacherId = await _teacherRepository.GetTeacherIdByUserId(teacherUserId);
+            return await _studentRepository.GetStudentsByTeacherAsync(teacherId);
         }
 
-        public async Task UpdateStudentAsync(int studentId, StudentDetails studentDetails)
+        public async Task UpdateStudentAsync(int studentId, StudentUpsertModel studentUpdateModel)
         {
-            var user = new User() { Id = studentDetails.UserId, Email = studentDetails.Email };
+            var user = new User() { Id = studentUpdateModel.UserId, Email = studentUpdateModel.Email };
             await _userRepository.UpdateUser(user);
-            await _studentRepository.UpdateStudentAsync(studentId, studentDetails);
+            await _studentRepository.UpdateStudentAsync(studentId, studentUpdateModel);
         }
     }
 }

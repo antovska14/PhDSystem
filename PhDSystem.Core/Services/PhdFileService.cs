@@ -1,6 +1,7 @@
 ﻿using PhDSystem.Core.Constants;
 using PhDSystem.Core.Enums;
 using PhDSystem.Core.Generators;
+using PhDSystem.Core.Generators.Interfaces;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
@@ -23,7 +24,7 @@ namespace PhDSystem.Core.Services
 
         public async Task<FileModel> ExportStudentFile(PhdFileType documentType, int studentId, int year = 0)
         {
-            IndividualPlanGenerator generator = null;
+            IPhdFileGenerator generator = null;
 
             if (documentType == PhdFileType.IndividualPlan)
             {
@@ -35,18 +36,18 @@ namespace PhDSystem.Core.Services
             {
                 var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.AnnotationWordFileName);
                 var data = await _phdFileDataRepository.GetAnnotationData(studentId);
-                //generator = new AnnotationGenerator(template, data);
+                generator = new AnnotationGenerator(template, data);
             }
             else if (documentType == PhdFileType.Attestation)
             {
                 var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.AttestationWordFileName);
                 var data = await _phdFileDataRepository.GetAttestationData(studentId, year);
-                //generator = new AttestationGenerator(template, data);
+                generator = new AttestationGenerator(template, data);
             }
 
             if (generator == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException($"PhdFileGenerator for document type {documentType} was never instantiated");
             }
 
             return generator.GenerateFile();

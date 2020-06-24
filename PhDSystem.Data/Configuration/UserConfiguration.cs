@@ -12,7 +12,7 @@ namespace PhDSystem.Data.Configuration
             builder.HasData(
                 new User() { Id = 1, Email = "admin@gmail.com", Password = "admin", RoleId = 1 },
                 new User() { Id = 2, Email = "student@gmail.com", Password = "student", RoleId = 2 },
-                new User() { Id = 3, Email = "supervisor@gmail.com", Password = "supervisor", RoleId = 3 }
+                new User() { Id = 3, Email = "teacher@gmail.com", Password = "teacher", RoleId = 3 }
             );
         }
     }

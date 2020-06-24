@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
-using PhDSystem.Core.Services.Models;
+using PhDSystem.Data.Models.Students;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -20,9 +20,9 @@ namespace PhDSystem.Api.Controllers
 
         [HttpPost("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateStudent([FromBody] StudentDetails studentDetails)
+        public async Task<IActionResult> CreateStudent([FromBody] StudentUpsertModel studentCreateData)
         {
-            await _studentService.CreateStudentAsync(studentDetails);
+            await _studentService.CreateStudentAsync(studentCreateData);
             return Ok();
         }
 
@@ -49,19 +49,19 @@ namespace PhDSystem.Api.Controllers
             return Ok(students);
         }
 
-        [HttpGet("supervisor/{supervisorId}")]
-        [Authorize(Roles = "Supervisor")]
-        public async Task<IActionResult> GetStudentsBySupervisor(int supervisorId)
+        [HttpGet("teacher/{teacherId}")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> GetStudentsByTeacherUserId(int teacherUserId)
         {
-            var students = await _studentService.GetStudentsBySupervisorAsync(supervisorId);
+            var students = await _studentService.GetStudentsByTeacherUserIdAsync(teacherUserId);
             return Ok(students);
         }
 
         [HttpPut("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put([FromBody] StudentDetails studentDetails)
+        public async Task<IActionResult> Put([FromBody] StudentUpsertModel studentUpdateData)
         {
-            await _studentService.UpdateStudentAsync(studentDetails.Id, studentDetails);
+            await _studentService.UpdateStudentAsync(studentUpdateData.Id, studentUpdateData);
             return Ok();
         }
     }

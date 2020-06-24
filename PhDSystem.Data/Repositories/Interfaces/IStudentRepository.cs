@@ -1,5 +1,4 @@
-﻿using PhDSystem.Core.Services.Models;
-using PhDSystem.Data.Entities;
+﻿using PhDSystem.Data.Models.Students;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,11 +6,11 @@ namespace PhDSystem.Data.Repositories.Interfaces
 {
     public interface IStudentRepository
     {
-        Task CreateStudentAsync(StudentDetails studentDetails);
+        Task CreateStudentAsync(StudentUpsertModel studentCreateData);
         Task DeleteStudentAsync(int studentId);
         Task<StudentDetails> GetStudentAsync(int studentId);
-        Task<IEnumerable<Student>> GetStudentsBySupervisorAsync(int supervisorId);
-        Task<IEnumerable<Student>> GetStudentsAsync();
-        Task UpdateStudentAsync(int studentId, StudentDetails studentDetails);
+        Task<IEnumerable<StudentListModel>> GetStudentsByTeacherAsync(int teacherId);
+        Task<IEnumerable<StudentListModel>> GetStudentsAsync();
+        Task UpdateStudentAsync(int studentId, StudentUpsertModel studentUpdateData);
     }
 }

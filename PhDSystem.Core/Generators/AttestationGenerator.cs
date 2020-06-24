@@ -1,16 +1,16 @@
 ﻿using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Generators.Helpers;
+using PhDSystem.Core.Generators.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Data.Models.PhdFileModels.Attestation;
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace PhDSystem.Core.Generators
 {
-    public class AttestationGenerator
+    public class AttestationGenerator : IPhdFileGenerator
     {
         private readonly FileModel _template;
         private readonly AttestationModel _data;

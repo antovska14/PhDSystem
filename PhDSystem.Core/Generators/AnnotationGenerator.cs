@@ -1,6 +1,7 @@
 ﻿using NetModular.DocX.Core;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Generators.Helpers;
+using PhDSystem.Core.Generators.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Data.Models.PhdFileModels.Annotation;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace PhDSystem.Core.Generators
 {
-    public class AnnotationGenerator
+    public class AnnotationGenerator : IPhdFileGenerator
     {
         private FileModel _template;
         private AnnotationModel _data;
