@@ -30,21 +30,6 @@ namespace PhDSystem.Core.Services
             await _studentRepository.CreateStudentAsync(studentCreateModel);
         }
 
-        public async Task DeleteStudentAsync(int studentId)
-        {
-            await _studentRepository.DeleteStudentAsync(studentId);
-        }
-
-        public async Task<StudentDetails> GetStudentAsync(int studentId)
-        {
-            return await _studentRepository.GetStudentAsync(studentId);
-        }
-
-        public async Task<IEnumerable<StudentListModel>> GetStudentsAsync()
-        {
-            return await _studentRepository.GetStudentsAsync();
-        }
-
         public async Task<IEnumerable<StudentListModel>> GetStudentsByTeacherUserIdAsync(int teacherUserId)
         {
             var teacherId = await _teacherRepository.GetTeacherIdByUserId(teacherUserId);

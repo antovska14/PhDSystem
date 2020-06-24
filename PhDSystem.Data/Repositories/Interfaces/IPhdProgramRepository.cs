@@ -1,4 +1,5 @@
 ﻿using PhDSystem.Data.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories.Interfaces
@@ -9,6 +10,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
 
         Task DeletePhdProgram(int phdProgramId);
 
-        Task GetPhdPrograms(int professionalField);
+        Task<IEnumerable<PhdProgram>> GetPhdPrograms(int professionalField);
     }
 }

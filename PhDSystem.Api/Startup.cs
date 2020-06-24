@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Managers;
 using PhDSystem.Api.Services;
@@ -35,6 +36,7 @@ namespace PhDSystem.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddCors();
             services.AddControllers();
             services.AddDbContextPool<PhdSystemDbContext>(options =>
@@ -79,6 +81,10 @@ namespace PhDSystem.Api
             services.AddScoped<IProfessionalFieldRepository, ProfessionalFieldRepository>();
             services.AddScoped<IPhdProgramRepository, PhdProgramRepository>();
             services.AddScoped<IPhdFileDataRepository, PhdFileDataRepository>();
+            services.AddScoped<IUniversityRepository, UniversityRepository>();
+            services.AddScoped<IFacultyRepository, FacultyRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IFormOfEducationRepository, FormOfEducationRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStudentFileService, StudentFileService>();

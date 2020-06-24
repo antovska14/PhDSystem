@@ -78,7 +78,7 @@ namespace PhDSystem.Data.Repositories
                                             SpecialtyName = s.SpecialtyName,
                                             FormOfEducation = s.FormOfEducation.Name,
                                             CurrentYear = s.CurrentYear,
-                                            FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
+                                            FacultyCouncilChosenDate = s.FacultyCouncilChosenDate.Date,
                                             Teachers = (from st in s.StudentTeachers
                                                         join t in _context.Teachers on st.TeacherId equals t.Id
                                                         select new TeacherDetails 

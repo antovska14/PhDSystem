@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models.Students;
+using PhDSystem.Data.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -12,10 +13,12 @@ namespace PhDSystem.Api.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly IStudentRepository _studentRepository;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService, IStudentRepository studentRepository)
         {
             _studentService = studentService;
+            _studentRepository = studentRepository;
         }
 
         [HttpPost("")]
@@ -30,14 +33,14 @@ namespace PhDSystem.Api.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteStudent(int studentId)
         {
-            await _studentService.DeleteStudentAsync(studentId);
+            await _studentRepository.DeleteStudentAsync(studentId);
             return Ok();
         }
 
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudent(int studentId)
         {
-            var student = await _studentService.GetStudentAsync(studentId);
+            var student = await _studentRepository.GetStudentAsync(studentId);
             return Ok(student);
         }
 
@@ -45,7 +48,7 @@ namespace PhDSystem.Api.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStudents()
         {
-            var students = await _studentService.GetStudentsAsync();
+            var students = await _studentRepository.GetStudentsAsync();
             return Ok(students);
         }
 
