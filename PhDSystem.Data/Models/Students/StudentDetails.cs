@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PhDSystem.Data.Entities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace PhDSystem.Data.Models.Students
 {
@@ -18,11 +18,11 @@ namespace PhDSystem.Data.Models.Students
 
         public string Email { get; set; }
 
-        public string FormOfEducation { get; set; }
+        public FormOfEducation FormOfEducation { get; set; }
 
-        public string PhdProgram { get; set; }
+        public PhdProgram PhdProgram { get; set; }
 
-        public string Department { get; set; }
+        public Department Department { get; set; }
 
         public int CurrentYear { get; set; }
 

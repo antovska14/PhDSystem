@@ -23,7 +23,7 @@ namespace PhDSystem.Api.Controllers
 
         [HttpPost("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateStudent([FromBody] StudentUpsertModel studentCreateData)
+        public async Task<IActionResult> CreateStudent([FromBody] StudentDetails studentCreateData)
         {
             await _studentService.CreateStudentAsync(studentCreateData);
             return Ok();
@@ -62,7 +62,7 @@ namespace PhDSystem.Api.Controllers
 
         [HttpPut("")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Put([FromBody] StudentUpsertModel studentUpdateData)
+        public async Task<IActionResult> Put([FromBody] StudentDetails studentUpdateData)
         {
             await _studentService.UpdateStudentAsync(studentUpdateData.Id, studentUpdateData);
             return Ok();

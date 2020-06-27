@@ -1,21 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using PhDSystem.Data.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentsController : CustomBaseController
+    public class DepartmentsController : ControllerBase
     {
         private readonly IDepartmentRepository _departmentRepository;
 
-        public DepartmentsController(ILogger logger, IDepartmentRepository departmentRepository) : base(logger)
+        public DepartmentsController(IDepartmentRepository departmentRepository)
         {
             _departmentRepository = departmentRepository;
         }
@@ -23,17 +18,7 @@ namespace PhDSystem.Api.Controllers
         [HttpGet("{facultyId}")]
         public async Task<IActionResult> GetFaculties(int facultyId)
         {
-            IEnumerable<Department> faculties;
-            try
-            {
-                faculties = await _departmentRepository.GetDepartments(facultyId);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving departments for faculty with id {facultyId}", facultyId);
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
-            }
-
+            var faculties = await _departmentRepository.GetDepartments(facultyId);
             return Ok(faculties);
         }
     }

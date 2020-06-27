@@ -20,7 +20,7 @@ namespace PhDSystem.Core.Services
             _teacherRepository = teacherRepository;
         }
 
-        public async Task CreateStudentAsync(StudentUpsertModel studentCreateModel)
+        public async Task CreateStudentAsync(StudentDetails studentCreateModel)
         {
             var password = studentCreateModel.Email.Split('@')[0];
             var user = new User() { Email = studentCreateModel.Email, Password = password, RoleId = 2 };
@@ -36,7 +36,7 @@ namespace PhDSystem.Core.Services
             return await _studentRepository.GetStudentsByTeacherAsync(teacherId);
         }
 
-        public async Task UpdateStudentAsync(int studentId, StudentUpsertModel studentUpdateModel)
+        public async Task UpdateStudentAsync(int studentId, StudentDetails studentUpdateModel)
         {
             var user = new User() { Id = studentUpdateModel.UserId, Email = studentUpdateModel.Email };
             await _userRepository.UpdateUser(user);

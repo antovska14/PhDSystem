@@ -54,7 +54,6 @@ namespace PhDSystem.Data.Entities
         public string DissertationTheme { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "dd/MM/yyyy")]
         public DateTime FacultyCouncilChosenDate { get; set; }
 
         public DateTime StartDate { get; set; }

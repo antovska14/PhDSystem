@@ -38,7 +38,9 @@ namespace PhDSystem.Api
         {
             services.AddLogging();
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddDbContextPool<PhdSystemDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("PhdSystemDb"));

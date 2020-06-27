@@ -6,8 +6,8 @@ namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IStudentService
     {
-        Task CreateStudentAsync(StudentUpsertModel studentCreateData);
+        Task CreateStudentAsync(StudentDetails studentCreateData);
         Task<IEnumerable<StudentListModel>> GetStudentsByTeacherUserIdAsync(int teacherUserId);
-        Task UpdateStudentAsync(int studentId, StudentUpsertModel studentUpdateData);
+        Task UpdateStudentAsync(int studentId, StudentDetails studentUpdateData);
     }
 }

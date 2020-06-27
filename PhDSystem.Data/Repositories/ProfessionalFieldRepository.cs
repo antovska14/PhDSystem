@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,9 +29,9 @@ namespace PhDSystem.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task GetProfessionalFields()
+        public async Task<IEnumerable<ProfessionalField>> GetProfessionalFields()
         {
-            throw new System.NotImplementedException();
+            return await _context.ProfessionalFields.ToListAsync();
         }
     }
 }

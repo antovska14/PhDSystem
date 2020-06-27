@@ -18,7 +18,7 @@ namespace PhDSystem.Data.Repositories
             _context = context;
         }
 
-        public async Task CreateStudentAsync(StudentUpsertModel studentCreateData)
+        public async Task CreateStudentAsync(StudentDetails studentCreateData)
         {
             var student = new Student()
             {
@@ -26,9 +26,9 @@ namespace PhDSystem.Data.Repositories
                 FirstName = studentCreateData.FirstName,
                 MiddleName = studentCreateData.MiddleName,
                 LastName = studentCreateData.LastName,
-                FormOfEducationId = studentCreateData.FormOfEducationId,
-                DepartmentId = studentCreateData.DepartmentId,
-                PhdProgramId = studentCreateData.PhdProgramId,
+                FormOfEducationId = studentCreateData.FormOfEducation.Id,
+                DepartmentId = studentCreateData.Department.Id,
+                PhdProgramId = studentCreateData.PhdProgram.Id,
                 CurrentYear = studentCreateData.CurrentYear,
                 SpecialtyName = studentCreateData.SpecialtyName,
                 DissertationTheme = studentCreateData.DissertationTheme,
@@ -67,7 +67,7 @@ namespace PhDSystem.Data.Repositories
             var studentDetails = await (from s in _context.Students
                                         join u in _context.Users on s.UserId equals u.Id
                                         where s.Id == studentId && s.IsDeleted == false
-                                        select new StudentDetails 
+                                        select new StudentDetails
                                         {
                                             Id = s.Id,
                                             UserId = u.Id,
@@ -76,12 +76,35 @@ namespace PhDSystem.Data.Repositories
                                             LastName = s.LastName,
                                             Email = u.Email,
                                             SpecialtyName = s.SpecialtyName,
-                                            FormOfEducation = s.FormOfEducation.Name,
+                                            FormOfEducation = s.FormOfEducation,
+                                            PhdProgram = new PhdProgram
+                                            {
+                                                Id = s.Department.Id,
+                                                Name = s.Department.Name,
+                                                ProfessionalField = new ProfessionalField
+                                                {
+                                                    Id = s.Department.Faculty.Id,
+                                                    Name = s.Department.Faculty.Name,
+                                                }
+                                            },
+                                            Department = new Department
+                                            {
+                                                Id = s.Department.Id,
+                                                Name = s.Department.Name,
+                                                HeadFullName = s.Department.HeadFullName,
+                                                Faculty = new Faculty
+                                                {
+                                                    Id = s.Department.Faculty.Id,
+                                                    Name = s.Department.Faculty.Name,
+                                                    DeanFullName = s.Department.Faculty.DeanFullName,
+                                                    University = s.Department.Faculty.University
+                                                }
+                                            },
                                             CurrentYear = s.CurrentYear,
                                             FacultyCouncilChosenDate = s.FacultyCouncilChosenDate.Date,
                                             Teachers = (from st in s.StudentTeachers
                                                         join t in _context.Teachers on st.TeacherId equals t.Id
-                                                        select new TeacherDetails 
+                                                        select new TeacherDetails
                                                         {
                                                             Id = t.Id,
                                                             FirstName = t.FirstName,
@@ -99,7 +122,7 @@ namespace PhDSystem.Data.Repositories
         {
             return await _context.Students.Where(s => s.IsDeleted == false)
                                           .Select(s => new StudentListModel
-                                          { 
+                                          {
                                               Id = s.Id,
                                               FirstName = s.FirstName,
                                               LastName = s.LastName,
@@ -122,7 +145,7 @@ namespace PhDSystem.Data.Repositories
                           }).ToListAsync();
         }
 
-        public async Task UpdateStudentAsync(int studentId, StudentUpsertModel studentUpdateData)
+        public async Task UpdateStudentAsync(int studentId, StudentDetails studentUpdateData)
         {
             var existingStudent = _context.Students.SingleOrDefault(s => s.Id == studentId);
 
@@ -136,9 +159,9 @@ namespace PhDSystem.Data.Repositories
             existingStudent.EndDate = studentUpdateData.EndDate;
 
             existingStudent.CurrentYear = studentUpdateData.CurrentYear;
-            existingStudent.FormOfEducationId = studentUpdateData.FormOfEducationId;
-            existingStudent.DepartmentId = studentUpdateData.DepartmentId;
-            existingStudent.PhdProgramId = studentUpdateData.PhdProgramId;
+            existingStudent.FormOfEducationId = studentUpdateData.FormOfEducation.Id;
+            existingStudent.DepartmentId = studentUpdateData.Department.Id;
+            existingStudent.PhdProgramId = studentUpdateData.PhdProgram.Id;
 
             await RemoveStudentTeacherRecords(studentId);
 
@@ -161,7 +184,7 @@ namespace PhDSystem.Data.Repositories
 
         private void AddStudentTeacherRecordsForStudent(int[] teacherIds, int studentId)
         {
-            foreach(var teacherId in teacherIds)
+            foreach (var teacherId in teacherIds)
             {
                 _context.StudentTeachers.Add(new StudentTeacher() { StudentId = studentId, TeacherId = teacherId });
             }
