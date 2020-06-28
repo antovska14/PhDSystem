@@ -22,11 +22,17 @@ namespace PhDSystem.Data.Models.Students
 
         public PhdProgram PhdProgram { get; set; }
 
+        public ProfessionalField ProfessionalField { get; set; }
+
         public Department Department { get; set; }
+
+        public Faculty Faculty { get; set; }
+
+        public University University { get; set; }
 
         public int CurrentYear { get; set; }
 
-        public string SpecialtyName { get; set; }
+        public string Specialty { get; set; }
 
         public string DissertationTheme { get; set; }
 

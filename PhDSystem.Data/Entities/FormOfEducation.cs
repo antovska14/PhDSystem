@@ -14,6 +14,7 @@ namespace PhDSystem.Data.Entities
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public int YearsCount { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }

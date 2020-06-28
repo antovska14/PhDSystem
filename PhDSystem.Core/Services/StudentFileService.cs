@@ -39,7 +39,7 @@ namespace PhDSystem.Api.Services
             return resultFile;
         }
 
-        public async Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId)
+        public async Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId)
         {
             return await _studentFileRepository.GetStudentFileDetailsList(studentId);
         }

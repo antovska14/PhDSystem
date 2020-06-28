@@ -12,17 +12,22 @@ namespace PhDSystem.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public int StudentId { get; set; }
 
         public virtual Student Student { get; set; }
 
+        [Required]
         public int Year { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
 
+        [Required]
         public double Grade { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
     }
 }

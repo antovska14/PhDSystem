@@ -17,9 +17,11 @@ namespace PhDSystem.Data.Entities
         public int FacultyId { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string HeadFullName { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }

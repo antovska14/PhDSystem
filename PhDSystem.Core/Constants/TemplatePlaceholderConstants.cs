@@ -31,7 +31,7 @@
         public static string MultiTeachersBracesValueIndex = "<MultiTeachersBracesValue-index>";
         public static string MultiTeachersValue = "<MultiTeachersValue>";
         public static string MultiTeachersValueIndex = "<MultiTeachersValue-index>";
-        public static string MultiExams = "<MultiExams>";
-        public static string MultiTeachers = "<MultiTeachers>";
+        public static string MultiExamsValueIndex = "<MultiExamsValue-index>";
+        public static string MultiExamsValue = "<MultiExamsValue>";
     }
 }

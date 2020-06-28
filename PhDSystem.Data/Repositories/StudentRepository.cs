@@ -30,7 +30,7 @@ namespace PhDSystem.Data.Repositories
                 DepartmentId = studentCreateData.Department.Id,
                 PhdProgramId = studentCreateData.PhdProgram.Id,
                 CurrentYear = studentCreateData.CurrentYear,
-                SpecialtyName = studentCreateData.SpecialtyName,
+                SpecialtyName = studentCreateData.Specialty,
                 DissertationTheme = studentCreateData.DissertationTheme,
                 FacultyCouncilChosenDate = studentCreateData.FacultyCouncilChosenDate,
                 StartDate = studentCreateData.StartDate,
@@ -75,31 +75,35 @@ namespace PhDSystem.Data.Repositories
                                             MiddleName = s.MiddleName,
                                             LastName = s.LastName,
                                             Email = u.Email,
-                                            SpecialtyName = s.SpecialtyName,
+                                            Specialty = s.SpecialtyName,
                                             FormOfEducation = s.FormOfEducation,
                                             PhdProgram = new PhdProgram
                                             {
-                                                Id = s.Department.Id,
-                                                Name = s.Department.Name,
-                                                ProfessionalField = new ProfessionalField
-                                                {
-                                                    Id = s.Department.Faculty.Id,
-                                                    Name = s.Department.Faculty.Name,
-                                                }
+                                                Id = s.PhdProgram.Id,
+                                                Name = s.PhdProgram.Name,
+                                            },
+                                            ProfessionalField = new ProfessionalField
+                                            {
+                                                Id = s.PhdProgram.ProfessionalField.Id,
+                                                Name = s.PhdProgram.ProfessionalField.Name,
                                             },
                                             Department = new Department
                                             {
                                                 Id = s.Department.Id,
                                                 Name = s.Department.Name,
                                                 HeadFullName = s.Department.HeadFullName,
-                                                Faculty = new Faculty
-                                                {
-                                                    Id = s.Department.Faculty.Id,
-                                                    Name = s.Department.Faculty.Name,
-                                                    DeanFullName = s.Department.Faculty.DeanFullName,
-                                                    University = s.Department.Faculty.University
-                                                }
+                                                
                                             },
+                                            Faculty = new Faculty
+                                            {
+                                                Id = s.Department.Faculty.Id,
+                                                Name = s.Department.Faculty.Name,
+                                                DeanFullName = s.Department.Faculty.DeanFullName,
+                                            },
+                                            StartDate = s.StartDate,
+                                            EndDate = s.EndDate,
+                                            DissertationTheme = s.DissertationTheme,
+                                            University = s.Department.Faculty.University,
                                             CurrentYear = s.CurrentYear,
                                             FacultyCouncilChosenDate = s.FacultyCouncilChosenDate.Date,
                                             Teachers = (from st in s.StudentTeachers
@@ -152,7 +156,7 @@ namespace PhDSystem.Data.Repositories
             existingStudent.FirstName = studentUpdateData.FirstName;
             existingStudent.MiddleName = studentUpdateData.MiddleName;
             existingStudent.LastName = studentUpdateData.LastName;
-            existingStudent.SpecialtyName = studentUpdateData.SpecialtyName;
+            existingStudent.SpecialtyName = studentUpdateData.Specialty;
             existingStudent.DissertationTheme = studentUpdateData.DissertationTheme;
             existingStudent.FacultyCouncilChosenDate = studentUpdateData.FacultyCouncilChosenDate;
             existingStudent.StartDate = studentUpdateData.StartDate;

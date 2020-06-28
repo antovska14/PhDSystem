@@ -1,4 +1,6 @@
 ﻿using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models.Exams;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories.Interfaces
@@ -9,6 +11,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
 
         Task DeleteExam(int examId);
 
-        Task<Exam> GetExams(int studentId);
+        Task<IEnumerable<ExamsYearDetails>> GetExams(int studentId);
     }
 }

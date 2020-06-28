@@ -28,12 +28,6 @@ namespace PhDSystem.Core.Generators
             var templateFileStream = _template.FileContent;
             var placeholderRegex = new Regex("<\\w+>");
 
-            var teacherStrings = new List<string>(); 
-            foreach(var teacher in _data.Teachers)
-            {
-                teacherStrings.Add($"{teacher.Title} {teacher.Degree} {teacher.FirstName} {teacher.LastName}".Trim());
-            }
-
             using (var document = DocX.Load(templateFileStream))
             {
                 var maxTeacherIndex = _data.Teachers.Count;

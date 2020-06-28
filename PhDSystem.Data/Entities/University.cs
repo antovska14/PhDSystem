@@ -16,6 +16,8 @@ namespace PhDSystem.Data
         [MaxLength(255)]
         public string Name { get; set; }
 
+        [Required]
+        [MaxLength(255)]
         public string RectorFullName { get; set; }
 
         public virtual ICollection<Faculty> Faculties { get; set; }

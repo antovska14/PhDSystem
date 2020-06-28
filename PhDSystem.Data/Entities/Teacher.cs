@@ -27,8 +27,10 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string LastName { get; set; }
 
+        [MaxLength(255)]
         public string Title { get; set; }
 
+        [MaxLength(255)]
         public string Degree { get; set; }
 
         public bool IsDeleted { get; set; }

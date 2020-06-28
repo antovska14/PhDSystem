@@ -2,7 +2,7 @@
 
 namespace PhDSystem.Data.Models
 {
-    public class StudentFileDetails
+    public class StudentFileGroupDetails
     {
         public int StudentId { get; set; }
 

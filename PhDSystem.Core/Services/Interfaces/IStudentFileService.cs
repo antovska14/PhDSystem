@@ -14,6 +14,6 @@ namespace PhDSystem.Core.Services.Interfaces
 
         Task DeleteStudentFile(string fileName, int studentId, int year = 0);
 
-        Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId);
+        Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId);
     }
 }

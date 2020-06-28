@@ -51,9 +51,8 @@ namespace PhDSystem.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId)
+        public async Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId)
         {
-            // TODO [DA]: Cannot translate Select appeared when grouping was tried, try implementing another approach and replace the following
             var fileGroupFilesDictionary = new Dictionary<string, IList<string>>();
 
             var studentFiles = await _context.StudentFiles.Where(sf => sf.StudentId == studentId).ToListAsync();
@@ -70,11 +69,11 @@ namespace PhDSystem.Data.Repositories
                 }
             }
 
-            var studentFileDetailsList = new List<StudentFileDetails>();
+            var studentFileDetailsList = new List<StudentFileGroupDetails>();
 
             foreach (var keyValuePair in fileGroupFilesDictionary)
             {
-                studentFileDetailsList.Add(new StudentFileDetails
+                studentFileDetailsList.Add(new StudentFileGroupDetails
                 {
                     StudentId = studentId,
                     FileGroup = keyValuePair.Key,

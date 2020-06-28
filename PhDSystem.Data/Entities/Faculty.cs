@@ -17,9 +17,11 @@ namespace PhDSystem.Data.Entities
         public int UniversityId { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string DeanFullName { get; set; }
 
         public virtual ICollection<Department> Departments { get; set; }

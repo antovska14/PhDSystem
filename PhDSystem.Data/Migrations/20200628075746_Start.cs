@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PhDSystem.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,7 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
-                    RectorFullName = table.Column<string>(nullable: true)
+                    RectorFullName = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +67,7 @@ namespace PhDSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
                     ProfessionalFieldId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -88,8 +88,8 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniversityId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    DeanFullName = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    DeanFullName = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,6 +110,7 @@ namespace PhDSystem.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(maxLength: 255, nullable: false),
                     Password = table.Column<string>(maxLength: 255, nullable: false),
+                    PasswordSet = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     RoleId = table.Column<int>(nullable: false)
                 },
@@ -131,8 +132,8 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FacultyId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    HeadFullName = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    HeadFullName = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,8 +156,8 @@ namespace PhDSystem.Data.Migrations
                     FirstName = table.Column<string>(maxLength: 255, nullable: false),
                     MiddleName = table.Column<string>(maxLength: 255, nullable: true),
                     LastName = table.Column<string>(maxLength: 255, nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Degree = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(maxLength: 255, nullable: true),
+                    Degree = table.Column<string>(maxLength: 255, nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -185,7 +186,7 @@ namespace PhDSystem.Data.Migrations
                     DepartmentId = table.Column<int>(nullable: false),
                     CurrentYear = table.Column<int>(nullable: false),
                     SpecialtyName = table.Column<string>(maxLength: 255, nullable: false),
-                    DisertationTheme = table.Column<string>(nullable: true),
+                    DissertationTheme = table.Column<string>(maxLength: 255, nullable: false),
                     FacultyCouncilChosenDate = table.Column<DateTime>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
@@ -228,7 +229,7 @@ namespace PhDSystem.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
                     Grade = table.Column<double>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
@@ -250,7 +251,7 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(nullable: false),
-                    FileGroup = table.Column<string>(nullable: false),
+                    FileGroup = table.Column<string>(maxLength: 255, nullable: false),
                     FileName = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -314,23 +315,43 @@ namespace PhDSystem.Data.Migrations
                 {
                     { 1, "Admin" },
                     { 2, "Student" },
-                    { 3, "Supervisor" }
+                    { 3, "Teacher" }
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "Email", "IsDeleted", "Password", "RoleId" },
-                values: new object[] { 1, "admin@gmail.com", false, "admin", 1 });
+                table: "Faculty",
+                columns: new[] { "Id", "DeanFullName", "Name", "UniversityId" },
+                values: new object[] { 1, "проф. д-р инж. Огнян Наков", "Факултет за компютърни системи и технологии", 1 });
+
+            migrationBuilder.InsertData(
+                table: "PhdProgram",
+                columns: new[] { "Id", "Name", "ProfessionalFieldId" },
+                values: new object[] { 1, "Системи с изкуствен интелект", 1 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "Email", "IsDeleted", "Password", "RoleId" },
-                values: new object[] { 2, "student@gmail.com", false, "student", 2 });
+                columns: new[] { "Id", "Email", "IsDeleted", "Password", "PasswordSet", "RoleId" },
+                values: new object[,]
+                {
+                    { 1, "admin@gmail.com", false, "admin", false, 1 },
+                    { 2, "student@gmail.com", false, "student", false, 2 },
+                    { 3, "teacher@gmail.com", false, "teacher", false, 3 }
+                });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "Email", "IsDeleted", "Password", "RoleId" },
-                values: new object[] { 3, "supervisor@gmail.com", false, "supervisor", 3 });
+                table: "Department",
+                columns: new[] { "Id", "FacultyId", "HeadFullName", "Name" },
+                values: new object[] { 1, 1, "проф. д-р инж. Милена Лазарова", "Компютърни системи" });
+
+            migrationBuilder.InsertData(
+                table: "Teacher",
+                columns: new[] { "Id", "Degree", "FirstName", "IsDeleted", "LastName", "MiddleName", "Title", "UserId" },
+                values: new object[] { 1, null, "Bill", false, "Gates", null, null, 3 });
+
+            migrationBuilder.InsertData(
+                table: "Student",
+                columns: new[] { "Id", "CurrentYear", "DepartmentId", "DissertationTheme", "EndDate", "FacultyCouncilChosenDate", "FirstName", "FormOfEducationId", "IsDeleted", "LastName", "MiddleName", "PhdProgramId", "SpecialtyName", "StartDate", "UserId" },
+                values: new object[] { 1, 0, 1, "Talking Robot", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 28, 0, 0, 0, 0, DateTimeKind.Local), "Dijana", 1, false, "Antovska", null, 1, "Computer and Software Engineering", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Department_FacultyId",

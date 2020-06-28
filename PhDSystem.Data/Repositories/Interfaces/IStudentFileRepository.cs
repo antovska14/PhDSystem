@@ -10,6 +10,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
 
         Task DeleteStudentFileRecord(int studentId, string fileGroup, string fileName);
 
-        Task<IEnumerable<StudentFileDetails>> GetStudentFileDetailsList(int studentId);
+        Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId);
     }
 }

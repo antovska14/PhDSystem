@@ -19,6 +19,7 @@ namespace PhDSystem.Data.Entities
         public virtual Student Student { get; set; }
 
         [Required]
+        [MaxLength(255)]
         public string FileGroup { get; set; }
 
         [Required]

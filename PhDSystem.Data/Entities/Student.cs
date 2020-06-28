@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 
 namespace PhDSystem.Data.Entities
 {
@@ -51,13 +50,17 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string SpecialtyName { get; set; }
 
+        [Required]
+        [MaxLength(255)]
         public string DissertationTheme { get; set; }
 
         [Required]
         public DateTime FacultyCouncilChosenDate { get; set; }
 
+        [Required]
         public DateTime StartDate { get; set; }
 
+        [Required]
         public DateTime EndDate { get; set; }
 
         public bool IsDeleted { get; set; }

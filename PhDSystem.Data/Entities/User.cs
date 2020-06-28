@@ -18,6 +18,8 @@ namespace PhDSystem.Data.Entities
         [MaxLength(255)]
         public string Password { get; set; }
 
+        public bool PasswordSet { get; set; }
+
         public bool IsDeleted { get; set; }
 
         [ForeignKey("RoleId")]

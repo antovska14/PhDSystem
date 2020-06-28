@@ -10,8 +10,8 @@ using PhDSystem.Data;
 namespace PhDSystem.Data.Migrations
 {
     [DbContext(typeof(PhdSystemDbContext))]
-    [Migration("20200622005548_Initial-3")]
-    partial class Initial3
+    [Migration("20200628075746_Start")]
+    partial class Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,11 +33,13 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<string>("HeadFullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -70,7 +72,8 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -94,11 +97,13 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<string>("DeanFullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("UniversityId")
                         .HasColumnType("int");
@@ -167,7 +172,8 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("ProfessionalFieldId")
                         .HasColumnType("int");
@@ -224,8 +230,10 @@ namespace PhDSystem.Data.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DisertationTheme")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("DissertationTheme")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -279,6 +287,25 @@ namespace PhDSystem.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Student");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CurrentYear = 0,
+                            DepartmentId = 1,
+                            DissertationTheme = "Talking Robot",
+                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FacultyCouncilChosenDate = new DateTime(2020, 6, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            FirstName = "Dijana",
+                            FormOfEducationId = 1,
+                            IsDeleted = false,
+                            LastName = "Antovska",
+                            PhdProgramId = 1,
+                            SpecialtyName = "Computer and Software Engineering",
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.StudentFile", b =>
@@ -290,7 +317,8 @@ namespace PhDSystem.Data.Migrations
 
                     b.Property<string>("FileGroup")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -330,7 +358,8 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Degree")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -350,7 +379,8 @@ namespace PhDSystem.Data.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -393,6 +423,9 @@ namespace PhDSystem.Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
+                    b.Property<bool>("PasswordSet")
+                        .HasColumnType("bit");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
@@ -409,6 +442,7 @@ namespace PhDSystem.Data.Migrations
                             Email = "admin@gmail.com",
                             IsDeleted = false,
                             Password = "admin",
+                            PasswordSet = false,
                             RoleId = 1
                         },
                         new
@@ -417,14 +451,16 @@ namespace PhDSystem.Data.Migrations
                             Email = "student@gmail.com",
                             IsDeleted = false,
                             Password = "student",
+                            PasswordSet = false,
                             RoleId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Email = "supervisor@gmail.com",
+                            Email = "teacher@gmail.com",
                             IsDeleted = false,
-                            Password = "supervisor",
+                            Password = "teacher",
+                            PasswordSet = false,
                             RoleId = 3
                         });
                 });
@@ -459,7 +495,7 @@ namespace PhDSystem.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Supervisor"
+                            Name = "Teacher"
                         });
                 });
 
@@ -476,7 +512,9 @@ namespace PhDSystem.Data.Migrations
                         .HasMaxLength(255);
 
                     b.Property<string>("RectorFullName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
