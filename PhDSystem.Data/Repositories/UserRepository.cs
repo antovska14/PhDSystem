@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Repositories.Helpers;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories
@@ -20,10 +19,10 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<int> CreateUser(User user)
         {
-            var hasher = new PasswordHasher<User>();
-            var passwordHashed = hasher.HashPassword(user, user.Password);
+            var passwordHashed = PasswordHelper.GetHashedPassword(user, user.Password);
             user.Password = passwordHashed;
             _context.Users.Add(user);
+
             await _context.SaveChangesAsync();
             return user.Id;
         }
@@ -32,6 +31,7 @@ namespace PhDSystem.Data.Repositories
         {
             User userToDelete = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
             userToDelete.IsDeleted = true;
+
             await _context.SaveChangesAsync();
         }
 
@@ -41,12 +41,10 @@ namespace PhDSystem.Data.Repositories
                                  .Where(u => u.Email.ToLower().Equals(email))
                                  .SingleOrDefaultAsync();
 
-            var hasher = new PasswordHasher<User>();
-            var passwordHashed = hasher.HashPassword(user, user.Password);
-            var verificationResult = hasher.VerifyHashedPassword(user, passwordHashed, user.Password);
+            var passwordHashed = PasswordHelper.GetHashedPassword(user, password);
+            var areEqual = PasswordHelper.AreHashedAndActualPasswordsEqual(user, passwordHashed, user.Password);
 
-            if (verificationResult == PasswordVerificationResult.Success 
-                || verificationResult == PasswordVerificationResult.SuccessRehashNeeded)
+            if (areEqual)
             {
                 return user;
             }
@@ -68,6 +66,15 @@ namespace PhDSystem.Data.Repositories
                          where u.Id == userId
                          select ur     
                          ).FirstOrDefaultAsync();
+        }
+
+        public async Task SetPassword(int userId, string password)
+        {
+            var user = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            var passwordHashed = PasswordHelper.GetHashedPassword(user, password);
+            user.Password = passwordHashed;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateUser(User user)

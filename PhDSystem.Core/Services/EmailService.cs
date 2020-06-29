@@ -10,22 +10,21 @@ namespace PhDSystem.Core.Services
     public class EmailService : IEmailService
     {
         private readonly IEmailClient _emailClient;
-        private readonly NotificationMetadata _notificationMetadata;
 
-        public EmailService(IEmailClient emailClient, NotificationMetadata notificationMetadata)
+        public EmailService(IEmailClient emailClient)
         {
             _emailClient = emailClient;
-            _notificationMetadata = notificationMetadata;
         }
 
         public async Task NotifyUserForInitialCredentials(User user)
         {
+            //TODO [DA]: Change the receiver email address with user.Email value
             EmailMessage message = new EmailMessage
             {
-                Sender = new MailboxAddress("Self", "antovska14@gmail.com"),
-                Reciever = new MailboxAddress("Self", "antovska14@gmail.com"),
-                Subject = "Welcome",
-                Content = "Hello World!"
+                Sender = new MailboxAddress("PhD System", "phdsystem14@gmail.com"),
+                Reciever = new MailboxAddress("PhD System", "antovska14@gmail.com"),
+                Subject = "PhD System Account Created",
+                Content = $"Your account for PhD System has been created. Your initial password is {user.Password}. You are required to change you password in order to login."
             };
 
             var mimeMessage = CreateEmailMessage(message);

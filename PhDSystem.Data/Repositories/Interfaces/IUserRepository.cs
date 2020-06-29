@@ -1,5 +1,4 @@
 ﻿using PhDSystem.Data.Entities;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories.Interfaces
@@ -11,6 +10,7 @@ namespace PhDSystem.Data.Repositories.Interfaces
         Task<User> GetUser(string email, string password);
         Task<User> GetUser(int userId);
         Task<UserRole> GetUserRole(int userId);
+        Task SetPassword(int userId, string password);
         Task UpdateUser(User user);
     }
 }

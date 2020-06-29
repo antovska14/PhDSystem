@@ -80,5 +80,10 @@ namespace PhDSystem.Core.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public async Task SetPassword(SetPasswordModel setPasswordModel)
+        {
+            
+        }
     }
 }

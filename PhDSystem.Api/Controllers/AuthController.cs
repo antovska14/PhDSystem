@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
@@ -27,6 +28,14 @@ namespace PhDSystem.Api.Controllers
             }
 
             return NotFound("Invalid User Name/Password");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SetPassword([FromBody] SetPasswordModel passwordModel)
+        {
+            await _authService.SetPassword(passwordModel);
+            return Ok();
         }
     }
 }
