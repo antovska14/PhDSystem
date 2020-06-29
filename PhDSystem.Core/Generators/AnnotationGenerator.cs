@@ -12,8 +12,8 @@ namespace PhDSystem.Core.Generators
 {
     public class AnnotationGenerator : IPhdFileGenerator
     {
-        private FileModel _template;
-        private AnnotationModel _data;
+        private readonly FileModel _template;
+        private readonly AnnotationModel _data;
 
         public AnnotationGenerator(FileModel template, AnnotationModel data)
         {

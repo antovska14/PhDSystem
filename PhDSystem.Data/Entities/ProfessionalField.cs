@@ -11,7 +11,6 @@ namespace PhDSystem.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 

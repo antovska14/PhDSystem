@@ -1,4 +1,6 @@
-﻿using PhDSystem.Core.Services.Interfaces;
+﻿using Microsoft.AspNetCore.Identity;
+using PhDSystem.Core.Services.Helpers;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
@@ -12,19 +14,23 @@ namespace PhDSystem.Core.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IEmailService _emailService;
 
-        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository, ITeacherRepository teacherRepository)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository, ITeacherRepository teacherRepository, IEmailService emailService)
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
             _teacherRepository = teacherRepository;
+            _emailService = emailService;
         }
 
         public async Task CreateStudentAsync(StudentDetails studentCreateModel)
         {
-            var password = studentCreateModel.Email.Split('@')[0];
+            var password = AuthHelper.GeneratePassword();
             var user = new User() { Email = studentCreateModel.Email, Password = password, RoleId = 2 };
             var userId = await _userRepository.CreateUser(user);
+
+            await _emailService.NotifyUserForInitialCredentials(user);
 
             studentCreateModel.UserId = userId;
             await _studentRepository.CreateStudentAsync(studentCreateModel);

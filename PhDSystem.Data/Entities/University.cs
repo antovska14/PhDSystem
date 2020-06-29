@@ -12,11 +12,9 @@ namespace PhDSystem.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string RectorFullName { get; set; }
 

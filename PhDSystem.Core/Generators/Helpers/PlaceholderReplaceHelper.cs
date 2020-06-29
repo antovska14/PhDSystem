@@ -10,23 +10,24 @@ namespace PhDSystem.Core.Generators.Helpers
     {
         public static IDictionary<string, string> GetAnnotationPlaceholderValueDictionary(AnnotationModel annotation)
         {
-            var placeholderValueDictionary = new Dictionary<string, string>();
-
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.University, annotation.UniversityName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Faculty, annotation.Faculty.Name.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Department, annotation.DepartmentName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.DissertationTheme, annotation.DissertationTheme ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentFirstName, annotation.Student.FirstName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentMiddleName, annotation.Student.MiddleName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentLastName, annotation.Student.LastName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.TeacherTitle, annotation.Teachers[0].Title ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.TeacherDegree, annotation.Teachers[0].Degree ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.TeacherFirstName, annotation.Teachers[0].FirstName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.TeacherLastName, annotation.Teachers[0].LastName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.DeanFullName, annotation.Faculty.DeanFullName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty);
-            placeholderValueDictionary.Add("()", string.Empty);
+            var placeholderValueDictionary = new Dictionary<string, string>
+            {
+                { TemplatePlaceholderConstants.University, annotation.UniversityName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Faculty, annotation.Faculty.Name.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Department, annotation.DepartmentName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.DissertationTheme, annotation.DissertationTheme ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentFirstName, annotation.Student.FirstName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentMiddleName, annotation.Student.MiddleName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentLastName, annotation.Student.LastName ?? string.Empty },
+                { TemplatePlaceholderConstants.TeacherTitle, annotation.Teachers[0].Title ?? string.Empty },
+                { TemplatePlaceholderConstants.TeacherDegree, annotation.Teachers[0].Degree ?? string.Empty },
+                { TemplatePlaceholderConstants.TeacherFirstName, annotation.Teachers[0].FirstName ?? string.Empty },
+                { TemplatePlaceholderConstants.TeacherLastName, annotation.Teachers[0].LastName ?? string.Empty },
+                { TemplatePlaceholderConstants.DeanFullName, annotation.Faculty.DeanFullName ?? string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty },
+                { "()", string.Empty }
+            };
 
             for (int i = 0; i < annotation.Teachers.Count; i++)
             {
@@ -40,20 +41,21 @@ namespace PhDSystem.Core.Generators.Helpers
 
         public static IDictionary<string, string> GetAttestationPlaceholderValueDictionary(AttestationModel attestation)
         {
-            var placeholderValueDictionary = new Dictionary<string, string>();
-
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.University, attestation.UniversityName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Faculty, attestation.FacultyName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Department, attestation.DepartmentName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.FormOfEducation, attestation.Student.FormOfEducation ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.DissertationTheme, attestation.DissertationTheme ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentFirstName, attestation.Student.FirstName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentMiddleName, attestation.Student.MiddleName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentLastName, attestation.Student.LastName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StartDate, attestation.Student.StartDate.Date.ToString("dd.MM.yyyy") ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.EndDate, attestation.Student.EndDate.Date.ToString("dd.MM.yyyy") ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersValue, string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiExamsValue, string.Empty);
+            var placeholderValueDictionary = new Dictionary<string, string>
+            {
+                { TemplatePlaceholderConstants.University, attestation.UniversityName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Faculty, attestation.FacultyName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Department, attestation.DepartmentName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.FormOfEducation, attestation.Student.FormOfEducation ?? string.Empty },
+                { TemplatePlaceholderConstants.DissertationTheme, attestation.DissertationTheme ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentFirstName, attestation.Student.FirstName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentMiddleName, attestation.Student.MiddleName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentLastName, attestation.Student.LastName ?? string.Empty },
+                { TemplatePlaceholderConstants.StartDate, attestation.Student.StartDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
+                { TemplatePlaceholderConstants.EndDate, attestation.Student.EndDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersValue, string.Empty },
+                { TemplatePlaceholderConstants.MultiExamsValue, string.Empty }
+            };
 
             for (int i = 0; i < attestation.Exams.Count; i++)
             {
@@ -72,27 +74,28 @@ namespace PhDSystem.Core.Generators.Helpers
 
         public static IDictionary<string, string> GetIndividualPlanPlaceholderValueDictionary(IndividualPlanModel individualPlan)
         {
-            var placeholderValueDictionary = new Dictionary<string, string>();
+            var placeholderValueDictionary = new Dictionary<string, string>
+            {
+                { TemplatePlaceholderConstants.University, individualPlan.UniversityName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Faculty, individualPlan.FacultyName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.Department, individualPlan.DepartmentName.ToUpperInvariant() ?? string.Empty },
+                { TemplatePlaceholderConstants.FormOfEducation, individualPlan.Student.FormOfEducation ?? string.Empty },
+                { TemplatePlaceholderConstants.DissertationTheme, individualPlan.DissertationTheme ?? string.Empty },
+                { TemplatePlaceholderConstants.SpecialtyName, individualPlan.SpecialtyName ?? string.Empty },
+                { TemplatePlaceholderConstants.FacultyCouncilChosenDate, individualPlan.FacultyCouncilChosenDate.ToString("dd/MM/yyyy") ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentFirstName, individualPlan.Student.FirstName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentMiddleName, individualPlan.Student.MiddleName ?? string.Empty },
+                { TemplatePlaceholderConstants.StudentLastName, individualPlan.Student.LastName ?? string.Empty },
+                { TemplatePlaceholderConstants.StartDate, individualPlan.Student.StartDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
+                { TemplatePlaceholderConstants.EndDate, individualPlan.Student.EndDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
+                { TemplatePlaceholderConstants.HeadOfUnitFullName, string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersValue, string.Empty },
+                { "()", string.Empty }
+            };
 
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.University, individualPlan.UniversityName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Faculty, individualPlan.FacultyName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.Department, individualPlan.DepartmentName.ToUpperInvariant() ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.FormOfEducation, individualPlan.Student.FormOfEducation ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.DissertationTheme, individualPlan.DissertationTheme ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.SpecialtyName, individualPlan.SpecialtyName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.FacultyCouncilChosenDate, individualPlan.FacultyCouncilChosenDate.ToString("dd/MM/yyyy") ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentFirstName, individualPlan.Student.FirstName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentMiddleName, individualPlan.Student.MiddleName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StudentLastName, individualPlan.Student.LastName ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.StartDate, individualPlan.Student.StartDate.Date.ToString("dd.MM.yyyy") ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.EndDate, individualPlan.Student.EndDate.Date.ToString("dd.MM.yyyy") ?? string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.HeadOfUnitFullName, string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty);
-            placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersValue, string.Empty);
-            placeholderValueDictionary.Add("()", string.Empty);
-
-            for(int i = 0; i < individualPlan.Teachers.Count; i++)
+            for (int i = 0; i < individualPlan.Teachers.Count; i++)
             {
                 placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiTeachersSignatureIndex.Replace("index", i.ToString()), "Научен ръководител: ……….……….……….");
                 var teacherString = ($"{individualPlan.Teachers[i].Title} {individualPlan.Teachers[i].Degree} {individualPlan.Teachers[i].FirstName} {individualPlan.Teachers[i].LastName}").Trim();

@@ -38,6 +38,8 @@ namespace PhDSystem.Data.Repositories
             var exams = await _context.Exams.Where(e => e.StudentId == studentId).Select(x => new ExamDetails 
             { 
                 Id = x.Id,
+                StudentId = x.StudentId,
+                Year = x.Year,
                 Name = x.Name,
                 Date = x.Date,
                 Grade = x.Grade

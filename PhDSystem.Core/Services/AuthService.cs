@@ -41,11 +41,12 @@ namespace PhDSystem.Core.Services
 
         private async Task<UserAuth> BuildUserAuthObjectAsync(User user)
         {
-            UserAuth userAuth = new UserAuth();
-
-            userAuth.Id = user.Id;
-            userAuth.Email = user.Email;
-            userAuth.IsAuthenticated = true;
+            UserAuth userAuth = new UserAuth
+            {
+                Id = user.Id,
+                Email = user.Email,
+                IsAuthenticated = true
+            };
             var userRole = await GetUserRoleAsync(user);
             userAuth.Role = userRole.Name;
             userAuth.BearerToken = BuildJwtTokenAsync(userAuth);
@@ -58,13 +59,15 @@ namespace PhDSystem.Core.Services
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
             // Create the standard JWT claims
-            List<Claim> jwtClaims = new List<Claim>();
-            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, userAuth.Email));
-            jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            List<Claim> jwtClaims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userAuth.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
-            // Add custom claims
-            jwtClaims.Add(new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower()));
-            jwtClaims.Add(new Claim("role", userAuth.Role));
+                // Add custom claims
+                new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower()),
+                new Claim("role", userAuth.Role)
+            };
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

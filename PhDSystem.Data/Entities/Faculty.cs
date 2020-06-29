@@ -16,11 +16,9 @@ namespace PhDSystem.Data.Entities
         [Required]
         public int UniversityId { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string DeanFullName { get; set; }
 

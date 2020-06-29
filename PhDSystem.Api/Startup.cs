@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Managers;
 using PhDSystem.Api.Services;
+using PhDSystem.Core.Clients;
+using PhDSystem.Core.Clients.Interfaces;
 using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
@@ -75,6 +77,9 @@ namespace PhDSystem.Api
                 config.AddPolicy("RequireRequireTeacherRole", p => p.RequireRole("Teacher"));
             });
 
+            var notificationMetadata = Configuration.GetSection("NotificationMetadata").Get<NotificationMetadata>();
+            services.AddSingleton(notificationMetadata);
+
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -94,6 +99,8 @@ namespace PhDSystem.Api
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IFileManager, FileManager>();
             services.AddScoped<IPhdFileService, PhdFileService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IEmailClient, EmailClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,11 +138,13 @@ namespace PhDSystem.Api
 
         private JwtSettings GetJwtSettings()
         {
-            JwtSettings settings = new JwtSettings();
-            settings.Key = Configuration["JwtSettings:key"];
-            settings.Audience = Configuration["JwtSettings:audience"];
-            settings.Issuer = Configuration["JwtSettings:issuer"];
-            settings.MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:minutesToExpiration"]);
+            JwtSettings settings = new JwtSettings
+            {
+                Key = Configuration["JwtSettings:key"],
+                Audience = Configuration["JwtSettings:audience"],
+                Issuer = Configuration["JwtSettings:issuer"],
+                MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:minutesToExpiration"])
+            };
 
             return settings;
         }
