@@ -23,8 +23,8 @@ namespace PhDSystem.Core.Services
             {
                 Sender = new MailboxAddress("PhD System", "phdsystem14@gmail.com"),
                 Reciever = new MailboxAddress("PhD System", "antovska14@gmail.com"),
-                Subject = "PhD System Account Created",
-                Content = $"Your account for PhD System has been created. Your initial password is {user.Password}. You are required to change you password in order to login."
+                Subject = "Акаунта в Системата за управление на докторанти Ви е създаден!",
+                Content = $"Първоначалната Ви парола за достъп е \"{user.Password}\". Необходима е промяна на паролата при първото влизане в системата."
             };
 
             var mimeMessage = CreateEmailMessage(message);

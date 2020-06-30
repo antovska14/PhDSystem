@@ -11,5 +11,7 @@ namespace PhDSystem.Data.Repositories.Interfaces
         Task DeletePhdProgram(int phdProgramId);
 
         Task<IEnumerable<PhdProgram>> GetPhdPrograms(int professionalField);
+
+        Task<IEnumerable<PhdProgram>> GetPhdPrograms();
     }
 }

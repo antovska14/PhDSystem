@@ -31,7 +31,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("setPassword")]
         public async Task<IActionResult> SetPassword([FromBody] SetPasswordModel passwordModel)
         {
             await _authService.SetPassword(passwordModel);

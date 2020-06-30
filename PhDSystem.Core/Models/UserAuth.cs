@@ -1,14 +1,18 @@
-﻿using PhDSystem.Data.Entities;
-
-namespace PhDSystem.Core.Models
+﻿namespace PhDSystem.Core.Models
 {
     public class UserAuth
     {
         public int Id { get; set; }
+
         public string Email { get; set; }
+
         public string BearerToken { get; set; }
+
         public bool IsAuthenticated { get; set; }
+
         public string Role { get; set; }
+
+        public bool PasswordSet { get; set; }
 
         public UserAuth()
         {

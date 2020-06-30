@@ -28,9 +28,9 @@ namespace PhDSystem.Core.Services
         {
             var password = AuthHelper.GeneratePassword();
             var user = new User() { Email = studentCreateModel.Email, Password = password, RoleId = 2 };
-            var userId = await _userRepository.CreateUser(user);
-
             await _emailService.NotifyUserForInitialCredentials(user);
+
+            var userId = await _userRepository.CreateUser(user);
 
             studentCreateModel.UserId = userId;
             await _studentRepository.CreateStudentAsync(studentCreateModel);

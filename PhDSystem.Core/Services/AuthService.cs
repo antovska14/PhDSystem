@@ -45,6 +45,7 @@ namespace PhDSystem.Core.Services
             {
                 Id = user.Id,
                 Email = user.Email,
+                PasswordSet = user.PasswordSet,
                 IsAuthenticated = true
             };
             var userRole = await GetUserRoleAsync(user);
@@ -66,7 +67,8 @@ namespace PhDSystem.Core.Services
 
                 // Add custom claims
                 new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower()),
-                new Claim("role", userAuth.Role)
+                new Claim("role", userAuth.Role),
+                new Claim("passwordSet", userAuth.PasswordSet.ToString().ToLower())
             };
 
             var token = new JwtSecurityToken(
@@ -83,7 +85,7 @@ namespace PhDSystem.Core.Services
 
         public async Task SetPassword(SetPasswordModel setPasswordModel)
         {
-            
+            await _userRepository.SetPassword(setPasswordModel.UserId, setPasswordModel.Password);
         }
     }
 }

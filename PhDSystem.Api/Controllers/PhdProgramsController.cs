@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Threading.Tasks;
 
@@ -15,11 +16,25 @@ namespace PhDSystem.Api.Controllers
             _phdProgramRepository = phdProgramRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetFormsOfEducation()
+        {
+            var phdPrograms = await _phdProgramRepository.GetPhdPrograms();
+            return Ok(phdPrograms);
+        }
+
         [HttpGet("{professionalFieldId}")]
         public async Task<IActionResult> GetFormsOfEducation(int professionalFieldId)
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms(professionalFieldId);
             return Ok(phdPrograms);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProfessionalField([FromBody] PhdProgram phdProgram)
+        {
+            await _phdProgramRepository.AddPhdProgram(phdProgram);
+            return Ok();
         }
     }
 }

@@ -41,8 +41,7 @@ namespace PhDSystem.Data.Repositories
                                  .Where(u => u.Email.ToLower().Equals(email))
                                  .SingleOrDefaultAsync();
 
-            var passwordHashed = PasswordHelper.GetHashedPassword(user, password);
-            var areEqual = PasswordHelper.AreHashedAndActualPasswordsEqual(user, passwordHashed, user.Password);
+            var areEqual = PasswordHelper.AreHashedAndActualPasswordsEqual(user, user.Password, password);
 
             if (areEqual)
             {
@@ -73,6 +72,7 @@ namespace PhDSystem.Data.Repositories
             var user = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
             var passwordHashed = PasswordHelper.GetHashedPassword(user, password);
             user.Password = passwordHashed;
+            user.PasswordSet = true;
 
             await _context.SaveChangesAsync();
         }

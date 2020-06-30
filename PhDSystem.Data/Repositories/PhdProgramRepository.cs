@@ -31,7 +31,28 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<IEnumerable<PhdProgram>> GetPhdPrograms(int professionalField)
         {
-            return await _context.PhdPrograms.Where(p => p.ProfessionalFieldId == professionalField).ToListAsync();
+            var phdPrograms = await _context.PhdPrograms.Where(p => p.ProfessionalFieldId == professionalField).ToListAsync();
+
+            return phdPrograms;
+        }
+
+        public async Task<IEnumerable<PhdProgram>> GetPhdPrograms()
+        {
+            var phdPrograms = await (from pp in _context.PhdPrograms
+                                     join pf in _context.ProfessionalFields on pp.ProfessionalFieldId equals pf.Id
+                                     select new PhdProgram
+                                     {
+                                         Id = pp.Id,
+                                         ProfessionalFieldId = pp.ProfessionalFieldId,
+                                         Name = pp.Name,
+                                         ProfessionalField = new ProfessionalField
+                                         {
+                                             Id = pf.Id,
+                                             Name = pf.Name
+                                         }
+                                     }).ToListAsync();
+
+            return phdPrograms;
         }
     }
 }
