@@ -21,9 +21,17 @@ namespace PhDSystem.Data.Repositories
         {
             var passwordHashed = PasswordHelper.GetHashedPassword(user, user.Password);
             user.Password = passwordHashed;
-            _context.Users.Add(user);
 
+            var existingUser = await _context.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefaultAsync();
+
+            if (existingUser != null)
+            {
+                //TODO [DA]: Throw exception for existing user.
+            }
+
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
             return user.Id;
         }
 
@@ -60,10 +68,10 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<UserRole> GetUserRole(int userId)
         {
-            return await (from u in _context.Users 
-                         join ur in _context.UserRoles on u.RoleId equals ur.Id
-                         where u.Id == userId
-                         select ur     
+            return await (from u in _context.Users
+                          join ur in _context.UserRoles on u.RoleId equals ur.Id
+                          where u.Id == userId
+                          select ur
                          ).FirstOrDefaultAsync();
         }
 
