@@ -12,15 +12,15 @@ namespace PhDSystem.Api.Extensions
     {
         public static void AddCoreConfig(this IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IStudentFileService, StudentFileService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IExamService, ExamService>();
             services.AddScoped<IPhdFileService, PhdFileService>();
+            services.AddScoped<IStudentFileService, StudentFileService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailClient, EmailClient>();
-            services.AddScoped<IExamService, ExamService>();
+            services.AddScoped<IFileManager, FileManager>();
         }
     }
 }

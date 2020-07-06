@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using PhDSystem.Core.Models;
+using PhDSystem.Api.Models;
+using PhDSystem.Api.Services;
+using PhDSystem.Api.Services.Interfaces;
 using System;
 using System.Text;
 
@@ -42,6 +44,8 @@ namespace PhDSystem.Api.Extensions
                     ClockSkew = TimeSpan.FromMinutes(settings.MinutesToExpiration)
                 };
             });
+
+            services.AddScoped<IAuthService, AuthService>();
         }
 
         private static JwtSettings GetJwtSettings(IConfiguration configuration)

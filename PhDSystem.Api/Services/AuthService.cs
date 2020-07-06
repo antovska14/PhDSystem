@@ -1,7 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using PhDSystem.Api.Models;
 using PhDSystem.Api.Services.Interfaces;
-using PhDSystem.Core.Models;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;

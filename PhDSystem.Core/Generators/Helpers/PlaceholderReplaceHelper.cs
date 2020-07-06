@@ -59,7 +59,7 @@ namespace PhDSystem.Core.Generators.Helpers
 
             for (int i = 0; i < attestation.Exams.Count; i++)
             {
-                var examString = ($"По {attestation.Exams[i].Name} срок на явяване {attestation.Exams[i].Date:dd.MM.yyyy} с  {attestation.Exams[i].GradeType} оценка ({attestation.Exams[i].Grade:#.#}).").Trim();
+                var examString = ($"По {attestation.Exams[i].Name} срок на явяване {attestation.Exams[i].Date:dd.MM.yyyy} с  {attestation.Exams[i].GradeDescription} оценка ({attestation.Exams[i].Grade:#.#}).").Trim();
                 placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiExamsValueIndex.Replace("index", i.ToString()), $"({examString})");
             }
 
