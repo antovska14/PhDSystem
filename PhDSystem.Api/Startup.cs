@@ -6,23 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using PhDSystem.Api.Managers;
-using PhDSystem.Api.Services;
-using PhDSystem.Core.Clients;
-using PhDSystem.Core.Clients.Interfaces;
+using PhDSystem.Api.Extensions;
 using PhDSystem.Core.Constants;
-using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
-using PhDSystem.Core.Services;
-using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data;
-using PhDSystem.Data.Repositories;
-using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.IO;
-using System.Text;
 
 namespace PhDSystem.Api
 {
@@ -48,60 +37,14 @@ namespace PhDSystem.Api
                 options.UseSqlServer(Configuration.GetConnectionString("PhdSystemDb"));
             });
 
-            JwtSettings settings = GetJwtSettings();
-            services.AddSingleton<JwtSettings>(settings);
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", jwtBearerOptions =>
-            {
-                jwtBearerOptions.TokenValidationParameters =
-                new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Key)),
-                    ValidateIssuer = true,
-                    ValidIssuer = settings.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = settings.Audience,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(settings.MinutesToExpiration)
-                };
-            });
-
-            services.AddAuthorization(config =>
-            {
-                config.AddPolicy("RequireAdminRole", p => p.RequireRole("Admin"));
-                config.AddPolicy("RequireStudentRole", p => p.RequireRole("Student"));
-                config.AddPolicy("RequireRequireTeacherRole", p => p.RequireRole("Teacher"));
-            });
+            services.AddAuthorizationConfig();
+            services.AddAuthenticationConfig(Configuration);
 
             var notificationMetadata = Configuration.GetSection("NotificationMetadata").Get<NotificationMetadata>();
             services.AddSingleton(notificationMetadata);
 
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITeacherRepository, TeacherRepository>();
-            services.AddScoped<IStudentFileRepository, StudentFileRepository>();
-            services.AddScoped<IExamRepository, ExamRepository>();
-            services.AddScoped<IProfessionalFieldRepository, ProfessionalFieldRepository>();
-            services.AddScoped<IPhdProgramRepository, PhdProgramRepository>();
-            services.AddScoped<IPhdFileDataRepository, PhdFileDataRepository>();
-            services.AddScoped<IUniversityRepository, UniversityRepository>();
-            services.AddScoped<IFacultyRepository, FacultyRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IFormOfEducationRepository, FormOfEducationRepository>();
-
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IStudentFileService, StudentFileService>();
-            services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IFileManager, FileManager>();
-            services.AddScoped<IPhdFileService, PhdFileService>();
-            services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<IEmailClient, EmailClient>();
-            services.AddScoped<IExamService, ExamService>();
+            services.AddDataConfig();
+            services.AddCoreConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,7 +62,7 @@ namespace PhDSystem.Api
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(options => options.WithOrigins("http://localhost:4200")
+            app.UseCors(options => options.AllowAnyOrigin()
                                           .AllowAnyMethod()
                                           .AllowAnyHeader());
 
@@ -127,7 +70,7 @@ namespace PhDSystem.Api
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder)),
                 RequestPath = new PathString($"/{FileConstants.RootFolder}")
-            }); ;
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -135,19 +78,6 @@ namespace PhDSystem.Api
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private JwtSettings GetJwtSettings()
-        {
-            JwtSettings settings = new JwtSettings
-            {
-                Key = Configuration["JwtSettings:key"],
-                Audience = Configuration["JwtSettings:audience"],
-                Issuer = Configuration["JwtSettings:issuer"],
-                MinutesToExpiration = Convert.ToInt32(Configuration["JwtSettings:minutesToExpiration"])
-            };
-
-            return settings;
         }
     }
 }

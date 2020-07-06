@@ -8,7 +8,7 @@ using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Api.Services
+namespace PhDSystem.Core.Services
 {
     public class StudentFileService : IStudentFileService
     {
