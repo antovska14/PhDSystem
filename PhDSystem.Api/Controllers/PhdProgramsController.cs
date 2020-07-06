@@ -17,14 +17,14 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFormsOfEducation()
+        public async Task<IActionResult> GetPhdPrograms()
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms();
             return Ok(phdPrograms);
         }
 
         [HttpGet("{professionalFieldId}")]
-        public async Task<IActionResult> GetFormsOfEducation(int professionalFieldId)
+        public async Task<IActionResult> GetPhdPrograms(int professionalFieldId)
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms(professionalFieldId);
             return Ok(phdPrograms);

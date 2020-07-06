@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PhDSystem.Data.Constants;
 using PhDSystem.Data.Models.PhdFileModels;
 using PhDSystem.Data.Models.PhdFileModels.Annotation;
 using PhDSystem.Data.Models.PhdFileModels.Attestation;
@@ -28,10 +29,19 @@ namespace PhDSystem.Data.Repositories
                                     select new AnnotationModel
                                     {
                                         UniversityName = u.Name,
-                                        Faculty = new FacultyAnnotationModel { Name = f.Name, DeanFullName = f.DeanFullName },
+                                        Faculty = new FacultyAnnotationModel
+                                        {
+                                            Name = f.Name,
+                                            DeanFullName = f.DeanFullName
+                                        },
                                         DepartmentName = d.Name,
                                         DissertationTheme = s.DissertationTheme,
-                                        Student = new StudentPhdFileModel { FirstName = s.FirstName, MiddleName = s.MiddleName, LastName = s.LastName },
+                                        Student = new StudentPhdFileModel
+                                        {
+                                            FirstName = s.FirstName,
+                                            MiddleName = s.MiddleName,
+                                            LastName = s.LastName
+                                        },
                                         Teachers = (from st in _context.StudentTeachers
                                                     join t in _context.Teachers on st.TeacherId equals t.Id
                                                     select new TeacherPhdFileModel
@@ -85,7 +95,9 @@ namespace PhDSystem.Data.Repositories
                                                       Name = e.Name,
                                                       Date = e.Date,
                                                       Grade = e.Grade,
-                                                      GradeType = e.Grade > 2 ? "положителна" : "отрицателна"
+                                                      GradeDescription = e.Grade > 2
+                                                      ? ExamConstants.PositiveGrade
+                                                      : ExamConstants.NegativeGrade
                                                   }).ToList()
                                      }).SingleOrDefaultAsync();
 

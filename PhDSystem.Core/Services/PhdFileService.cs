@@ -24,8 +24,7 @@ namespace PhDSystem.Core.Services
 
         public async Task<FileModel> ExportStudentFile(PhdFileType documentType, int studentId, int year = 0)
         {
-            IPhdFileGenerator generator = null;
-
+            IPhdFileGenerator generator;
             if (documentType == PhdFileType.IndividualPlan)
             {
                 var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.IndividualPlanWordFileName);
@@ -44,10 +43,9 @@ namespace PhDSystem.Core.Services
                 var data = await _phdFileDataRepository.GetAttestationData(studentId, year);
                 generator = new AttestationGenerator(template, data);
             }
-
-            if (generator == null)
+            else
             {
-                throw new ArgumentNullException($"PhdFileGenerator for document type {documentType} was never instantiated");
+                throw new NotImplementedException($"Phd File Generator for the given document type - {documentType} is not implemented");
             }
 
             return generator.GenerateFile();

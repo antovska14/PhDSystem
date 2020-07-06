@@ -20,9 +20,9 @@ namespace PhDSystem.Core.Clients
             using (SmtpClient smtpClient = new SmtpClient())
             {
                 await smtpClient.ConnectAsync(_notificationMetadata.SmtpServer,
-                _notificationMetadata.Port, true);
+                    _notificationMetadata.Port, true);
                 await smtpClient.AuthenticateAsync(_notificationMetadata.UserName,
-                _notificationMetadata.Password);
+                    _notificationMetadata.Password);
                 await smtpClient.SendAsync(message);
                 await smtpClient.DisconnectAsync(true);
             }

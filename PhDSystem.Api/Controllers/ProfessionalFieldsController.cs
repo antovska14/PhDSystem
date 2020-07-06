@@ -19,7 +19,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFormsOfEducation()
+        public async Task<IActionResult> GetProfessionalFields()
         {
             var professionalFields = await _professionalFieldRepository.GetProfessionalFields();
             return Ok(professionalFields);

@@ -34,13 +34,13 @@ namespace PhDSystem.Data
             modelBuilder.ApplyConfiguration(new UniversityConfiguration());
             modelBuilder.ApplyConfiguration(new ProfessionalFieldConfiguration());
 
-            modelBuilder.ApplyConfiguration(new TeacherConfiguration());
+            //modelBuilder.ApplyConfiguration(new TeacherConfiguration());
             modelBuilder.ApplyConfiguration(new FacultyConfiguration());
             modelBuilder.ApplyConfiguration(new PhdProgramConfiguration());
 
             modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
 
-            modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            //modelBuilder.ApplyConfiguration(new StudentConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

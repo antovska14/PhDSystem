@@ -101,6 +101,7 @@ namespace PhDSystem.Api
             services.AddScoped<IPhdFileService, PhdFileService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailClient, EmailClient>();
+            services.AddScoped<IExamService, ExamService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

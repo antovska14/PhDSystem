@@ -24,8 +24,9 @@ namespace PhDSystem.Api.Services
         public async Task DeleteStudentFile(string fileName, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
+            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
 
-            _fileManager.DeleteFile(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, fileName);
+            _fileManager.DeleteFile(folders, fileName);
 
             await _studentFileRepository.DeleteStudentFileRecord(studentId, fileGroup, fileName);
         }
@@ -33,8 +34,9 @@ namespace PhDSystem.Api.Services
         public async Task<FileModel> DownloadStudentFile(string fileName, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
+            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
 
-            var resultFile = await _fileManager.GetFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, fileName);
+            var resultFile = await _fileManager.GetFileAsync(folders, fileName);
 
             return resultFile;
         }
@@ -47,8 +49,9 @@ namespace PhDSystem.Api.Services
         public async Task UploadStudentFile(IFormFile file, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
+            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
 
-            await _fileManager.StoreFileAsync(new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup }, file);
+            await _fileManager.StoreFileAsync(folders, file);
 
             await _studentFileRepository.CreateStudentFileRecord(studentId, fileGroup, file.FileName);
         }

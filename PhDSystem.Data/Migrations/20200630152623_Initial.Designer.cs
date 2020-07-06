@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhDSystem.Data;
 
 namespace PhDSystem.Data.Migrations
 {
     [DbContext(typeof(PhdSystemDbContext))]
-    partial class PhdSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200630152623_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +44,6 @@ namespace PhDSystem.Data.Migrations
                     b.HasIndex("FacultyId");
 
                     b.ToTable("Department");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FacultyId = 1,
-                            HeadFullName = "проф. д-р инж. Милена Лазарова",
-                            Name = "Компютърни системи"
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.Exam", b =>
@@ -107,15 +100,6 @@ namespace PhDSystem.Data.Migrations
                     b.HasIndex("UniversityId");
 
                     b.ToTable("Faculty");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DeanFullName = "проф. д-р инж. Огнян Наков",
-                            Name = "Факултет за компютърни системи и технологии",
-                            UniversityId = 1
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.FormOfEducation", b =>
@@ -175,14 +159,6 @@ namespace PhDSystem.Data.Migrations
                     b.HasIndex("ProfessionalFieldId");
 
                     b.ToTable("PhdProgram");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Системи с изкуствен интелект",
-                            ProfessionalFieldId = 1
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.ProfessionalField", b =>
@@ -403,7 +379,7 @@ namespace PhDSystem.Data.Migrations
                             Id = 1,
                             Email = "admin@gmail.com",
                             IsDeleted = false,
-                            Password = "AQAAAAEAACcQAAAAEOA6ME66aHTylm29p9fsv+tPUhXFBed4QCOsygPhdUBhrNsr53hd+IIBopWzoNR04Q==",
+                            Password = "AQAAAAEAACcQAAAAECQkXBg+F320VVzKKV2kHJJAMDSCmCmqt8Q8GKLiiXgde9ylfwSj8GvlazZWxOZ3ew==",
                             PasswordSet = false,
                             RoleId = 1
                         });

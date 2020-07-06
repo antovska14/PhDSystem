@@ -6,7 +6,7 @@ namespace PhDSystem.Data.Models.PhdFileModels.Attestation
     {
         public string Name { get; set; }
         public DateTime Date { get; set; }
-        public string GradeType { get; set; }
+        public string GradeDescription { get; set; }
         public double Grade { get; set; }
     }
 }

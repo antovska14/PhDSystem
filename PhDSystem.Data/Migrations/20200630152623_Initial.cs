@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PhDSystem.Data.Migrations
 {
-    public partial class Start : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace PhDSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     YearsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -27,7 +27,7 @@ namespace PhDSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 255, nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,8 +40,8 @@ namespace PhDSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    RectorFullName = table.Column<string>(maxLength: 255, nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    RectorFullName = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,7 +67,7 @@ namespace PhDSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
                     ProfessionalFieldId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -88,8 +88,8 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniversityId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    DeanFullName = table.Column<string>(maxLength: 255, nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    DeanFullName = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,8 +132,8 @@ namespace PhDSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FacultyId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    HeadFullName = table.Column<string>(maxLength: 255, nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: true),
+                    HeadFullName = table.Column<string>(maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -319,39 +319,9 @@ namespace PhDSystem.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Faculty",
-                columns: new[] { "Id", "DeanFullName", "Name", "UniversityId" },
-                values: new object[] { 1, "проф. д-р инж. Огнян Наков", "Факултет за компютърни системи и технологии", 1 });
-
-            migrationBuilder.InsertData(
-                table: "PhdProgram",
-                columns: new[] { "Id", "Name", "ProfessionalFieldId" },
-                values: new object[] { 1, "Системи с изкуствен интелект", 1 });
-
-            migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Email", "IsDeleted", "Password", "PasswordSet", "RoleId" },
-                values: new object[,]
-                {
-                    { 1, "admin@gmail.com", false, "admin", false, 1 },
-                    { 2, "student@gmail.com", false, "student", false, 2 },
-                    { 3, "teacher@gmail.com", false, "teacher", false, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Department",
-                columns: new[] { "Id", "FacultyId", "HeadFullName", "Name" },
-                values: new object[] { 1, 1, "проф. д-р инж. Милена Лазарова", "Компютърни системи" });
-
-            migrationBuilder.InsertData(
-                table: "Teacher",
-                columns: new[] { "Id", "Degree", "FirstName", "IsDeleted", "LastName", "MiddleName", "Title", "UserId" },
-                values: new object[] { 1, null, "Bill", false, "Gates", null, null, 3 });
-
-            migrationBuilder.InsertData(
-                table: "Student",
-                columns: new[] { "Id", "CurrentYear", "DepartmentId", "DissertationTheme", "EndDate", "FacultyCouncilChosenDate", "FirstName", "FormOfEducationId", "IsDeleted", "LastName", "MiddleName", "PhdProgramId", "SpecialtyName", "StartDate", "UserId" },
-                values: new object[] { 1, 0, 1, "Talking Robot", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2020, 6, 28, 0, 0, 0, 0, DateTimeKind.Local), "Dijana", 1, false, "Antovska", null, 1, "Computer and Software Engineering", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 });
+                values: new object[] { 1, "admin@gmail.com", false, "AQAAAAEAACcQAAAAECQkXBg+F320VVzKKV2kHJJAMDSCmCmqt8Q8GKLiiXgde9ylfwSj8GvlazZWxOZ3ew==", false, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Department_FacultyId",

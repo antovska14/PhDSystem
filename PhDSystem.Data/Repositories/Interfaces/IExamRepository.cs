@@ -11,6 +11,6 @@ namespace PhDSystem.Data.Repositories.Interfaces
 
         Task DeleteExam(int examId);
 
-        Task<IEnumerable<ExamsYearDetails>> GetExams(int studentId);
+        Task<IEnumerable<ExamDetails>> GetExams(int studentId);
     }
 }

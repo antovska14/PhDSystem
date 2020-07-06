@@ -10,8 +10,8 @@ using PhDSystem.Data;
 namespace PhDSystem.Data.Migrations
 {
     [DbContext(typeof(PhdSystemDbContext))]
-    [Migration("20200628075746_Start")]
-    partial class Start
+    [Migration("20200630152704_Initial-2")]
+    partial class Initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,12 +32,10 @@ namespace PhDSystem.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("HeadFullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
@@ -46,15 +44,6 @@ namespace PhDSystem.Data.Migrations
                     b.HasIndex("FacultyId");
 
                     b.ToTable("Department");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FacultyId = 1,
-                            HeadFullName = "проф. д-р инж. Милена Лазарова",
-                            Name = "Компютърни системи"
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.Exam", b =>
@@ -96,12 +85,10 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DeanFullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
@@ -132,7 +119,6 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("YearsCount")
@@ -171,7 +157,6 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
@@ -201,7 +186,6 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
@@ -287,25 +271,6 @@ namespace PhDSystem.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Student");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CurrentYear = 0,
-                            DepartmentId = 1,
-                            DissertationTheme = "Talking Robot",
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FacultyCouncilChosenDate = new DateTime(2020, 6, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            FirstName = "Dijana",
-                            FormOfEducationId = 1,
-                            IsDeleted = false,
-                            LastName = "Antovska",
-                            PhdProgramId = 1,
-                            SpecialtyName = "Computer and Software Engineering",
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.StudentFile", b =>
@@ -391,16 +356,6 @@ namespace PhDSystem.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Teacher");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FirstName = "Bill",
-                            IsDeleted = false,
-                            LastName = "Gates",
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("PhDSystem.Data.Entities.User", b =>
@@ -441,27 +396,9 @@ namespace PhDSystem.Data.Migrations
                             Id = 1,
                             Email = "admin@gmail.com",
                             IsDeleted = false,
-                            Password = "admin",
+                            Password = "AQAAAAEAACcQAAAAEPCb6UYWH97DVv3ugQB8yH4+v8uMp4Lw6wkcMyherftN4SlKp9B28/FsiP1auu7qhg==",
                             PasswordSet = false,
                             RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "student@gmail.com",
-                            IsDeleted = false,
-                            Password = "student",
-                            PasswordSet = false,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "teacher@gmail.com",
-                            IsDeleted = false,
-                            Password = "teacher",
-                            PasswordSet = false,
-                            RoleId = 3
                         });
                 });
 
@@ -507,12 +444,10 @@ namespace PhDSystem.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("RectorFullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 

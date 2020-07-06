@@ -123,6 +123,13 @@ namespace PhDSystem.Data.Repositories
             return studentDetails;
         }
 
+        public async Task<int> GetStudentIdAsync(int userId)
+        {
+            var studentId = await _context.Students.Where(s => s.UserId == userId).Select(s => s.Id).SingleOrDefaultAsync();
+
+            return studentId;
+        }
+
         public async Task<IEnumerable<StudentListModel>> GetStudentsAsync()
         {
             return await _context.Students.Where(s => s.IsDeleted == false)

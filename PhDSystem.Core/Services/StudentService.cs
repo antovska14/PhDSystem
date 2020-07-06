@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using PhDSystem.Core.Services.Helpers;
+﻿using PhDSystem.Core.Services.Helpers;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -38,7 +38,13 @@ namespace PhDSystem.Core.Services
 
         public async Task<IEnumerable<StudentListModel>> GetStudentsByTeacherUserIdAsync(int teacherUserId)
         {
-            var teacherId = await _teacherRepository.GetTeacherIdByUserId(teacherUserId);
+            int teacherId = await _teacherRepository.GetTeacherIdByUserId(teacherUserId);
+
+            if (teacherId == 0)
+            {
+                throw new ArgumentNullException($"Teacher record with the given userId - {teacherUserId} does not exist");
+            }
+
             return await _studentRepository.GetStudentsByTeacherAsync(teacherId);
         }
 

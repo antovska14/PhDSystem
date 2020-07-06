@@ -1,5 +1,6 @@
 ﻿using MimeKit;
 using PhDSystem.Core.Clients.Interfaces;
+using PhDSystem.Core.Constants;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
@@ -18,17 +19,15 @@ namespace PhDSystem.Core.Services
 
         public async Task NotifyUserForInitialCredentials(User user)
         {
-            //TODO [DA]: Change the receiver email address with user.Email value
             EmailMessage message = new EmailMessage
             {
-                Sender = new MailboxAddress("PhD System", "phdsystem14@gmail.com"),
-                Reciever = new MailboxAddress("PhD System", "antovska14@gmail.com"),
-                Subject = "Акаунта в Системата за управление на докторанти Ви е създаден!",
-                Content = $"Първоначалната Ви парола за достъп е \"{user.Password}\". Необходима е промяна на паролата при първото влизане в системата."
+                Sender = new MailboxAddress(EmailConstants.PhdSystem, EmailConstants.PhdSystemEmail),
+                Reciever = new MailboxAddress(EmailConstants.PhdSystem, user.Email),
+                Subject = EmailConstants.AccountCreatedSubject,
+                Content = string.Format(EmailConstants.AccountCreatedContent, user.Password)
             };
 
             var mimeMessage = CreateEmailMessage(message);
-
             await _emailClient.SendEmailMessage(mimeMessage);
         }
 
@@ -38,8 +37,7 @@ namespace PhDSystem.Core.Services
             mimeMessage.From.Add(message.Sender);
             mimeMessage.To.Add(message.Reciever);
             mimeMessage.Subject = message.Subject;
-            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text)
-            { Text = message.Content };
+            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
             return mimeMessage;
         }
     }

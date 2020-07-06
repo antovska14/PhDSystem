@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Models.Exams;
 using PhDSystem.Data.Repositories.Interfaces;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -9,17 +13,19 @@ namespace PhDSystem.Api.Controllers
     [ApiController]
     public class ExamsController : ControllerBase
     {
+        private readonly IExamService _examService;
         private readonly IExamRepository _examRepository;
 
-        public ExamsController(IExamRepository examRepository)
+        public ExamsController(IExamService examService, IExamRepository examRepository)
         {
+            _examService = examService;
             _examRepository = examRepository;
         }
 
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetExams(int studentId)
         {
-            var exams = await _examRepository.GetExams(studentId);
+            IEnumerable<ExamsYearDetails> exams = await _examService.GetExams(studentId);
             return Ok(exams);
         }
 
