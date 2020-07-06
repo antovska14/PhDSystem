@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/studentFiles")]
     [Authorize]
     public class StudentFilesController : ControllerBase
     {
@@ -17,7 +18,7 @@ namespace PhDSystem.Api.Controllers
 
         public StudentFilesController(IStudentFileService studentFileService)
         {
-            _studentFileService = studentFileService;
+            _studentFileService = studentFileService ?? throw new ArgumentNullException(nameof(studentFileService)); ;
         }
 
         [HttpGet("{studentId}"), DisableRequestSizeLimit]

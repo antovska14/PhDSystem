@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/departments")]
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
@@ -12,7 +13,7 @@ namespace PhDSystem.Api.Controllers
 
         public DepartmentsController(IDepartmentRepository departmentRepository)
         {
-            _departmentRepository = departmentRepository;
+            _departmentRepository = departmentRepository ?? throw new ArgumentNullException(nameof(departmentRepository));
         }
 
         [HttpGet("{facultyId}")]

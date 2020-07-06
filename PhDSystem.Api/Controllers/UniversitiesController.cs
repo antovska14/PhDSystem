@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/universities")]
     [ApiController]
     public class UniversitiesController : ControllerBase
     {
@@ -12,10 +13,10 @@ namespace PhDSystem.Api.Controllers
 
         public UniversitiesController(IUniversityRepository universityRepository)
         {
-            _universityRepository = universityRepository;
+            _universityRepository = universityRepository ?? throw new ArgumentNullException(nameof(universityRepository)); ;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> GetUniversities()
         {
             var universities = await _universityRepository.GetUniversities();

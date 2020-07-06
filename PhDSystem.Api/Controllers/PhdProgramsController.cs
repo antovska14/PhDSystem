@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/phdPrograms")]
     [ApiController]
     public class PhdProgramsController : ControllerBase
     {
@@ -13,10 +14,10 @@ namespace PhDSystem.Api.Controllers
 
         public PhdProgramsController(IPhdProgramRepository phdProgramRepository)
         {
-            _phdProgramRepository = phdProgramRepository;
+            _phdProgramRepository = phdProgramRepository ?? throw new ArgumentNullException(nameof(phdProgramRepository)); ;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> GetPhdPrograms()
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms();
@@ -30,7 +31,7 @@ namespace PhDSystem.Api.Controllers
             return Ok(phdPrograms);
         }
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<IActionResult> CreateProfessionalField([FromBody] PhdProgram phdProgram)
         {
             await _phdProgramRepository.AddPhdProgram(phdProgram);

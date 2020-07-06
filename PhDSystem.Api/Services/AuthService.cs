@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using PhDSystem.Api.Models;
+using PhDSystem.Api.Services.Interfaces;
 using PhDSystem.Core.Models;
-using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
@@ -10,7 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhDSystem.Core.Services
+namespace PhDSystem.Api.Services
 {
     public class AuthService : IAuthService
     {
@@ -81,11 +82,6 @@ namespace PhDSystem.Core.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        public async Task SetPassword(SetPasswordModel setPasswordModel)
-        {
-            await _userRepository.SetPassword(setPasswordModel.UserId, setPasswordModel.Password);
         }
     }
 }

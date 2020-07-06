@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/students")]
     [ApiController]
     [Authorize]
     public class StudentsController : ControllerBase
@@ -17,11 +18,11 @@ namespace PhDSystem.Api.Controllers
 
         public StudentsController(IStudentService studentService, IStudentRepository studentRepository)
         {
-            _studentService = studentService;
-            _studentRepository = studentRepository;
+            _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
+            _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository)); ;
         }
 
-        [HttpPost("")]
+        [HttpPost()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateStudent([FromBody] StudentDetails studentCreateData)
         {
@@ -44,7 +45,7 @@ namespace PhDSystem.Api.Controllers
             return Ok(student);
         }
 
-        [HttpGet("")]
+        [HttpGet()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStudents()
         {
@@ -60,7 +61,7 @@ namespace PhDSystem.Api.Controllers
             return Ok(students);
         }
 
-        [HttpPut("")]
+        [HttpPut()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] StudentDetails studentUpdateData)
         {

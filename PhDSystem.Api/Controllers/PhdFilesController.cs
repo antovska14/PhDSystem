@@ -2,12 +2,13 @@
 using MimeKit;
 using PhDSystem.Core.Enums;
 using PhDSystem.Core.Services.Interfaces;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/phdFiles")]
     [ApiController]
     public class PhdFilesController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace PhDSystem.Api.Controllers
 
         public PhdFilesController(IPhdFileService phdFileExportService)
         {
-            _phdFileExportService = phdFileExportService;
+            _phdFileExportService = phdFileExportService ?? throw new ArgumentNullException(nameof(phdFileExportService)); ;
         }
 
         [HttpGet("generate/{studentId}/{documentType}/"), DisableRequestSizeLimit]

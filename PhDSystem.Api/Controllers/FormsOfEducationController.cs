@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
@@ -16,10 +13,10 @@ namespace PhDSystem.Api.Controllers
 
         public FormsOfEducationController(IFormOfEducationRepository formOfEducationRepository)
         {
-            _formOfEducationRepository = formOfEducationRepository;
+            _formOfEducationRepository = formOfEducationRepository ?? throw new ArgumentNullException(nameof(formOfEducationRepository)); ;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> GetFormsOfEducation()
         {
             var forms = await _formOfEducationRepository.GetFormsOfEducation();

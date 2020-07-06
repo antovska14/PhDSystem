@@ -3,13 +3,13 @@ using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models.Exams;
 using PhDSystem.Data.Repositories.Interfaces;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/exams")]
     [ApiController]
     public class ExamsController : ControllerBase
     {
@@ -18,8 +18,8 @@ namespace PhDSystem.Api.Controllers
 
         public ExamsController(IExamService examService, IExamRepository examRepository)
         {
-            _examService = examService;
-            _examRepository = examRepository;
+            _examService = examService ?? throw new ArgumentNullException(nameof(examService)); ;
+            _examRepository = examRepository ?? throw new ArgumentNullException(nameof(examRepository)); ;
         }
 
         [HttpGet("{studentId}")]
@@ -29,7 +29,7 @@ namespace PhDSystem.Api.Controllers
             return Ok(exams);
         }
 
-        [HttpPost("")]
+        [HttpPost()]
         public async Task<IActionResult> AddExam([FromBody] Exam exam)
         {
             await _examRepository.AddExam(exam);

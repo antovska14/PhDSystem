@@ -1,4 +1,4 @@
-﻿namespace PhDSystem.Core.Models
+﻿namespace PhDSystem.Api.Models
 {
     public class UserAuth
     {

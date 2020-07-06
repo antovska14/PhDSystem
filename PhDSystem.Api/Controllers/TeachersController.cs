@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/teachers")]
     [Authorize(Roles = "Admin")]
     public class TeachersController : Controller
     {
@@ -17,11 +18,11 @@ namespace PhDSystem.Api.Controllers
 
         public TeachersController(ITeacherService teacherService, ITeacherRepository teacherRepository)
         {
-            _teacherService = teacherService;
-            _teacherRepository = teacherRepository;
+            _teacherService = teacherService ?? throw new ArgumentNullException(nameof(teacherService)); ;
+            _teacherRepository = teacherRepository ?? throw new ArgumentNullException(nameof(teacherRepository)); ;
         }
 
-        [HttpPost("")]
+        [HttpPost()]
         public async Task<IActionResult> CreateTeacher([FromBody] TeacherDetails teacherDetails)
         {
             await _teacherService.CreateTeacherAsync(teacherDetails);
@@ -42,14 +43,14 @@ namespace PhDSystem.Api.Controllers
             return Ok(student);
         }
 
-        [HttpGet("")]
+        [HttpGet()]
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await _teacherRepository.GetTeachersAsync();
             return Ok(teachers);
         }
 
-        [HttpPut("")]
+        [HttpPut()]
         public async Task<IActionResult> Put([FromBody] TeacherDetails teacherDetails)
         {
             await _teacherService.UpdateTeacherAsync(teacherDetails.Id, teacherDetails);
