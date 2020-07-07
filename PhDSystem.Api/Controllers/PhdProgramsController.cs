@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
@@ -8,6 +9,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/phdPrograms")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class PhdProgramsController : ControllerBase
     {
         private readonly IPhdProgramRepository _phdProgramRepository;
@@ -21,8 +23,7 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> GetPhdPrograms()
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms();
-            return Ok(phdPrograms);
-        }
+            return Ok(phdPrograms);        }
 
         [HttpGet("{professionalFieldId}")]
         public async Task<IActionResult> GetPhdPrograms(int professionalFieldId)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Exceptions;
 using PhDSystem.Data.Repositories.Helpers;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -22,11 +23,11 @@ namespace PhDSystem.Data.Repositories
             var passwordHashed = PasswordHelper.GetHashedPassword(user, user.Password);
             user.Password = passwordHashed;
 
-            var existingUser = await _context.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefaultAsync();
+            var existingUser = GetExistingUser(user.Email);
 
             if (existingUser != null)
             {
-                //TODO [DA]: Throw exception for existing user.
+                throw new AlreadyExistsException(typeof(User).Name, "email", user.Email);
             }
 
             _context.Users.Add(user);
@@ -38,8 +39,13 @@ namespace PhDSystem.Data.Repositories
         public async Task DeleteUser(int userId)
         {
             User userToDelete = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
-            userToDelete.IsDeleted = true;
 
+            if (userToDelete == null)
+            {
+                throw new NotFoundException(typeof(User).Name, userId);
+            }
+
+            userToDelete.IsDeleted = true;
             await _context.SaveChangesAsync();
         }
 
@@ -78,6 +84,12 @@ namespace PhDSystem.Data.Repositories
         public async Task SetPassword(int userId, string password)
         {
             var user = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new NotFoundException(typeof(User).Name, userId);
+            }
+
             var passwordHashed = PasswordHelper.GetHashedPassword(user, password);
             user.Password = passwordHashed;
             user.PasswordSet = true;
@@ -87,8 +99,21 @@ namespace PhDSystem.Data.Repositories
 
         public async Task UpdateUser(User user)
         {
-            var existingUser = await _context.Users.Where(u => u.Id == user.Id).SingleOrDefaultAsync();
-            existingUser.Email = user.Email;
+            var currentUser = await _context.Users.Where(u => u.Id == user.Id).SingleOrDefaultAsync();
+
+            var existingUserWithGivenEmail = await GetExistingUser(user.Email);
+            if (existingUserWithGivenEmail.Id != currentUser.Id)
+            {
+                throw new AlreadyExistsException(typeof(User).Name, "email", user.Email);
+            }
+
+            currentUser.Email = user.Email;
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task<User> GetExistingUser(string email)
+        {
+            return await _context.Users.Where(u => u.Email.Equals(email)).SingleOrDefaultAsync();
         }
     }
 }

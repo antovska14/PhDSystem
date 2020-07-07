@@ -4,6 +4,7 @@ using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Api.Controllers
@@ -27,7 +28,7 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> CreateStudent([FromBody] StudentDetails studentCreateData)
         {
             await _studentService.CreateStudentAsync(studentCreateData);
-            return Ok();
+            return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpDelete("{studentId}")]
@@ -42,6 +43,11 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> GetStudent(int studentId)
         {
             var student = await _studentRepository.GetStudentAsync(studentId);
+            if(student == null)
+            {
+                return NotFound();
+            }
+
             return Ok(student);
         }
 

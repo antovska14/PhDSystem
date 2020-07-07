@@ -45,6 +45,7 @@ namespace PhDSystem.Api.Extensions
                 };
             });
 
+            // The service responsible for authentication
             services.AddScoped<IAuthService, AuthService>();
         }
 

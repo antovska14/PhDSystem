@@ -19,5 +19,9 @@
     <ProjectReference Include="..\PhDSystem.Core\PhDSystem.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 
 </Project>

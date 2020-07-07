@@ -6,6 +6,8 @@ using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using PhDSystem.Data.Exceptions;
 
 namespace PhDSystem.Data.Repositories
 {
@@ -119,6 +121,11 @@ namespace PhDSystem.Data.Repositories
                                                             Title = t.Title
                                                         }).ToList()
                                         }).SingleOrDefaultAsync();
+
+            if(studentDetails == null)
+            {
+                throw new NotFoundException(typeof(Student).Name, studentId);
+            }
 
             return studentDetails;
         }
