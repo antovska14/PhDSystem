@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/educationForms")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class FormsOfEducationController : ControllerBase
     {
         private readonly IFormOfEducationRepository _formOfEducationRepository;

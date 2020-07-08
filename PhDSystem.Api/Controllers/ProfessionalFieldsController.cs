@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace PhDSystem.Api.Controllers
 {
     [Route("api/professionalFields")]
-    [Authorize(Roles = "Admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class ProfessionalFieldsController : ControllerBase
     {
         private readonly IProfessionalFieldRepository _professionalFieldRepository;

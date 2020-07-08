@@ -12,6 +12,7 @@ namespace PhDSystem.Api.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -23,6 +24,7 @@ namespace PhDSystem.Api.Controllers
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> AuthenticateAsync([FromBody] User request)
         {
@@ -35,7 +37,6 @@ namespace PhDSystem.Api.Controllers
             return NotFound();
         }
 
-        [Authorize]
         [HttpPost("setPassword")]
         public async Task<IActionResult> SetPassword([FromBody] SetPasswordModel passwordModel)
         {

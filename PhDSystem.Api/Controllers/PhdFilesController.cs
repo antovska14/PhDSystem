@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using PhDSystem.Core.Enums;
 using PhDSystem.Core.Services.Interfaces;
@@ -10,6 +11,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/phdFiles")]
     [ApiController]
+    [Authorize]
     public class PhdFilesController : ControllerBase
     {
         private readonly IPhdFileService _phdFileExportService;
