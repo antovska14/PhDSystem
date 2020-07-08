@@ -3,6 +3,7 @@ using PhDSystem.Data.Entities;
 using PhDSystem.Data.Exceptions;
 using PhDSystem.Data.Repositories.Helpers;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace PhDSystem.Data.Repositories
 
         public UserRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<int> CreateUser(User user)
@@ -38,7 +39,7 @@ namespace PhDSystem.Data.Repositories
 
         public async Task DeleteUser(int userId)
         {
-            User userToDelete = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            User userToDelete = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
             if (userToDelete == null)
             {
@@ -51,9 +52,7 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<User> GetUser(string email, string password)
         {
-            var user = await _context.Users
-                                 .Where(u => u.Email.ToLower().Equals(email))
-                                 .SingleOrDefaultAsync();
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower().Equals(email));
 
             var areEqual = PasswordHelper.AreHashedAndActualPasswordsEqual(user, user.Password, password);
 
@@ -65,11 +64,10 @@ namespace PhDSystem.Data.Repositories
             return null;
         }
 
+        // Confirm if this is used
         public async Task<User> GetUser(int userId)
         {
-            return await _context.Users
-                                 .Where(u => u.Id == userId)
-                                 .FirstOrDefaultAsync();
+            return await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<UserRole> GetUserRole(int userId)
@@ -83,7 +81,7 @@ namespace PhDSystem.Data.Repositories
 
         public async Task SetPassword(int userId, string password)
         {
-            var user = await _context.Users.Where(u => u.Id == userId).SingleOrDefaultAsync();
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
             {
@@ -99,7 +97,7 @@ namespace PhDSystem.Data.Repositories
 
         public async Task UpdateUser(User user)
         {
-            var currentUser = await _context.Users.Where(u => u.Id == user.Id).SingleOrDefaultAsync();
+            var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == user.Id);
 
             var existingUserWithGivenEmail = await GetExistingUser(user.Email);
             if (existingUserWithGivenEmail.Id != currentUser.Id)
@@ -113,7 +111,7 @@ namespace PhDSystem.Data.Repositories
 
         private async Task<User> GetExistingUser(string email)
         {
-            return await _context.Users.Where(u => u.Email.Equals(email)).SingleOrDefaultAsync();
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email.Equals(email));
         }
     }
 }

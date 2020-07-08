@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Exceptions;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,18 +15,30 @@ namespace PhDSystem.Data.Repositories
 
         public ProfessionalFieldRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task AddProfessionalField(ProfessionalField professionalField)
         {
-            _context.ProfessionalFields.Add(professionalField);
-            await _context.SaveChangesAsync();
+            var existingProfessionalField = await _context.ProfessionalFields.Where(pf => pf.Name.Equals(professionalField.Name))
+                                                                             .SingleOrDefaultAsync();
+
+            if (existingProfessionalField == null)
+            {
+                _context.ProfessionalFields.Add(professionalField);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteProfessionalField(int professionalFieldId)
         {
             var professionalField = await _context.ProfessionalFields.Where(p => p.Id.Equals(professionalFieldId)).SingleOrDefaultAsync();
+
+            if (professionalField == null)
+            {
+                throw new NotFoundException(typeof(ProfessionalField).Name, professionalFieldId);
+            }
+
             _context.Remove(professionalField);
             await _context.SaveChangesAsync();
         }

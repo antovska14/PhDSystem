@@ -46,7 +46,10 @@ namespace PhDSystem.Api.Managers
             string foldersPath = Path.Combine(folders);
             string fullFoldersPath = Path.Combine(Environment.CurrentDirectory, FileConstants.RootFolder, foldersPath);
             string filePath = Path.Combine(fullFoldersPath, fileName);
-            File.Delete(filePath);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
         }
 
         private string GetFullFoldersPath(string[] folders)

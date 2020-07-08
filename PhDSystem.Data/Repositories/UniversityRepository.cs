@@ -2,8 +2,6 @@
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Data.Repositories
@@ -14,7 +12,7 @@ namespace PhDSystem.Data.Repositories
 
         public UniversityRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<IEnumerable<University>> GetUniversities()

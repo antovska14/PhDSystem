@@ -2,6 +2,7 @@
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,40 +15,42 @@ namespace PhDSystem.Data.Repositories
 
         public StudentFileRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task CreateStudentFileRecord(int studentId, string fileGroup, string fileName)
         {
-            var studentFileRecord = new StudentFile { StudentId = studentId, FileGroup = fileGroup, FileName = fileName };
-
-            var fileRecordExists = await _context.StudentFiles.Where(sf => sf.StudentId == studentId
-                                                                    && sf.FileGroup.Equals(fileGroup)
-                                                                    && sf.FileName.Equals(fileName)
-                                                                    ).SingleOrDefaultAsync();
-
-            if (fileRecordExists != null)
+            var studentFileRecord = new StudentFile
             {
-                //exists
-            }
-            else
-            {
-                _context.StudentFiles.Add(studentFileRecord);
-                await _context.SaveChangesAsync();
-            }
+                StudentId = studentId,
+                FileGroup = fileGroup,
+                FileName = fileName
+            };
+
+            _context.StudentFiles.Add(studentFileRecord);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteStudentFileRecord(int studentId, string fileGroup, string fileName)
         {
-            var studentFileRecord = await _context.StudentFiles.Where(sf => sf.StudentId.Equals(studentId)
-                                                                      && sf.FileGroup.Equals(fileGroup)
-                                                                      && sf.FileName.Equals(fileName)).SingleOrDefaultAsync();
+            var studentFileRecord = await SearchFile(studentId, fileGroup, fileName);
 
             if (studentFileRecord != null)
             {
                 _context.StudentFiles.Remove(studentFileRecord);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<bool> FileExists(int studentId, string fileGroup, string fileName)
+        {
+            var existingFile = await SearchFile(studentId, fileGroup, fileName);
+            if(existingFile != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId)
@@ -81,6 +84,13 @@ namespace PhDSystem.Data.Repositories
             }
 
             return studentFileDetailsList;
+        }
+
+        private async Task<StudentFile> SearchFile(int studentId, string fileGroup, string fileName)
+        {
+            return await _context.StudentFiles.SingleOrDefaultAsync(sf => sf.StudentId == studentId
+                                                                    && sf.FileGroup.Equals(fileGroup)
+                                                                    && sf.FileName.Equals(fileName));
         }
     }
 }

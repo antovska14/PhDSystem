@@ -5,6 +5,7 @@ using PhDSystem.Data.Models.PhdFileModels.Annotation;
 using PhDSystem.Data.Models.PhdFileModels.Attestation;
 using PhDSystem.Data.Models.PhdFileModels.IndividualPlan;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace PhDSystem.Data.Repositories
 
         public PhdFileDataRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<AnnotationModel> GetAnnotationData(int studentId)

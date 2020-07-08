@@ -3,6 +3,8 @@ using PhDSystem.Core.Constants;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
+using PhDSystem.Data.Entities;
+using PhDSystem.Data.Exceptions;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -24,7 +26,7 @@ namespace PhDSystem.Core.Services
         public async Task DeleteStudentFile(string fileName, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
-            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
+            string[] folders = new string[] { FileConstants.StudentFilesFolder, studentId.ToString(), fileGroup };
 
             _fileManager.DeleteFile(folders, fileName);
 
@@ -34,7 +36,7 @@ namespace PhDSystem.Core.Services
         public async Task<FileModel> DownloadStudentFile(string fileName, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
-            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
+            string[] folders = new string[] { FileConstants.StudentFilesFolder, studentId.ToString(), fileGroup };
 
             var resultFile = await _fileManager.GetFileAsync(folders, fileName);
 
@@ -49,10 +51,15 @@ namespace PhDSystem.Core.Services
         public async Task UploadStudentFile(IFormFile file, int studentId, int year)
         {
             string fileGroup = GetFileGroup(year);
-            string[] folders = new string[] { FileConstants.UserFilesFolder, studentId.ToString(), fileGroup };
+            string[] folders = new string[] { FileConstants.StudentFilesFolder, studentId.ToString(), fileGroup };
+
+            bool fileExists = await _studentFileRepository.FileExists(studentId, fileGroup, file.FileName);
+            if (fileExists)
+            {
+                throw new AlreadyExistsException(typeof(StudentFile).Name, "file name", file.FileName);
+            }
 
             await _fileManager.StoreFileAsync(folders, file);
-
             await _studentFileRepository.CreateStudentFileRecord(studentId, fileGroup, file.FileName);
         }
 

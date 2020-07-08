@@ -6,7 +6,7 @@
 
         public static string TemplatesFolder = "Templates";
 
-        public static string UserFilesFolder = "UserFiles";
+        public static string StudentFilesFolder = "StudentFiles";
 
         public static string IndividualPlanWordFileName = "IndividualPlan.docx";
 

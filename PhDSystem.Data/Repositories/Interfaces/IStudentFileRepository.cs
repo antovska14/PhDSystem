@@ -11,5 +11,7 @@ namespace PhDSystem.Data.Repositories.Interfaces
         Task DeleteStudentFileRecord(int studentId, string fileGroup, string fileName);
 
         Task<IEnumerable<StudentFileGroupDetails>> GetStudentFileDetailsList(int studentId);
+
+        Task<bool> FileExists(int studentId, string fileGroup, string fileName);
     }
 }

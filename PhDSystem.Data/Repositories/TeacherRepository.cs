@@ -2,6 +2,7 @@
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace PhDSystem.Data.Repositories
 
         public TeacherRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task CreateTeacherAsync(TeacherDetails teacherDetails)
@@ -96,11 +97,13 @@ namespace PhDSystem.Data.Repositories
         public async Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails)
         {
             var existingTeacher = await _context.Teachers.Where(t => t.Id == teacherId).SingleOrDefaultAsync();
+
             existingTeacher.FirstName = teacherDetails.FirstName;
             existingTeacher.MiddleName = teacherDetails.MiddleName;
             existingTeacher.LastName = teacherDetails.LastName;
             existingTeacher.Degree = teacherDetails.Degree;
             existingTeacher.Title = teacherDetails.Title;
+
             await _context.SaveChangesAsync();
         }
     }

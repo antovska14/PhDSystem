@@ -13,7 +13,7 @@ namespace PhDSystem.Data.Repositories
 
         public FormOfEducationRepository(PhdSystemDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<IEnumerable<FormOfEducation>> GetFormsOfEducation()
