@@ -11,18 +11,20 @@ namespace PhDSystem.Core.Services
     public class EmailService : IEmailService
     {
         private readonly IEmailClient _emailClient;
+        private readonly SmtpConfig _smtpConfig;
 
-        public EmailService(IEmailClient emailClient)
+        public EmailService(IEmailClient emailClient, SmtpConfig smtpConfig)
         {
             _emailClient = emailClient;
+            _smtpConfig = smtpConfig;
         }
 
         public async Task NotifyUserForInitialCredentials(User user)
         {
             EmailMessage message = new EmailMessage
             {
-                Sender = new MailboxAddress(EmailConstants.PhdSystem, EmailConstants.PhdSystemEmail),
-                Reciever = new MailboxAddress(EmailConstants.PhdSystem, user.Email),
+                Sender = new MailboxAddress(_smtpConfig.FromName, _smtpConfig.From),
+                Reciever = new MailboxAddress(user.Email, user.Email),
                 Subject = EmailConstants.AccountCreatedSubject,
                 Content = string.Format(EmailConstants.AccountCreatedContent, user.Password)
             };

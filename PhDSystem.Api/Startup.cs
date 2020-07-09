@@ -38,8 +38,8 @@ namespace PhDSystem.Api
             services.AddAuthorizationConfig();
             services.AddAuthenticationConfig(Configuration);
 
-            var notificationMetadata = Configuration.GetSection("NotificationMetadata").Get<NotificationMetadata>();
-            services.AddSingleton(notificationMetadata);
+            var smtp = Configuration.GetSection("Smtp").Get<SmtpConfig>();
+            services.AddSingleton(smtp);
 
             services.AddDataConfig();
             services.AddCoreConfig();
