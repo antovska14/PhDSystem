@@ -51,6 +51,18 @@ namespace PhDSystem.Api.Controllers
             return Ok(student);
         }
 
+        [HttpGet("id/{userId}")]
+        public async Task<IActionResult> GetStudentIdByUserId(int userId)
+        {
+            var studentId = await _studentRepository.GetStudentIdAsync(userId);
+            if (studentId == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { Id = studentId });
+        }
+
         [HttpGet()]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStudents()
@@ -61,9 +73,9 @@ namespace PhDSystem.Api.Controllers
 
         [HttpGet("teacher/{teacherId}")]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> GetStudentsByTeacherUserId(int teacherUserId)
+        public async Task<IActionResult> GetStudentsByTeacherUserId(int teacherId)
         {
-            var students = await _studentService.GetStudentsByTeacherUserIdAsync(teacherUserId);
+            var students = await _studentRepository.GetStudentsByTeacherIdAsync(teacherId);
             return Ok(students);
         }
 

@@ -70,8 +70,9 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<int> GetTeacherIdByUserId(int userId)
         {
-            var teacherId = await _context.Teachers.Where(t => t.UserId == userId).Select(t => t.Id).SingleOrDefaultAsync();
-            return teacherId;
+            return await _context.Teachers.Where(t => t.UserId == userId && t.IsDeleted == false)
+                                          .Select(t => t.Id)
+                                          .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<TeacherDetails>> GetTeachersAsync()

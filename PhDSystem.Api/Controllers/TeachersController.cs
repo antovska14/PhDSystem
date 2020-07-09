@@ -43,8 +43,21 @@ namespace PhDSystem.Api.Controllers
         [Authorize(Roles = "Admin, Teacher")]
         public async Task<IActionResult> GetTeacher(int teacherId)
         {
-            var student = await _teacherRepository.GetTeacherAsync(teacherId);
-            return Ok(student);
+            var teacher = await _teacherRepository.GetTeacherAsync(teacherId);
+            return Ok(teacher);
+        }
+
+        [HttpGet("id/{userId}")]
+        [Authorize(Roles = "Admin, Teacher")]
+        public async Task<IActionResult> GetTeacherIdByUserId(int userId)
+        {
+            var teacherId = await _teacherRepository.GetTeacherIdByUserId(userId);
+            if(teacherId == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { Id = teacherId });
         }
 
         [HttpGet()]

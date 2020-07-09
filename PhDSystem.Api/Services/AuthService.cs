@@ -66,9 +66,11 @@ namespace PhDSystem.Api.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
                 // Add custom claims
-                new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower()),
+                new Claim("id", userAuth.Id.ToString()),
+                new Claim("email", userAuth.Email),
                 new Claim("role", userAuth.Role),
-                new Claim("passwordSet", userAuth.PasswordSet.ToString().ToLower())
+                new Claim("passwordSet", userAuth.PasswordSet.ToString().ToLower()),
+                new Claim("isAuthenticated", userAuth.IsAuthenticated.ToString().ToLower())
             };
 
             var token = new JwtSecurityToken(

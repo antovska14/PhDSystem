@@ -132,9 +132,9 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<int> GetStudentIdAsync(int userId)
         {
-            var studentId = await _context.Students.Where(s => s.UserId == userId).Select(s => s.Id).SingleOrDefaultAsync();
-
-            return studentId;
+            return await _context.Students.Where(s => s.UserId == userId && s.IsDeleted == false)
+                                          .Select(s => s.Id)
+                                          .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<StudentListModel>> GetStudentsAsync()
@@ -149,7 +149,7 @@ namespace PhDSystem.Data.Repositories
                                           }).ToListAsync();
         }
 
-        public async Task<IEnumerable<StudentListModel>> GetStudentsByTeacherAsync(int teacherId)
+        public async Task<IEnumerable<StudentListModel>> GetStudentsByTeacherIdAsync(int teacherId)
         {
             return await (from s in _context.Students
                           join st in _context.StudentTeachers on s.Id equals st.StudentId
