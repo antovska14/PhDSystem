@@ -107,41 +107,41 @@ namespace PhDSystem.Data.Repositories
 
         public async Task<IndividualPlanModel> GetIndividualPlanData(int studentId)
         {
-            var attestation = await (from s in _context.Students
-                                     join d in _context.Departments on s.DepartmentId equals d.Id
-                                     join f in _context.Faculties on d.FacultyId equals f.Id
-                                     join u in _context.Universities on f.UniversityId equals u.Id
-                                     where s.Id == studentId && s.IsDeleted == false
-                                     select new IndividualPlanModel
-                                     {
-                                         UniversityName = u.Name,
-                                         FacultyName = f.Name,
-                                         DepartmentName = d.Name,
-                                         DissertationTheme = s.DissertationTheme,
-                                         SpecialtyName = s.SpecialtyName,
-                                         FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
-                                         Student = new StudentPhdFileModel
-                                         {
-                                             FirstName = s.FirstName,
-                                             MiddleName = s.MiddleName,
-                                             LastName = s.LastName,
-                                             FormOfEducation = s.FormOfEducation.Name,
-                                             StartDate = s.StartDate,
-                                             EndDate = s.EndDate
-                                         },
-                                         Teachers = (from st in _context.StudentTeachers
-                                                     join t in _context.Teachers on st.TeacherId equals t.Id
-                                                     where st.StudentId == studentId
-                                                     select new TeacherPhdFileModel
-                                                     {
-                                                         FirstName = t.FirstName,
-                                                         LastName = t.LastName,
-                                                         Degree = t.Degree,
-                                                         Title = t.Title,
-                                                     }).ToList()
-                                     }).SingleOrDefaultAsync();
+            var individualPlan = await (from s in _context.Students
+                                        join d in _context.Departments on s.DepartmentId equals d.Id
+                                        join f in _context.Faculties on d.FacultyId equals f.Id
+                                        join u in _context.Universities on f.UniversityId equals u.Id
+                                        where s.Id == studentId && s.IsDeleted == false
+                                        select new IndividualPlanModel
+                                        {
+                                            UniversityName = u.Name,
+                                            FacultyName = f.Name,
+                                            DepartmentName = d.Name,
+                                            DissertationTheme = s.DissertationTheme,
+                                            SpecialtyName = s.SpecialtyName,
+                                            FacultyCouncilChosenDate = s.FacultyCouncilChosenDate,
+                                            Student = new StudentPhdFileModel
+                                            {
+                                                FirstName = s.FirstName,
+                                                MiddleName = s.MiddleName,
+                                                LastName = s.LastName,
+                                                FormOfEducation = s.FormOfEducation.Name,
+                                                StartDate = s.StartDate,
+                                                EndDate = s.EndDate
+                                            },
+                                            Teachers = (from st in _context.StudentTeachers
+                                                        join t in _context.Teachers on st.TeacherId equals t.Id
+                                                        where st.StudentId == studentId
+                                                        select new TeacherPhdFileModel
+                                                        {
+                                                            FirstName = t.FirstName,
+                                                            LastName = t.LastName,
+                                                            Degree = t.Degree,
+                                                            Title = t.Title,
+                                                        }).ToList()
+                                        }).SingleOrDefaultAsync();
 
-            return attestation;
+            return individualPlan;
         }
     }
 }

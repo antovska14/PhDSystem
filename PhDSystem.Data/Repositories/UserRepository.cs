@@ -24,7 +24,7 @@ namespace PhDSystem.Data.Repositories
             var passwordHashed = PasswordHelper.GetHashedPassword(user, user.Password);
             user.Password = passwordHashed;
 
-            var existingUser = GetExistingUser(user.Email);
+            var existingUser = await GetExistingUser(user.Email);
 
             if (existingUser != null)
             {
@@ -53,6 +53,11 @@ namespace PhDSystem.Data.Repositories
         public async Task<User> GetUser(string email, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email.ToLower().Equals(email));
+
+            if(user == null)
+            {
+                throw new NotFoundException(typeof(User).Name, email);
+            }
 
             var areEqual = PasswordHelper.AreHashedAndActualPasswordsEqual(user, user.Password, password);
 

@@ -23,11 +23,13 @@ namespace PhDSystem.Data.Repositories
             var existingProfessionalField = await _context.ProfessionalFields.Where(pf => pf.Name.Equals(professionalField.Name))
                                                                              .SingleOrDefaultAsync();
 
-            if (existingProfessionalField == null)
+            if (existingProfessionalField != null)
             {
-                _context.ProfessionalFields.Add(professionalField);
-                await _context.SaveChangesAsync();
+                throw new AlreadyExistsException(typeof(ProfessionalField).Name, "name", existingProfessionalField.Name);
             }
+
+            _context.ProfessionalFields.Add(professionalField);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteProfessionalField(int professionalFieldId)

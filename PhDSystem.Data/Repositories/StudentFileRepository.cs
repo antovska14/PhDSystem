@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhDSystem.Data.Entities;
+using PhDSystem.Data.Exceptions;
 using PhDSystem.Data.Models;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
@@ -35,17 +36,19 @@ namespace PhDSystem.Data.Repositories
         {
             var studentFileRecord = await SearchFile(studentId, fileGroup, fileName);
 
-            if (studentFileRecord != null)
+            if (studentFileRecord == null)
             {
-                _context.StudentFiles.Remove(studentFileRecord);
-                await _context.SaveChangesAsync();
+                throw new NotFoundException(typeof(StudentFile).Name, $"${studentId}/{fileGroup}/{fileName}");
             }
+
+            _context.StudentFiles.Remove(studentFileRecord);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> FileExists(int studentId, string fileGroup, string fileName)
         {
             var existingFile = await SearchFile(studentId, fileGroup, fileName);
-            if(existingFile != null)
+            if (existingFile != null)
             {
                 return true;
             }

@@ -61,7 +61,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet()]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Student")]
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await _teacherRepository.GetTeachersAsync();

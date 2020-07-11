@@ -24,11 +24,13 @@ namespace PhDSystem.Data.Repositories
                                                    .SingleOrDefaultAsync(pp => pp.Name.Equals(phdProgram.Name)
                                                                          && pp.ProfessionalFieldId.Equals(phdProgram.ProfessionalFieldId));
 
-            if (existingPhdProgram == null)
+            if (existingPhdProgram != null)
             {
-                _context.Add(phdProgram);
-                await _context.SaveChangesAsync();
+                throw new AlreadyExistsException(typeof(PhdProgram).Name, "name", existingPhdProgram.Name);
             }
+
+            _context.Add(phdProgram);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeletePhdProgram(int phdProgramId)
