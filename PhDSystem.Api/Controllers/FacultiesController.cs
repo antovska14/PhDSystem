@@ -8,7 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/faculties")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Student")]
     public class FacultiesController : ControllerBase
     {
         private readonly IFacultyRepository _facultyRepository;

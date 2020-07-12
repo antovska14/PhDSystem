@@ -8,9 +8,6 @@ namespace PhDSystem.Core.Services.Interfaces
     public interface ITeacherService
     {
         Task CreateTeacherAsync(TeacherDetails teacherDetails);
-        Task DeleteTeacherAsync(int teacherId);
-        Task<TeacherDetails> GetTeacherAsync(int teacherId);
-        Task<IEnumerable<TeacherDetails>> GetTeachersAsync();
         Task UpdateTeacherAsync(int teacherId, TeacherDetails teacherDetails);
     }
 }

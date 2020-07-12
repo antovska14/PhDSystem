@@ -19,14 +19,14 @@ namespace PhDSystem.Core.Services
             _smtpConfig = smtpConfig;
         }
 
-        public async Task NotifyUserForInitialCredentials(User user)
+        public async Task NotifyUserForInitialCredentials(string email, string password)
         {
             EmailMessage message = new EmailMessage
             {
                 Sender = new MailboxAddress(_smtpConfig.FromName, _smtpConfig.From),
-                Reciever = new MailboxAddress(user.Email, user.Email),
+                Reciever = new MailboxAddress(email, email),
                 Subject = EmailConstants.AccountCreatedSubject,
-                Content = string.Format(EmailConstants.AccountCreatedContent, user.Password)
+                Content = string.Format(EmailConstants.AccountCreatedContent, password)
             };
 
             var mimeMessage = CreateEmailMessage(message);

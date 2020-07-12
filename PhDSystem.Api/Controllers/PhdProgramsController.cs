@@ -9,7 +9,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/phdPrograms")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class PhdProgramsController : ControllerBase
     {
         private readonly IPhdProgramRepository _phdProgramRepository;
@@ -20,6 +20,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet()]
+        [Authorize(Roles = "Admin, Student")]
         public async Task<IActionResult> GetPhdPrograms()
         {
             var phdPrograms = await _phdProgramRepository.GetPhdPrograms();
@@ -33,6 +34,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpPost()]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProfessionalField([FromBody] PhdProgram phdProgram)
         {
             await _phdProgramRepository.AddPhdProgram(phdProgram);

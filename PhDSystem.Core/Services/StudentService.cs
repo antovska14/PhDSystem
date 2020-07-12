@@ -3,6 +3,7 @@ using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Entities;
 using PhDSystem.Data.Models.Students;
 using PhDSystem.Data.Repositories.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Core.Services
@@ -11,27 +12,27 @@ namespace PhDSystem.Core.Services
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ITeacherRepository _teacherRepository;
         private readonly IEmailService _emailService;
 
-        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository, ITeacherRepository teacherRepository, IEmailService emailService)
+        public StudentService(IStudentRepository studentRepository, IUserRepository userRepository, IEmailService emailService)
         {
-            _studentRepository = studentRepository;
-            _userRepository = userRepository;
-            _teacherRepository = teacherRepository;
-            _emailService = emailService;
+            _studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository));
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         public async Task CreateStudentAsync(StudentDetails studentCreateModel)
         {
-            var password = AuthHelper.GeneratePassword();
-            var user = new User() { Email = studentCreateModel.Email, Password = password, RoleId = 2 };
-            await _emailService.NotifyUserForInitialCredentials(user);
+            var generatedPassword = AuthHelper.GeneratePassword();
+            var email = studentCreateModel.Email;
+            var user = new User() { Email = email, Password = generatedPassword, RoleId = 2 };
 
             var userId = await _userRepository.CreateUser(user);
 
             studentCreateModel.UserId = userId;
             await _studentRepository.CreateStudentAsync(studentCreateModel);
+
+            await _emailService.NotifyUserForInitialCredentials(email, generatedPassword);
         }
 
         public async Task UpdateStudentAsync(int studentId, StudentDetails studentUpdateModel)

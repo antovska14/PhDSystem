@@ -5,6 +5,6 @@ namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task NotifyUserForInitialCredentials(User user);
+        Task NotifyUserForInitialCredentials(string email, string password);
     }
 }

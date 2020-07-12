@@ -8,7 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/departments")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class DepartmentsController : ControllerBase
     {
         private readonly IDepartmentRepository _departmentRepository;
@@ -19,6 +19,7 @@ namespace PhDSystem.Api.Controllers
         }
 
         [HttpGet("{facultyId}")]
+        [Authorize(Roles = "Admin, Student")]
         public async Task<IActionResult> GetFaculties(int facultyId)
         {
             var faculties = await _departmentRepository.GetDepartments(facultyId);

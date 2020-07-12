@@ -8,7 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/universities")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Student")]
     public class UniversitiesController : ControllerBase
     {
         private readonly IUniversityRepository _universityRepository;

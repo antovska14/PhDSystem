@@ -8,7 +8,7 @@ namespace PhDSystem.Api.Controllers
 {
     [Route("api/educationForms")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Student")]
     public class FormsOfEducationController : ControllerBase
     {
         private readonly IFormOfEducationRepository _formOfEducationRepository;
