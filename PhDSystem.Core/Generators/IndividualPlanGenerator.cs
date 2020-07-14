@@ -24,52 +24,14 @@ namespace PhDSystem.Core.Generators
 
         public FileModel GenerateFile()
         {
-            var placeholderValueDictionary = PlaceholderReplaceHelper.GetIndividualPlanPlaceholderValueDictionary(_data);
-            var templateFileStream = _template.FileContent;
-            var placeholderRegex = new Regex("<\\w+>");
+            Stream templateFileStream = _template.FileContent;
+
+            IDictionary<string, string> placeholderValueDictionary = PlaceholderReplaceHelper.GetIndividualPlanPlaceholderValueDictionary(_data);
+            Regex placeholderRegex = new Regex("<\\w+>");
 
             using (var document = DocX.Load(templateFileStream))
             {
-                var maxTeacherIndex = _data.Teachers.Count;
-                foreach (var paragraph in document.Paragraphs)
-                {
-                    var matchCollection = placeholderRegex.Matches(paragraph.Text);
-                    var matches = matchCollection.Cast<Match>().Select(m => m.Value).ToList();
-                    var areTeachersInit = false;
-                    List<Paragraph> teacherSig = new List<Paragraph>();
-                    List<Paragraph> teacherVal = new List<Paragraph>();
-
-                    if (matches.Contains(TemplatePlaceholderConstants.MultiTeachersSignature) && !areTeachersInit)
-                    {
-                        for (int i = 0; i < _data.Teachers.Count; i++)
-                        {
-                            teacherSig.Add(paragraph.AppendLine(placeholderValueDictionary[TemplatePlaceholderConstants.MultiTeachersSignatureIndex.Replace("index", i.ToString())]).Bold());
-                            paragraph.AppendLine();
-                        }
-                    }
-                    else if (matches.Contains(TemplatePlaceholderConstants.MultiTeachersBracesValue) && !areTeachersInit)
-                    {
-                        for (int i = 0; i < _data.Teachers.Count; i++)
-                        {
-                            teacherVal.Add(paragraph.AppendLine(placeholderValueDictionary[TemplatePlaceholderConstants.MultiTeachersBracesValueIndex.Replace("index", i.ToString())]));
-                            paragraph.AppendLine();
-                        }
-                        for (int i = 0; i < _data.Teachers.Count; i++)
-                        {
-
-                        }
-
-                        areTeachersInit = true;
-                    }
-                    else if (matches.Contains(TemplatePlaceholderConstants.MultiTeachersValue))
-                    {
-                        for (int i = 0; i < _data.Teachers.Count; i++)
-                        {
-                            teacherVal.Add(paragraph.AppendLine(placeholderValueDictionary[TemplatePlaceholderConstants.MultiTeachersValueIndex.Replace("index", i.ToString())]));
-                            paragraph.AppendLine();
-                        }
-                    }
-                }
+                DocumentPrepareHelper.PrepareTeachers(document, _data.Teachers, placeholderRegex, placeholderValueDictionary);
 
                 foreach (var paragraph in document.Paragraphs)
                 {

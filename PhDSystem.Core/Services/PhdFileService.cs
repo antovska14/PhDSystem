@@ -4,9 +4,12 @@ using PhDSystem.Core.Generators;
 using PhDSystem.Core.Generators.Interfaces;
 using PhDSystem.Core.Managers.Interfaces;
 using PhDSystem.Core.Models;
+using PhDSystem.Core.Services.Helpers;
 using PhDSystem.Core.Services.Interfaces;
+using PhDSystem.Data.Models.PhdFileModels.Attestation;
 using PhDSystem.Data.Repositories.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PhDSystem.Core.Services
@@ -22,7 +25,7 @@ namespace PhDSystem.Core.Services
             _fileManager = fileManager;
         }
 
-        public async Task<FileModel> ExportStudentFile(PhdFileType documentType, int studentId, int year = 0)
+        public async Task<FileModel> ExportStudentFileAsync(PhdFileType documentType, int studentId, int year = 0)
         {
             IPhdFileGenerator generator;
             if (documentType == PhdFileType.IndividualPlan)
@@ -41,6 +44,7 @@ namespace PhDSystem.Core.Services
             {
                 var template = await _fileManager.GetFileAsync(new string[] { FileConstants.TemplatesFolder }, FileConstants.AttestationWordFileName);
                 var data = await _phdFileDataRepository.GetAttestationData(studentId, year);
+                AppendExamGradeType(data.Exams);
                 generator = new AttestationGenerator(template, data);
             }
             else
@@ -49,6 +53,14 @@ namespace PhDSystem.Core.Services
             }
 
             return generator.GenerateFile();
+        }
+
+        private void AppendExamGradeType(IList<ExamAttestationModel> exams)
+        {
+            foreach (var exam in exams)
+            {
+                exam.GradeType = ExamHelper.GetGradeType(exam.Grade);
+            }
         }
     }
 }

@@ -29,6 +29,9 @@ namespace PhDSystem.Core.Generators
 
             using (var document = DocX.Load(templateFileStream))
             {
+                DocumentPrepareHelper.PrepareExams(document, _data.Exams, placeholderRegex, placeholderValueDictionary);
+                DocumentPrepareHelper.PrepareTeachers(document, _data.Teachers, placeholderRegex, placeholderValueDictionary);
+
                 foreach (var paragraph in document.Paragraphs)
                 {
                     var matchCollection = placeholderRegex.Matches(paragraph.Text);

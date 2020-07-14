@@ -1,4 +1,5 @@
-﻿using PhDSystem.Core.Services.Interfaces;
+﻿using PhDSystem.Core.Services.Helpers;
+using PhDSystem.Core.Services.Interfaces;
 using PhDSystem.Data.Models.Exams;
 using PhDSystem.Data.Repositories.Interfaces;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace PhDSystem.Core.Services
             var examsDictionary = new Dictionary<int, IList<ExamDetails>>();
             foreach (var exam in exams)
             {
-                string gradeType = GetGradeType(exam.Grade);
+                string gradeType = ExamHelper.GetGradeType(exam.Grade);
                 exam.GradeType = gradeType;
                 if (examsDictionary.TryGetValue(exam.Year, out var examsByYear))
                 {
@@ -46,34 +47,6 @@ namespace PhDSystem.Core.Services
             }
 
             return examsList;
-        }
-
-        private string GetGradeType(double grade)
-        {
-            string gradeType;
-
-            if (grade < 2.5)
-            {
-                gradeType = "слаб";
-            }
-            else if (grade < 3.5)
-            {
-                gradeType = "среден";
-            }
-            else if (grade < 4.5)
-            {
-                gradeType = "добър";
-            }
-            else if (grade < 5.5)
-            {
-                gradeType = "мн. добър";
-            }
-            else
-            {
-                gradeType = "отличен";
-            }
-
-            return gradeType;
         }
     }
 }

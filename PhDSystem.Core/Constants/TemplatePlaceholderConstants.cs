@@ -25,13 +25,12 @@
         public static string FacultyCouncilChosenDate = "<FacultyCouncilChosenDate>";
         public static string HeadOfUnitFullName = "<HeadOfUnitFullName>";
 
-        public static string MultiTeachersSignature = "<MultiTeachersSignature>";
+        public static string MultiTeachersSignatureValuePair = "<MultiTeachersSignatureValuePair>";
         public static string MultiTeachersSignatureIndex = "<MultiTeachersSignature-index>";
-        public static string MultiTeachersBracesValue = "<MultiTeachersBracesValue>";
         public static string MultiTeachersBracesValueIndex = "<MultiTeachersBracesValue-index>";
         public static string MultiTeachersValue = "<MultiTeachersValue>";
         public static string MultiTeachersValueIndex = "<MultiTeachersValue-index>";
-        public static string MultiExamsValueIndex = "<MultiExamsValue-index>";
         public static string MultiExamsValue = "<MultiExamsValue>";
+        public static string MultiExamsValueIndex = "<MultiExamsValue-index>";
     }
 }

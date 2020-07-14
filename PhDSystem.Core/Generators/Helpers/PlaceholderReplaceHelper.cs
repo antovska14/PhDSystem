@@ -24,9 +24,7 @@ namespace PhDSystem.Core.Generators.Helpers
                 { TemplatePlaceholderConstants.TeacherFirstName, annotation.Teachers[0].FirstName ?? string.Empty },
                 { TemplatePlaceholderConstants.TeacherLastName, annotation.Teachers[0].LastName ?? string.Empty },
                 { TemplatePlaceholderConstants.DeanFullName, annotation.Faculty.DeanFullName ?? string.Empty },
-                { TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty },
-                { TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty },
-                { "()", string.Empty }
+                { TemplatePlaceholderConstants.MultiTeachersSignatureValuePair, string.Empty },
             };
 
             for (int i = 0; i < annotation.Teachers.Count; i++)
@@ -59,8 +57,8 @@ namespace PhDSystem.Core.Generators.Helpers
 
             for (int i = 0; i < attestation.Exams.Count; i++)
             {
-                var examString = ($"По {attestation.Exams[i].Name} срок на явяване {attestation.Exams[i].Date:dd.MM.yyyy} с  {attestation.Exams[i].GradeDescription} оценка ({attestation.Exams[i].Grade:#.#}).").Trim();
-                placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiExamsValueIndex.Replace("index", i.ToString()), $"({examString})");
+                var examString = ($"По \"{attestation.Exams[i].Name}\" срок на явяване {attestation.Exams[i].Date:dd.MM.yyyy} с  {attestation.Exams[i].GradeDescription} оценка ({attestation.Exams[i].GradeType} {attestation.Exams[i].Grade:#.#}).").Trim();
+                placeholderValueDictionary.Add(TemplatePlaceholderConstants.MultiExamsValueIndex.Replace("index", i.ToString()), $"{examString}");
             }
 
             for (int i = 0; i < attestation.Teachers.Count; i++)
@@ -89,10 +87,8 @@ namespace PhDSystem.Core.Generators.Helpers
                 { TemplatePlaceholderConstants.StartDate, individualPlan.Student.StartDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
                 { TemplatePlaceholderConstants.EndDate, individualPlan.Student.EndDate.Date.ToString("dd.MM.yyyy") ?? string.Empty },
                 { TemplatePlaceholderConstants.HeadOfUnitFullName, string.Empty },
-                { TemplatePlaceholderConstants.MultiTeachersSignature, string.Empty },
-                { TemplatePlaceholderConstants.MultiTeachersBracesValue, string.Empty },
+                { TemplatePlaceholderConstants.MultiTeachersSignatureValuePair, string.Empty },
                 { TemplatePlaceholderConstants.MultiTeachersValue, string.Empty },
-                { "()", string.Empty }
             };
 
             for (int i = 0; i < individualPlan.Teachers.Count; i++)

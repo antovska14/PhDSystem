@@ -27,13 +27,15 @@ namespace PhDSystem.Core.Generators
             var templateFileStream = _template.FileContent;
             var placeholderRegex = new Regex("<\\w+>");
 
-            using(var document = DocX.Load(templateFileStream))
+            using (var document = DocX.Load(templateFileStream))
             {
-                foreach(var paragraph in document.Paragraphs)
+                foreach (var paragraph in document.Paragraphs)
                 {
+                    DocumentPrepareHelper.PrepareTeachers(document, _data.Teachers, placeholderRegex, placeholderValueDictionary);
+
                     var matchCollection = placeholderRegex.Matches(paragraph.Text);
                     var matches = matchCollection.Cast<Match>().Select(m => m.Value).ToList();
-                    foreach(var match in matches)
+                    foreach (var match in matches)
                     {
                         paragraph.ReplaceText(match, placeholderValueDictionary[match]);
                     }

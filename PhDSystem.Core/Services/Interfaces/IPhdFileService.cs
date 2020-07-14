@@ -6,6 +6,6 @@ namespace PhDSystem.Core.Services.Interfaces
 {
     public interface IPhdFileService
     {
-        Task<FileModel> ExportStudentFile(PhdFileType documentType, int studentId, int year = 0);
+        Task<FileModel> ExportStudentFileAsync(PhdFileType documentType, int studentId, int year = 0);
     }
 }
