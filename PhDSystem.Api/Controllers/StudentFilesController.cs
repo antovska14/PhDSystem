@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using MimeKit;
+using PhDSystem.Api.Validators;
 using PhDSystem.Core.Models;
 using PhDSystem.Core.Services.Interfaces;
 using System;
@@ -46,6 +48,12 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> UploadStudentFile(int studentId)
         {
             var file = Request.Form.Files[0];
+
+            if (!FileValidator.IsValid(file))
+            {
+                return BadRequest();
+            }
+
             await _studentFileService.UploadStudentFile(file, studentId);
 
             return Ok();
@@ -55,6 +63,12 @@ namespace PhDSystem.Api.Controllers
         public async Task<IActionResult> UploadStudentFileForYear(int studentId, int year)
         {
             var file = Request.Form.Files[0];
+
+            if (!FileValidator.IsValid(file))
+            {
+                return BadRequest();
+            }
+
             await _studentFileService.UploadStudentFile(file, studentId, year);
 
             return Ok();
