@@ -69,6 +69,11 @@ namespace PhDSystem.Api.Controllers
                 return BadRequest();
             }
 
+            if (!FileValidator.IsValid(file))
+            {
+                return BadRequest();
+            }
+
             await _studentFileService.UploadStudentFile(file, studentId, year);
 
             return Ok();
